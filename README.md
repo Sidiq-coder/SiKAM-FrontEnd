@@ -1,6 +1,6 @@
 # 🏥 SIKAM - Sistem Klinik Advokasi Mahasiswa
 
-**SIKAM** adalah aplikasi web yang dirancang untuk membantu mahasiswa dalam mengajukan, memantau, dan menyelesaikan permasalahan akademik dan non-akademik melalui layanan advokasi kampus secara online. Sistem ini memberikan transparansi dan kemudahan dalam komunikasi antara mahasiswa dengan tim advokasi.
+**SIKAM** adalah aplikasi web yang dirancang sebagai sistem informasi terpusat yang memfasilitasi mahasiswa dalam menyampaikan aspirasi, melaporkan permasalahan, serta mengajukan permohonan banding UKT secara daring dan terdokumentasi.
 
 ---
 

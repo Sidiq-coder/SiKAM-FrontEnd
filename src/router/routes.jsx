@@ -1,13 +1,33 @@
 import Register from '@/pages/register';
+import Login from '@/pages/login';
+import Home from '@/pages/home';
+import AuthLayout from '@/layouts/auth-layout';
+import BaseLayout from '@/layouts/base-layout';
 
 const routes = [
 	{
 		path: '/',
-		element: <div>Home Page</div>,
+		element: (
+			<BaseLayout>
+				<Home />
+			</BaseLayout>
+		),
 	},
 	{
 		path: '/register',
-		element: <Register />,
+		element: (
+			<AuthLayout>
+				<Register />
+			</AuthLayout>
+		),
+	},
+	{
+		path: '/login',
+		element: (
+			<AuthLayout>
+				<Login />
+			</AuthLayout>
+		),
 	},
 ];
 

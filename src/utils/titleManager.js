@@ -1,6 +1,7 @@
 export const pageTitles = {
 	'/': 'Beranda - Sistem Klinik Advokasi Mahasiswa',
 	'/register': 'Registrasi - Sistem Klinik Advokasi Mahasiswa',
+	'/login': 'Login - Sistem Klinik Advokasi Mahasiswa',
 };
 
 export const setPageTitle = (pathname) => {
