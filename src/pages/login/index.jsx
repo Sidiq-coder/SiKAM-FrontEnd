@@ -6,6 +6,7 @@ import { schema } from './schema';
 import { toast } from 'react-toastify';
 import { setPageTitle } from '../../utils/titleManager';
 import { KeyRound, User } from 'lucide-react';
+import { useUser } from '@/hooks/useUser';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
@@ -13,6 +14,7 @@ import RedirectLink from './components/redirect-link';
 
 const Login = () => {
 	const navigate = useNavigate();
+	const { getUserData } = useUser();
 	const {
 		register,
 		handleSubmit,
@@ -31,6 +33,8 @@ const Login = () => {
 			await new Promise((resolve) => setTimeout(resolve, 2000));
 
 			toast.success('Berhasil Masuk!');
+
+			getUserData(1);
 
 			setTimeout(() => {
 				navigate('/');
