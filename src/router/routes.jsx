@@ -1,4 +1,6 @@
 import Register from '@/pages/register';
+import Login from '@/pages/login';
+import AuthLayout from '@/layouts/auth-layout';
 
 const routes = [
 	{
@@ -7,7 +9,19 @@ const routes = [
 	},
 	{
 		path: '/register',
-		element: <Register />,
+		element: (
+			<AuthLayout>
+				<Register />
+			</AuthLayout>
+		),
+	},
+	{
+		path: '/login',
+		element: (
+			<AuthLayout>
+				<Login />
+			</AuthLayout>
+		),
 	},
 ];
 
