@@ -8,10 +8,11 @@ import { schema } from './schema';
 import { useNavigate } from 'react-router-dom';
 import InputField from '@/components/input-field';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
+import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
 import RedirectLink from './components/redirect-link';
 
-const Registration = () => {
+const Register = () => {
 	const navigate = useNavigate();
 	const {
 		register,
@@ -35,7 +36,7 @@ const Registration = () => {
 
 			await new Promise((resolve) => setTimeout(resolve, 2000));
 
-			toast.success('Registrasi berhasil! Silakan login.');
+			toast.success('Registrasi berhasil! Silahkan login.');
 
 			setTimeout(() => {
 				navigate('/login');
@@ -55,7 +56,7 @@ const Registration = () => {
 			{/* Header */}
 			<Header />
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-7">
 				{/* NPM */}
 				<InputField name="npm" label="NPM" placeholder="NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
 
@@ -80,17 +81,10 @@ const Registration = () => {
 				<RedirectLink sourceLabel="Sudah memiliki akun?" targetLabel="Login" href="/login" />
 
 				{/* Submit Button */}
-				<button
-					type="button"
-					onClick={handleSubmit(onSubmit)}
-					disabled={!isValid || isSubmitting}
-					className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 text-white font-medium py-2 px-6 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
-				>
-					{isSubmitting ? 'Mendaftar...' : 'Daftar'}
-				</button>
+				<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);
 };
 
-export default Registration;
+export default Register;
