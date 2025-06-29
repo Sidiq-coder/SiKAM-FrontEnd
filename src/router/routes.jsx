@@ -1,6 +1,7 @@
 import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
+import BandingUkt from '@/pages/bandingUkt';
 import AuthLayout from '@/layouts/auth-layout';
 import BaseLayout from '@/layouts/base-layout';
 
@@ -27,6 +28,14 @@ const routes = [
 			<AuthLayout>
 				<Login />
 			</AuthLayout>
+		),
+	},
+	{
+		path: '/bandingukt',
+		element: (
+			<BaseLayout>
+				<BandingUkt />
+			</BaseLayout>
 		),
 	},
 ];
