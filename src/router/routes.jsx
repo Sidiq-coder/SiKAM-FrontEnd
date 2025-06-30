@@ -2,8 +2,12 @@ import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
 import BandingUkt from '@/pages/bandingUkt';
+import LaporanPage from '@/pages/laporan';
 import AuthLayout from '@/layouts/auth-layout';
 import BaseLayout from '@/layouts/base-layout';
+import DetailLaporan from '@/pages/laporan/detail-laporan';
+import UbahLaporan from '@/pages/laporan/ubah-laporan';
+import AjuLaporan from '@/pages/laporan/aju-laporan';
 
 const routes = [
 	{
@@ -28,6 +32,38 @@ const routes = [
 			<AuthLayout>
 				<Login />
 			</AuthLayout>
+		),
+	},
+	{
+		path: '/laporan',
+		element: (
+			<BaseLayout>
+				<LaporanPage />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/detail-laporan',
+		element: (
+			<BaseLayout>
+				<DetailLaporan />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/aju-laporan',
+		element: (
+			<BaseLayout>
+				<AjuLaporan />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/ubah-laporan',
+		element: (
+			<BaseLayout>
+				<UbahLaporan />
+			</BaseLayout>
 		),
 	},
 	{

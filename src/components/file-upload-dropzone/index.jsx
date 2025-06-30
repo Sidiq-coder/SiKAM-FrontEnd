@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 
-const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'], maxSizeMB = 5, error, setValue, trigger }) => {
+const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'], maxSizeMB = 5, error, setValue, trigger, className = null }) => {
 	const [uploadedFile, setUploadedFile] = useState(null);
 
 	const onDrop = useCallback(
@@ -47,7 +47,7 @@ const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/j
 				{...getRootProps()}
 				className={`border-2 border-dashed rounded-lg p-3 text-center cursor-pointer transition-colors ${
 					isDragActive ? 'border-blue-500 bg-blue-50' : error ? 'border-red-500' : 'border-gray-300 hover:border-gray-400'
-				}`}
+				} ${className}`}
 			>
 				<input {...getInputProps()} />
 				<div className="flex flex-col items-center space-y-2 truncate">

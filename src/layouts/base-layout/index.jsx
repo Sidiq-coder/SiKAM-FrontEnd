@@ -6,17 +6,16 @@ const BaseLayout = ({ children }) => {
 	const containerClass = 'container mx-auto';
 
 	return (
-		<div className="min-h-screen bg-white">
+		<div className="min-h-screen w-full bg-white">
 			<div className="bg-[url('/images/top-blue-bg.png')] bg-cover bg-center bg-no-repeat text-white">
 				<div className={containerClass}>
 					{/* Navbar */}
-					<div className='md:px-10 lg:px-20 px-4'>
-						<Navbar/>
+					<div className="bg-[#0B4D9B] md:px-10 lg:px-20 px-4">
+						<Navbar />
 					</div>
-
-					{/* Hero Section */}
-					<section className="pt-10 pb-[120px]">{children}</section>
 				</div>
+				{/* Hero Section */}
+				<section className="pb-[120px]">{children}</section>
 			</div>
 
 			{/* Footer */}
