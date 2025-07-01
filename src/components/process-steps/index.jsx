@@ -25,7 +25,7 @@ const ProcessSteps = () => {
 	];
 
 	return (
-		<section className="py-20 bg-gray-50">
+		<section className="py-20">
 			<div className="container mx-auto px-4">
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
 					<div className="hidden lg:block absolute top-8 left-1/2 transform -translate-x-1/2 w-3/4 h-[1px] bg-gray-400"></div>
