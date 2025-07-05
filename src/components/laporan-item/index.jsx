@@ -46,9 +46,9 @@ const LaporanContent = ({ report, isDetail = false }) => {
 							<h2 className="text-xl font-bold text-[#2A2A2A]">{report.title}</h2>
 							{!report.isMy ? null : (
 								<div className="flex items-center space-x-2">
-									<button className="p-1 text-primary hover:text-darkPrimary transition-colors cursor-pointer">
+									<Link to="/ubah-laporan" className="p-1 text-primary hover:text-darkPrimary transition-colors cursor-pointer">
 										<Edit className="w-5 h-5 md:w-6 md:h-6" />
-									</button>
+									</Link>
 									<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
 										<Trash className="w-5 h-5 md:w-6 md:h-6" />
 									</button>

@@ -8,7 +8,7 @@ const BaseLayout = ({ children }) => {
 
 	const containerClass = 'container mx-auto max-w-full';
 
-	const pathPattern = ['/', '/aju-laporan'];
+	const pathPattern = ['/', '/aju-laporan', '/ubah-laporan'];
 
 	const isBgPattern = pathPattern.includes(location.pathname);
 
