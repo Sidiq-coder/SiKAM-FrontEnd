@@ -68,7 +68,7 @@ const RegistrasiUlang = () => {
 
 			<div className="flex items-center justify-end mt-8">
 				{/* Submit Button */}
-				<SubmitButton label="Kirim Ulang Data" loadingLabel="Mengirim..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Kirim Ulang Data" loadingLabel="Mengirim..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} className="py-3.5 px-5" />
 			</div>
 		</div>
 	);

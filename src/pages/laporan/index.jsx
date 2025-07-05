@@ -40,7 +40,7 @@ const LaporanPage = () => {
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-8">
-			<div className="container mx-auto flex gap-8">
+			<div className="container mx-auto flex flex-wrap gap-8">
 				{/* Main Content */}
 				<div className="flex-1">
 					{/* Page Header */}
