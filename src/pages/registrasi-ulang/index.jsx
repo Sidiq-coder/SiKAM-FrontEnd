@@ -10,9 +10,8 @@ import InputField from '@/components/input-field';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
 import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
-import RedirectLink from './components/redirect-link';
 
-const Register = () => {
+const RegistrasiUlang = () => {
 	const navigate = useNavigate();
 	const {
 		register,
@@ -36,7 +35,7 @@ const Register = () => {
 
 			await new Promise((resolve) => setTimeout(resolve, 2000));
 
-			toast.success('Registrasi berhasil! Silahkan login.');
+			toast.success('Registrasi ulang berhasil! Silahkan login.');
 
 			setTimeout(() => {
 				navigate('/login');
@@ -48,43 +47,31 @@ const Register = () => {
 	};
 
 	useEffect(() => {
-		setPageTitle('/register');
+		setPageTitle('/registrasi-ulang');
 	}, []);
 
 	return (
-		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-4xl">
+		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-xl">
 			{/* Header */}
 			<Header />
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-7">
-				{/* NPM */}
-				<InputField name="npm" label="NPM" placeholder="NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
-
-				{/* Password */}
-				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
-
-				{/* Email */}
-				<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
-
-				{/* Konfirmasi Password */}
-				<InputField name="confirmPassword" label="Konfirmasi Password" placeholder="Konfirmasi Password" register={register} error={errors.confirmPassword} icon={KeyRound} isPassword />
-
+			<div className="grid grid-cols-1 gap-x-3 gap-y-7">
 				{/* Nama */}
 				<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
 
+				{/* NPM */}
+				<InputField name="npm" label="NPM" placeholder="NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
+
 				{/* Upload Foto KTM */}
-				<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} />
+				<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} description="Pastikan Data yang Anda kirim sudah sesuai" />
 			</div>
 
-			<div className="flex items-center justify-between mt-12">
-				{/* Login Link */}
-				<RedirectLink sourceLabel="Sudah memiliki akun?" targetLabel="Login" href="/login" />
-
+			<div className="flex items-center justify-end mt-8">
 				{/* Submit Button */}
-				<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Kirim Ulang Data" loadingLabel="Mengirim..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);
 };
 
-export default Register;
+export default RegistrasiUlang;

@@ -8,6 +8,7 @@ import BaseLayout from '@/layouts/base-layout';
 import DetailLaporan from '@/pages/laporan/detail-laporan';
 import UbahLaporan from '@/pages/laporan/ubah-laporan';
 import AjuLaporan from '@/pages/laporan/aju-laporan';
+import RegistrasiUlang from '@/pages/registrasi-ulang';
 
 const routes = [
 	{
@@ -23,6 +24,14 @@ const routes = [
 		element: (
 			<AuthLayout>
 				<Register />
+			</AuthLayout>
+		),
+	},
+	{
+		path: '/registrasi-ulang',
+		element: (
+			<AuthLayout>
+				<RegistrasiUlang />
 			</AuthLayout>
 		),
 	},

@@ -7,7 +7,7 @@ const Navbar = () => {
 	const { user, logout } = useUser();
 
 	return (
-		<header className="text-white py-8">
+		<header className="text-white py-6">
 			<div className="flex items-center justify-between">
 				<Link to="/" className="flex items-center space-x-2">
 					<img className="w-8" src="/images/logo-unila.png" alt="logo-unila" />

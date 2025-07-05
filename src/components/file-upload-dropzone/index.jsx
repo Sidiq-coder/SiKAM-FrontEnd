@@ -1,8 +1,9 @@
+import { Info } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'react-toastify';
 
-const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'], maxSizeMB = 5, error, setValue, trigger, className = null }) => {
+const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'], maxSizeMB = 5, error, setValue, trigger, className = null, description = null }) => {
 	const [uploadedFile, setUploadedFile] = useState(null);
 
 	const onDrop = useCallback(
@@ -56,11 +57,17 @@ const FileUploadDropzone = ({ name, label, acceptTypes = ['image/jpeg', 'image/j
 							{uploadedFile.name} - <span className="text-gray-500">{(uploadedFile.size / 1024 / 1024).toFixed(2)} MB</span>
 						</p>
 					) : (
-						<p className="text-sm text-gray-600">{isDragActive ? 'Lepaskan file di sini' : 'Pilih file atau tarik ke sini'}</p>
+						<p className="text-[#ACACAC]">{isDragActive ? 'Lepaskan file di sini' : 'Pilih file atau tarik ke sini'}</p>
 					)}
 				</div>
 			</div>
-			{error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
+			{description ? (
+				<div className="flex items-center gap-x-1 text-[#909090] mt-2">
+					<Info className="w-4 h-4" />
+					<p className="text-sm">{description}</p>
+				</div>
+			) : null}
+			{error ? <p className="text-red-500 text-sm mt-1">{error.message}</p> : null}
 		</div>
 	);
 };
