@@ -7,7 +7,7 @@ const Home = () => {
 	const sliderImages = ['/images/example-image.png', '/images/example-image.png', '/images/example-image.png'];
 
 	return (
-		<div>
+		<div className="pt-[50px]">
 			<div className="grid lg:grid-cols-2 gap-12 items-center md:px-10 lg:px-20 px-4 pb-[120px]">
 				<div>
 					<h1 className="text-4xl lg:text-5xl font-bold mb-6">
@@ -50,7 +50,7 @@ const MainContent = () => {
 	return (
 		<div>
 			{/* Content */}
-			<div className={`bg-white px-32`}>
+			<div className={`bg-white px-32 pb-[120px]`}>
 				<ProcessSteps />
 				<div>
 					<div id="laporan" className="bg-gradient-to-r to-[#ED9E31] from-[#875A1C] rounded-2xl shadow-xl/30 w-[95%] md:w-[94%] mx-auto my-10 px-4 pt	-8 flex flex-col md:flex-row items-center ml-0">
