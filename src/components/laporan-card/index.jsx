@@ -68,38 +68,40 @@ const LaporanContent = ({ report, isDetail = false }) => {
 						)}
 					</div>
 				</div>
-				<div className="mt-4">
-					<div className="flex items-center space-x-1.5 mb-3">
-						<p>Lampiran</p>
-						<FileImage className="w-4 h-4" />
-					</div>
-
-					<div className="mb-8">
-						<FileImageComponent filePath="/images/img-laporan.png" fileName="IMG.jpg" />
-					</div>
-
-					<div className="flex border-b border-gray-200 mb-8">
-						<div className="flex items-center px-2 py-3 text-blue-600 border-b-2 border-blue-600 font-medium">
-							<MessageSquare className="w-4 h-4 text-primary mr-2" />
-							Tindak Lanjut
+				{!isDetail ? null : (
+					<div className="mt-4">
+						<div className="flex items-center space-x-1.5 mb-3">
+							<p>Lampiran</p>
+							<FileImage className="w-4 h-4" />
 						</div>
-						<button className="flex items-center px-2 py-3 text-gray-600 hover:text-gray-900 font-medium ml-6">
-							<Share2 className="w-4 h-4 mr-2" />
-							Bagikan
-						</button>
-					</div>
 
-					<div className="flex items-center justify-center text-[#ED9E3199] gap-x-2">
-						<Hourglass className="w-5 h-5" />
-						<p className="font-semibold text-lg">Menunggu Verifikasi</p>
+						<div className="mb-8">
+							<FileImageComponent filePath="/images/img-laporan.png" fileName="IMG.jpg" />
+						</div>
+
+						<div className="flex border-b border-gray-200 mb-8">
+							<div className="flex items-center px-2 py-3 text-blue-600 border-b-2 border-blue-600 font-medium">
+								<MessageSquare className="w-4 h-4 text-primary mr-2" />
+								Tindak Lanjut
+							</div>
+							<button className="flex items-center px-2 py-3 text-gray-600 hover:text-gray-900 font-medium ml-6">
+								<Share2 className="w-4 h-4 mr-2" />
+								Bagikan
+							</button>
+						</div>
+
+						<div className="flex items-center justify-center text-[#ED9E3199] gap-x-2">
+							<Hourglass className="w-5 h-5" />
+							<p className="font-semibold text-lg">Menunggu Verifikasi</p>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</>
 	);
 };
 
-const LaporanItem = ({ report, isDetail = false }) => {
+const LaporanCard = ({ report, isDetail = false }) => {
 	if (isDetail) {
 		return (
 			<div key={report.id} className={`flex gap-x-8 bg-white px-10 p-6 py-12 ${isDetail ? 'shadow-sm' : 'border-b border-[#ACACAC]'}`}>
@@ -115,4 +117,4 @@ const LaporanItem = ({ report, isDetail = false }) => {
 	);
 };
 
-export default LaporanItem;
+export default LaporanCard;

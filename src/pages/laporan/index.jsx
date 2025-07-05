@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from './components/status-filter';
-import LaporanItem from '@/components/laporan-item';
+import LaporanCard from '@/components/laporan-card';
 
 const reportsData = [
 	{
@@ -99,7 +99,7 @@ const LaporanPage = () => {
 					{/* Reports List */}
 					<div className="space-y-6">
 						{reports.map((report) => (
-							<LaporanItem report={report} />
+							<LaporanCard report={report} />
 						))}
 					</div>
 

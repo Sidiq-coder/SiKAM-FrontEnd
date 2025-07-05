@@ -3,7 +3,7 @@ import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { setPageTitle } from '@/utils/titleManager';
 import Button from '@/components/button';
-import LaporanItem from '@/components/laporan-item';
+import LaporanCard from '@/components/laporan-card';
 import { ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -45,7 +45,7 @@ const DetailLaporan = () => {
 						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />
 					</div>
 
-					<LaporanItem report={report} isDetail />
+					<LaporanCard report={report} isDetail />
 				</div>
 			</div>
 		</div>
