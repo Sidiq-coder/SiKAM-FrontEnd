@@ -6,6 +6,7 @@ import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from './components/status-filter';
 import LaporanCard from '@/components/laporan-card';
+import FilterButton from '@/components/filter-button';
 
 const reportsData = [
 	{
@@ -59,21 +60,7 @@ const LaporanPage = () => {
 					{/* Page Header */}
 					<div className="flex items-center justify-between mb-6">
 						<h1 className="text-4xl font-bold text-[#2A2A2A]">Daftar Laporan</h1>
-						<div className="flex items-center space-x-4">
-							<div className="relative">
-								<select
-									className="bg-[#ED9E31] text-[#2A2A2A] px-10 py-2 rounded-lg font-medium appearance-none pr-8 cursor-pointer"
-									value={selectedFilter}
-									onChange={(e) => setSelectedFilter(e.target.value)}
-								>
-									<option>Terbaru</option>
-									<option>Terpopuler</option>
-									<option>Terlama</option>
-								</select>
-								<Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#2A2A2A] pointer-events-none" />
-								<ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#2A2A2A] pointer-events-none" />
-							</div>
-						</div>
+						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
 					</div>
 
 					<div className="flex justify-end mb-4">
@@ -113,10 +100,9 @@ const LaporanPage = () => {
 					</div>
 				</div>
 
-				{/* Sidebar */}
 				<div className="w-80 space-y-6">
 					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full hidden lg:block" href="/aju-laporan" />
-					{/* Category Filter */}
+
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 						<h3 className="text-2xl font-bold text-[#2A2A2A] mb-4">Kategori Terkait</h3>
 						<div className="flex flex-col items-start space-y-4">
@@ -126,7 +112,6 @@ const LaporanPage = () => {
 						</div>
 					</div>
 
-					{/* Status Filter */}
 					<StatusFilter activeTab={activeTab} />
 				</div>
 			</div>

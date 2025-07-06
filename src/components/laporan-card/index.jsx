@@ -101,17 +101,17 @@ const LaporanContent = ({ report, isDetail = false }) => {
 	);
 };
 
-const LaporanCard = ({ report, isDetail = false }) => {
+const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	if (isDetail) {
 		return (
-			<div key={report.id} className={`flex gap-x-8 bg-white px-10 p-6 py-12 ${isDetail ? 'shadow-sm' : 'border-b border-[#ACACAC]'}`}>
+			<div key={report.id} className={`flex gap-x-8 bg-white px-10 p-6 py-12 ${isDetail ? 'shadow-sm' : 'border-b border-[#ACACAC]'} ${className}`}>
 				<LaporanContent report={report} isDetail={isDetail} />
 			</div>
 		);
 	}
 
 	return (
-		<Link to="/detail-laporan" key={report.id} className={`flex gap-x-8 bg-white p-6 pb-12 ${isDetail ? 'shadow-sm' : 'border-b border-[#ACACAC]'}`}>
+		<Link to="/detail-laporan" key={report.id} className={`flex gap-x-8 bg-white p-6 pb-12 ${isDetail ? 'shadow-sm' : 'border-b border-[#ACACAC]'} ${className}`}>
 			<LaporanContent report={report} isDetail={isDetail} />
 		</Link>
 	);
