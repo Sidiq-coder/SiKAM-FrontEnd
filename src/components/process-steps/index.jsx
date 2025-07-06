@@ -28,12 +28,12 @@ const ProcessSteps = () => {
 		<section className="py-20">
 			<div className="container mx-auto px-4">
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-					<div className="hidden lg:block absolute top-8 left-1/2 transform -translate-x-1/2 w-3/4 h-[1px] bg-gray-400"></div>
+					<div className="hidden lg:block absolute top-8 left-1/2 transform -translate-x-1/2 w-3/4 h-[2px] bg-[#0E50A0]"></div>
 					{steps.map((step, index) => (
 						<div key={index} className="text-center relative z-10">
 							<div className="w-18 h-18 bg-[#ED9E31] rounded-full flex items-center justify-center mx-auto mb-4 text-[#0B4D9B]">{step.icon}</div>
-							<h3 className="text-xl font-semibold mb-3 text-gray-800">{step.title}</h3>
-							<p className="text-gray-600 leading-relaxed">{step.description}</p>
+							<h3 className="text-xl font-semibold mb-3 text-[#2A2A2A]">{step.title}</h3>
+							<p className="text-[#2A2A2A] leading-relaxed">{step.description}</p>
 						</div>
 					))}
 				</div>
