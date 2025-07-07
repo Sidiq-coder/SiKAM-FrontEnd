@@ -50,7 +50,7 @@ const Login = () => {
 	}, []);
 
 	return (
-		<div className="bg-white rounded-2xl shadow-2xl px-12 pt-8 pb-12 w-full max-w-lg">
+		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-lg">
 			{/* Header */}
 			<Header />
 

@@ -1,4 +1,4 @@
-import { Check, Clock, MessageSquare, Search, X } from 'lucide-react';
+import { CheckSquare, Clock, MessageSquare, Search, X } from 'lucide-react';
 
 const getStatusIcon = (status, textColor) => {
 	switch (status) {
@@ -9,7 +9,7 @@ const getStatusIcon = (status, textColor) => {
 		case 'Ditanggapi':
 			return <MessageSquare className={`w-4 h-4 ${textColor}`} />;
 		case 'Selesai':
-			return <Check className={`w-4 h-4 ${textColor}`} />;
+			return <CheckSquare className={`w-4 h-4 ${textColor}`} />;
 		case 'Ditolak':
 			return <X className={`w-4 h-4 ${textColor}`} />;
 		default:

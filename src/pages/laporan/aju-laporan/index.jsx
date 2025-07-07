@@ -71,7 +71,7 @@ const AjuLaporan = () => {
 	];
 
 	return (
-		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8">
+		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
 			<div className="mx-auto bg-white text-[#2A2A2A] rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
 				<div className="flex justify-between items-center mb-10">
 					<Link to="/laporan">
@@ -94,7 +94,7 @@ const AjuLaporan = () => {
 					<Textarea name="isiLaporan" label="Isi Laporan" placeholder="Isi Laporan" register={register} error={errors.isiLaporan} />
 
 					{/* Upload Lampiran */}
-					<FileUploadDropzone name="lampiran" label="Lampiran" setValue={setValue} trigger={trigger} error={errors.lampiran} className="py-6" />
+					<FileUploadDropzone name="lampiran" label="Lampiran" labelDescription="(File atau foto bukti pendukung)" setValue={setValue} trigger={trigger} error={errors.lampiran} className="p-6" />
 
 					{/* Anonim */}
 					<InputField name="isAnonim" label="Anonim" placeholder="Anonim" type="checkbox" register={register} error={errors.isAnonim} isSmall />
