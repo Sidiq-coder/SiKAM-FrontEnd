@@ -20,8 +20,8 @@ const Navbar = () => {
 					<Link to="/bandingukt" className="hover:text-[#ED9E31] transition-colors">
 						Banding UKT
 					</Link>
-					<Link to="/" className="hover:text-[#ED9E31] transition-colors">
-						Riwayat
+					<Link to="/advika" className="hover:text-[#ED9E31] transition-colors">
+						Advika
 					</Link>
 					<Link to="/" className="hover:text-[#ED9E31] transition-colors">
 						Tentang Sikam

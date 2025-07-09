@@ -9,7 +9,8 @@ import DetailLaporan from '@/pages/laporan/detail-laporan';
 import UbahLaporan from '@/pages/laporan/ubah-laporan';
 import AjuLaporan from '@/pages/laporan/aju-laporan';
 import RegistrasiUlang from '@/pages/registrasi-ulang';
-
+import Advika from '@/pages/advika';
+import DetailAdvika from '@/pages/advika/DetailAdvika';
 const routes = [
 	{
 		path: '/',
@@ -80,6 +81,22 @@ const routes = [
 		element: (
 			<BaseLayout>
 				<BandingUkt />
+			</BaseLayout>
+		),
+	},
+		{
+		path: '/advika',
+		element: (
+			<BaseLayout>
+				<Advika />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/advika/detailadvika/:id',
+		element: (
+			<BaseLayout>
+				<DetailAdvika />
 			</BaseLayout>
 		),
 	},
