@@ -16,6 +16,8 @@ import { default as AdminDetailAdvika } from '@/pages/adminPages/advika/DetailAd
 import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
 import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
+import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
+import EmptyPage from '@/pages/empty';
 
 const routes = [
 	{
@@ -86,7 +88,7 @@ const routes = [
 		path: '/banding-ukt',
 		element: (
 			<BaseLayout>
-				<div className="min-h-screen bg-white"></div>
+				<EmptyPage />
 			</BaseLayout>
 		),
 	},
@@ -94,7 +96,7 @@ const routes = [
 		path: '/tentang',
 		element: (
 			<BaseLayout>
-				<div className="min-h-screen bg-white"></div>
+				<EmptyPage />
 			</BaseLayout>
 		),
 	},
@@ -115,10 +117,12 @@ const routes = [
 		),
 	},
 
+	// Admin Routes
 	{
 		path: '/admin',
 		element: <AdminGuard />,
 		children: [
+			// Laporan
 			{
 				path: 'laporan',
 				element: (
@@ -135,6 +139,27 @@ const routes = [
 					</BaseLayout>
 				),
 			},
+
+			// Kelola Akun
+			{
+				path: 'kelola-akun',
+				element: (
+					<BaseLayout>
+						<KelolaAkunPage />
+					</BaseLayout>
+				),
+			},
+
+			// Banding UKT
+			{
+				path: 'banding-ukt',
+				element: (
+					<BaseLayout>
+						<EmptyPage />
+					</BaseLayout>
+				),
+			},
+
 			{
 				path: 'advika',
 				element: (

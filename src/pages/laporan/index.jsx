@@ -4,11 +4,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { daftarLaporan } from '@/mocks/laporanMock';
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
-import StatusFilter from './components/status-filter';
+import StatusFilter from '@/components/status-filter';
 import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
+
+const rawStatusOptions = [
+	{ status: 'Pending', color: 'text-[#ED9E31]' },
+	{ status: 'Ditinjau', color: 'text-[#EDC831]' },
+	{ status: 'Ditanggapi', color: 'text-[#007BFF]' },
+	{ status: 'Selesai', color: 'text-[#2FCB51]' },
+	{ status: 'Ditolak', color: 'text-[#EE4848]' },
+];
 
 const LaporanPage = () => {
 	const [activeTab, setActiveTab] = useState('laporan-saya');
@@ -22,6 +30,13 @@ const LaporanPage = () => {
 
 	const filteredReports = useMemo(() => {
 		return activeTab === 'laporan-saya' ? daftarLaporan.filter((report) => report.isMy) : daftarLaporan;
+	}, [activeTab]);
+
+	const visibleStatusOptions = useMemo(() => {
+		if (activeTab === 'semua') {
+			return rawStatusOptions;
+		}
+		return rawStatusOptions.filter((item) => item.status !== 'Pending' && item.status !== 'Ditolak');
 	}, [activeTab]);
 
 	useEffect(() => {
@@ -44,7 +59,7 @@ const LaporanPage = () => {
 					</div>
 
 					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} />
+					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
 
 					{/* Reports List */}
 					<div className="space-y-6">
@@ -71,7 +86,7 @@ const LaporanPage = () => {
 						</div>
 					</div>
 
-					<StatusFilter activeTab={activeTab} />
+					<StatusFilter title="Status" statusList={visibleStatusOptions} />
 				</div>
 			</div>
 		</div>

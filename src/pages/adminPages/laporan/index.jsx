@@ -31,14 +31,14 @@ const AdminLaporanPage = () => {
 
 		if (!searchQuery.trim()) return filteredByStatus;
 
-		const lowerQuery = searchQuery.toLowerCase();
+		const lowerQuery = searchQuery?.toLowerCase();
 		return filteredByStatus.filter((report) => report.title.toLowerCase().includes(lowerQuery) || report.description.toLowerCase().includes(lowerQuery));
 	}, [activeTab, searchQuery]);
 
 	const filteredAllReports = useMemo(() => {
 		if (!searchQuery.trim()) return daftarLaporan;
 
-		const lowerQuery = searchQuery.toLowerCase();
+		const lowerQuery = searchQuery?.toLowerCase();
 		return daftarLaporan.filter((report) => report.title.toLowerCase().includes(lowerQuery) || report.description.toLowerCase().includes(lowerQuery));
 	}, [searchQuery]);
 
@@ -51,7 +51,7 @@ const AdminLaporanPage = () => {
 	}, [filteredAllReports]);
 
 	return (
-		<div className="bg-white md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
+		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
 			<div className="container mx-auto flex flex-col lg:flex-row gap-8">
 				{/* Main Content */}
 				<div className="flex-1">
@@ -66,7 +66,7 @@ const AdminLaporanPage = () => {
 					</div>
 
 					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={allReports} />
+					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={allReports} className="mb-6" />
 
 					{/* Reports List */}
 					<div className="space-y-6">

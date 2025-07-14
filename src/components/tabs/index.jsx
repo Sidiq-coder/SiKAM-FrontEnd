@@ -1,6 +1,6 @@
-const Tabs = ({ tabs, activeTab, onTabChange, data = null }) => {
+const Tabs = ({ tabs, activeTab, onTabChange, data = null, className = '', gap = 8, textSize = 'base' }) => {
 	return (
-		<div className="flex space-x-8 mb-6 border-b border-[#ACACAC]">
+		<div className={`flex space-x-${gap} border-b border-[#ACACAC] ${className}`}>
 			{tabs.map((tab) => {
 				const isActive = activeTab === tab.value;
 
@@ -9,7 +9,7 @@ const Tabs = ({ tabs, activeTab, onTabChange, data = null }) => {
 				return (
 					<div key={tab.value} className="flex gap-x-2">
 						<button
-							className={`pb-3 px-1 font-medium transition-colors ${isActive ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-gray-700'} cursor-pointer`}
+							className={`pb-3 px-1 text-${textSize} font-medium transition-colors ${isActive ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-gray-700'} cursor-pointer`}
 							onClick={() => onTabChange(tab.value)}
 						>
 							<span>{tab.label}</span>
