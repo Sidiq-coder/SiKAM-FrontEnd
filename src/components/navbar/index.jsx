@@ -30,7 +30,7 @@ const Navbar = () => {
 				)}
 
 				{/* student Navbar Section */}
-				{(!user || user.userType ==='student') && (
+				{(!user || user?.userType ==='student') && (
 					<nav className="hidden md:flex items-center space-x-12">
 					<Link to="/laporan" className={`hover:text-[#ED9E31] transition-colors ${location.pathname === '/laporan' ? 'text-[#ED9E31]' : ''}`}>
 						Laporan

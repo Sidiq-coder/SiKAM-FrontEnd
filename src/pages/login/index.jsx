@@ -34,7 +34,7 @@ const Login = () => {
 
 			toast.success('Berhasil Masuk!');
 
-			getUserData(2);
+			getUserData(1);
 
 			setTimeout(() => {
 				navigate('/');

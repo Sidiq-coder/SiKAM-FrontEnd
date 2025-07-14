@@ -1,10 +1,11 @@
 import { useParams, NavLink } from "react-router-dom";
+import { Upload } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faFile, faFilePdf, faSave, faImage, faEdit, faTrash, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { mainAdvika } from "../../../mocks/advikaMock";
 import pdf from "../../../../public/images/example.pdf";
-import Button from "../../../components/button/index";
 import { useState, useEffect } from "react";
+import FilterButton from "../../../components/filter-button";
 
 const COLORS = {
   primary: '#2A2A2A',
@@ -77,10 +78,18 @@ export default function DetailAdvika() {
     }));
   };
 
+  const [selectedFilter, setSelectedFilter] = useState('Publish');
+
   return (
     <div className="px-10 md:px-20 lg:px-32 pb-1 min-h-screen mb-48">
       <div className="flex items-center justify-between pt-4">
-        <BackButton />      
+      <div className="flex items-center gap-2">
+      <BackButton />
+      {/* Filtering Button */}
+      <h1 className="text-xl ml-20">status : </h1>
+      <FilterButton Icon={Upload} className="text-white" options={['Publish', 'Draft']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
+      </div>
+
       {/* Action Buttons */}
       <div className="flex justify-end gap-2 mb-4">
         {!(editingId === article.id) ? (

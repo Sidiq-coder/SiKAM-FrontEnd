@@ -10,7 +10,7 @@ export const AuthContextProvider = ({ children }) => {
 		name: 'John Doe',
 		email: 'johndoe@gmail.com',
 		studentId: '12345678',
-		userType: 'user',
+		userType: 'student',
 		reports: [
 		{ id: 1, title: 'Laporan 1', status: 'approved', date: '2024-01-15' },
 		{ id: 2, title: 'Laporan 2', status: 'pending', date: '2024-02-20' },
