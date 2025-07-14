@@ -1,7 +1,7 @@
 import { useUser } from '@/hooks/useUser';
 import { Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
+import AdminAdvika from '../../pages/adminPages/advika';
 const Navbar = () => {
 	const location = useLocation();
 	const { user, logout } = useUser();
@@ -9,11 +9,29 @@ const Navbar = () => {
 	return (
 		<header className="text-white py-6">
 			<div className="flex items-center justify-between">
-				<Link to="/" className="flex items-center space-x-2">
+				{/* student side logo */}
+				{(!user || user.userType === 'student') && (
+				<>
+					<Link to="/" className="flex items-center space-x-2">
 					<img className="w-8" src="/images/logo-unila.png" alt="logo-unila" />
 					<span className="text-yellow-400 text-xl font-bold">SIKAM</span>
-				</Link>
-				<nav className="hidden md:flex items-center space-x-12">
+					</Link>
+				</>
+				)}
+
+				{/* admin side logo */}
+				{user?.userType === 'admin' && (
+				<>
+					<Link to="/" className="flex items-center space-x-2">
+					<img className="w-8" src="/images/bem.png" alt="logo-unila" />
+					<span className="text-white italic text-3xl font-bold">ADMIN</span>
+					</Link>
+				</>
+				)}
+
+				{/* student Navbar Section */}
+				{(!user || user.userType ==='student') && (
+					<nav className="hidden md:flex items-center space-x-12">
 					<Link to="/laporan" className={`hover:text-[#ED9E31] transition-colors ${location.pathname === '/laporan' ? 'text-[#ED9E31]' : ''}`}>
 						Laporan
 					</Link>
@@ -27,6 +45,26 @@ const Navbar = () => {
 						Tentang Sikam
 					</Link>
 				</nav>
+				)}
+
+				{/* admin Navbar Section */}
+				{user?.userType ==='admin' && (
+				<nav className="hidden md:flex items-center space-x-12">
+					<Link to="/laporan" className={`hover:text-[#ED9E31] transition-colors ${location.pathname === '/laporan' ? 'text-[#ED9E31]' : ''}`}>
+						Laporan
+					</Link>
+					<Link to="/bandingukt" className="hover:text-[#ED9E31] transition-colors">
+						Banding UKT
+					</Link>
+					<Link to="/admin/advika" className="hover:text-[#ED9E31] transition-colors">
+						Advika
+					</Link>
+					<Link to="/" className="hover:text-[#ED9E31] transition-colors">
+						Tentang Sikam
+					</Link>
+				</nav>
+				)}
+				
 				<div className="flex items-center space-x-4">
 					{user ? (
 						<div className="flex items-center space-x-3">

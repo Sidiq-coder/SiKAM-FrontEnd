@@ -11,6 +11,9 @@ import AjuLaporan from '@/pages/laporan/aju-laporan';
 import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
 import DetailAdvika from '@/pages/advika/DetailAdvika';
+import AdminAdvika from '../pages/adminPages/advika';
+import EditAdvika from "../pages/adminPages/advika/EditAdvika"
+import {default as AdminDetailAdvika} from '../pages/adminPages/advika/DetailAdvika'
 const routes = [
 	{
 		path: '/',
@@ -84,7 +87,7 @@ const routes = [
 			</BaseLayout>
 		),
 	},
-		{
+	{
 		path: '/advika',
 		element: (
 			<BaseLayout>
@@ -93,10 +96,33 @@ const routes = [
 		),
 	},
 	{
-		path: '/advika/detailadvika/:id',
+		path: '/advika/detailAdvika/:id',
 		element: (
 			<BaseLayout>
 				<DetailAdvika />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/admin/advika',
+		element: (
+			<BaseLayout>
+				<AdminAdvika />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/admin/advika/detailAdvika/:id',
+		element: (
+			<BaseLayout>
+				<AdminDetailAdvika />
+			</BaseLayout>
+		),
+	},{
+		path: '/admin/advika/editAdvika/:id',
+		element: (
+			<BaseLayout>
+				<EditAdvika />
 			</BaseLayout>
 		),
 	},
