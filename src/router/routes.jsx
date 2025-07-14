@@ -14,6 +14,11 @@ import DetailAdvika from '@/pages/advika/DetailAdvika';
 import AdminAdvika from '../pages/adminPages/advika';
 import EditAdvika from "../pages/adminPages/advika/EditAdvika"
 import {default as AdminDetailAdvika} from '../pages/adminPages/advika/DetailAdvika'
+import ProfilePage from '../pages/profilePage';
+import LaporanProfile from '../pages/laporanProfile';
+import BandingProfile from '../pages/bandingProfile';
+import NotifProfile from '../pages/notificationProfile';
+import PasswordProfile from '../pages/passwordProfile';
 const routes = [
 	{
 		path: '/',
@@ -118,11 +123,52 @@ const routes = [
 				<AdminDetailAdvika />
 			</BaseLayout>
 		),
-	},{
+	},
+	{
 		path: '/admin/advika/editAdvika/:id',
 		element: (
 			<BaseLayout>
 				<EditAdvika />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/profilePage',
+		element: (
+			<BaseLayout>
+				<ProfilePage />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/profilePage/password',
+		element: (
+			<BaseLayout>
+				<PasswordProfile />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/profilePage/banding',
+		element: (
+			<BaseLayout>
+				<BandingProfile />
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/profilePage/notification',
+		element: (
+			<BaseLayout>
+				<NotifProfile/>
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/profilePage/laporan',
+		element: (
+			<BaseLayout>
+				<LaporanProfile />
 			</BaseLayout>
 		),
 	},
