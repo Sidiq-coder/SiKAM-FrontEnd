@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useUser } from '@/hooks/useUser';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { Bell, HelpCircle, Menu, User, X } from 'lucide-react';
 import NavLink from '../nav-link';
 import NavLogo from '../nav-logo';
@@ -67,7 +66,7 @@ const NavbarActions = ({ handleProfile }) => {
 };
 
 const Navbar = () => {
-	const { user, logout } = useUser();
+	const { user } = useUser();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const isAdminPath = location.pathname.includes('/admin');
