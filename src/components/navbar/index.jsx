@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useUser } from '@/hooks/useUser';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Bell, HelpCircle, Menu, User, X } from 'lucide-react';
 import NavLink from '../nav-link';
@@ -48,7 +48,7 @@ const NavbarAuthButtons = () => {
 	);
 };
 
-const NavbarActions = ({ handleLogout }) => {
+const NavbarActions = ({ handleProfile }) => {
 	const iconStyle = 'w-6 h-6 text-primary';
 
 	return (
@@ -59,7 +59,7 @@ const NavbarActions = ({ handleLogout }) => {
 			<IconButton>
 				<Bell className={iconStyle} />
 			</IconButton>
-			<IconButton rounded="rounded-full" onClick={handleLogout}>
+			<IconButton rounded="rounded-full" onClick={handleProfile}>
 				<User className={iconStyle} />
 			</IconButton>
 		</>
@@ -69,19 +69,15 @@ const NavbarActions = ({ handleLogout }) => {
 const Navbar = () => {
 	const { user, logout } = useUser();
 	const location = useLocation();
-
+	const navigate = useNavigate();
 	const isAdminPath = location.pathname.includes('/admin');
 	const userType = isAdminPath && user?.userType === 'admin' ? 'admin' : 'student';
 	const links = navLinks[userType];
 
 	const [menuOpen, setMenuOpen] = useState(false);
 
-	const handleLogout = () => {
-		if (confirm('Apakah Anda yakin ingin keluar?')) {
-			logout();
-			toast.success('Berhasil keluar');
-			setMenuOpen(false);
-		}
+	const handleProfile = () => {
+		navigate(`/profilePage`);
 	};
 
 	return (
@@ -99,7 +95,7 @@ const Navbar = () => {
 				</nav>
 
 				{/* Auth Buttons Desktop */}
-				<div className="hidden lg:flex items-center space-x-4">{user ? <NavbarActions handleLogout={handleLogout} /> : <NavbarAuthButtons />}</div>
+				<div className="hidden lg:flex items-center space-x-4">{user ? <NavbarActions handleProfile={handleProfile} /> : <NavbarAuthButtons />}</div>
 
 				{/* Mobile Menu Button */}
 				<button className="lg:hidden text-white focus:outline-none cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
@@ -128,7 +124,7 @@ const Navbar = () => {
 					<div className="flex flex-col items-start space-y-3">
 						{user ? (
 							<div className="flex flex-wrap">
-								<NavbarActions handleLogout={handleLogout} />
+								<NavbarActions handleProfile={handleProfile} />
 							</div>
 						) : (
 							<NavbarAuthButtons />
