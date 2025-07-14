@@ -21,7 +21,7 @@ export const daftarMahasiswa = [
 		name: 'Michael Johnson',
 		npm: '112233445',
 		email: 'michaelj@example.com',
-		status: 'rejected',
+		status: 'not verified',
 	},
 	{
 		id: 4,
@@ -45,7 +45,7 @@ export const daftarMahasiswa = [
 		name: 'Sophia Wilson',
 		npm: '778899001',
 		email: 'sophiaw@example.com',
-		status: 'rejected',
+		status: 'not verified',
 	},
 	{
 		id: 7,
@@ -69,7 +69,7 @@ export const daftarMahasiswa = [
 		name: 'Liam Anderson',
 		npm: '667788990',
 		email: 'liama@example.com',
-		status: 'rejected',
+		status: 'not verified',
 	},
 	{
 		id: 10,

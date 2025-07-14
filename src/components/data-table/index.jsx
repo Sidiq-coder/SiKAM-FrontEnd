@@ -1,39 +1,15 @@
+import getStatusIcon from '@/utils/getStatusIcon';
+
 const getStatusColor = (status) => {
 	switch (status) {
 		case 'waiting':
-			return 'text-orange-800 bg-orange-100';
+			return 'text-[#E79625]';
 		case 'verified':
-			return 'text-green-800 bg-green-100';
-		case 'rejected':
-			return 'text-red-800 bg-red-100';
+			return 'text-[#2FCB51]';
+		case 'not verified':
+			return 'text-red-800';
 		default:
-			return 'text-gray-800 bg-gray-100';
-	}
-};
-
-const getDotColor = (status) => {
-	switch (status) {
-		case 'waiting':
-			return 'bg-orange-400';
-		case 'verified':
-			return 'bg-green-400';
-		case 'rejected':
-			return 'bg-red-400';
-		default:
-			return 'bg-gray-400';
-	}
-};
-
-const getStatusText = (status) => {
-	switch (status) {
-		case 'waiting':
-			return 'Menunggu';
-		case 'verified':
-			return 'Terverifikasi';
-		case 'rejected':
-			return 'Ditolak';
-		default:
-			return status;
+			return 'text-[#EE4848]';
 	}
 };
 
@@ -57,9 +33,9 @@ const DataTable = ({ columns, data }) => {
 								{columns.map((col) => (
 									<td key={col.field} className="py-4 px-6 text-sm text-gray-700">
 										{col.field === 'status' ? (
-											<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(item[col.field])}`}>
-												<span className={`w-2 h-2 rounded-full mr-1.5 ${getDotColor(item[col.field])}`}></span>
-												{getStatusText(item[col.field])}
+											<span className={`inline-flex gap-x-2 items-center px-4 py-1.5 rounded-md text-xs font-medium shadow-md ${getStatusColor(item[col.field])}`}>
+												{getStatusIcon(item[col.field])}
+												<span>{item[col.field]}</span>
 											</span>
 										) : (
 											item[col.field]
