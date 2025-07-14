@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChevronLeft } from 'lucide-react';
 import { setPageTitle } from '@/utils/titleManager';
 import { daftarLaporan } from '@/mocks/laporanMock';
 import Button from '@/components/button';
 import LaporanCard from '@/components/laporan-card';
+import BackLink from '@/components/back-link';
 
 const AdminDetailLaporanPage = () => {
 	useEffect(() => {
@@ -19,10 +18,7 @@ const AdminDetailLaporanPage = () => {
 				{/* Main Content */}
 				<div className="flex-1">
 					{/* Page Header */}
-					<Link to="/admin/laporan" className="flex items-center text-gray-500 mb-6">
-						<ChevronLeft className="w-8 h-8" />
-						<h1 className="text-xl">Laporan</h1>
-					</Link>
+					<BackLink to="/laporan" label="Laporan" className="mb-6" />
 
 					<div className="flex justify-end mb-4">
 						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />

@@ -1,9 +1,10 @@
+import AuthLayout from '@/layouts/auth-layout';
+import BaseLayout from '@/layouts/base-layout';
+import EmptyPage from '@/pages/empty';
 import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
 import LaporanPage from '@/pages/laporan';
-import AuthLayout from '@/layouts/auth-layout';
-import BaseLayout from '@/layouts/base-layout';
 import DetailLaporan from '@/pages/laporan/detail-laporan';
 import UbahLaporan from '@/pages/laporan/ubah-laporan';
 import AjuLaporan from '@/pages/laporan/aju-laporan';
@@ -17,7 +18,7 @@ import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
 import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
 import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
-import EmptyPage from '@/pages/empty';
+import DetailAkunPage from '@/pages/adminPages/kelola-akun/detail-akun';
 
 const routes = [
 	{
@@ -146,6 +147,14 @@ const routes = [
 				element: (
 					<BaseLayout>
 						<KelolaAkunPage />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'detail-akun',
+				element: (
+					<BaseLayout>
+						<DetailAkunPage />
 					</BaseLayout>
 				),
 			},

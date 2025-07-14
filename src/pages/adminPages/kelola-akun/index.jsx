@@ -7,6 +7,7 @@ import Tabs from '@/components/tabs';
 import InputField from '@/components/input-field';
 import StatusFilter from '@/components/status-filter';
 import Pagination from '@/components/pagination';
+import { useNavigate } from 'react-router-dom';
 
 const stats = [
 	{
@@ -52,6 +53,8 @@ const statusOptions = [
 ];
 
 const KelolaAkunPage = () => {
+	const navigate = useNavigate();
+
 	const [activeTab, setActiveTab] = useState('mahasiswa');
 	const [searchQuery, setSearchQuery] = useState('');
 	const [users, setUsers] = useState([]);
@@ -111,7 +114,7 @@ const KelolaAkunPage = () => {
 						</div>
 
 						{/* Table */}
-						<DataTable columns={columns} data={users} />
+						<DataTable columns={columns} data={users} onClick={() => navigate('/admin/detail-akun')} />
 
 						{/* Pagination */}
 						{users.length === 0 ? null : <Pagination className="mt-8" />}
