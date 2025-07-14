@@ -1,7 +1,6 @@
 import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
-import BandingUkt from '@/pages/bandingUkt';
 import LaporanPage from '@/pages/laporan';
 import AuthLayout from '@/layouts/auth-layout';
 import BaseLayout from '@/layouts/base-layout';
@@ -11,9 +10,13 @@ import AjuLaporan from '@/pages/laporan/aju-laporan';
 import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
 import DetailAdvika from '@/pages/advika/DetailAdvika';
-import AdminAdvika from '../pages/adminPages/advika';
-import EditAdvika from "../pages/adminPages/advika/EditAdvika"
-import {default as AdminDetailAdvika} from '../pages/adminPages/advika/DetailAdvika'
+import AdminAdvika from '@/pages/adminPages/advika';
+import EditAdvika from '@/pages/adminPages/advika/EditAdvika';
+import { default as AdminDetailAdvika } from '@/pages/adminPages/advika/DetailAdvika';
+import AdminLaporanPage from '@/pages/adminPages/laporan';
+import AdminGuard from './admin-guard';
+import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
+
 const routes = [
 	{
 		path: '/',
@@ -80,10 +83,18 @@ const routes = [
 		),
 	},
 	{
-		path: '/bandingukt',
+		path: '/banding-ukt',
 		element: (
 			<BaseLayout>
-				<BandingUkt />
+				<div className="min-h-screen bg-white"></div>
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/tentang',
+		element: (
+			<BaseLayout>
+				<div className="min-h-screen bg-white"></div>
 			</BaseLayout>
 		),
 	},
@@ -103,28 +114,52 @@ const routes = [
 			</BaseLayout>
 		),
 	},
+
 	{
-		path: '/admin/advika',
-		element: (
-			<BaseLayout>
-				<AdminAdvika />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/admin/advika/detailAdvika/:id',
-		element: (
-			<BaseLayout>
-				<AdminDetailAdvika />
-			</BaseLayout>
-		),
-	},{
-		path: '/admin/advika/editAdvika/:id',
-		element: (
-			<BaseLayout>
-				<EditAdvika />
-			</BaseLayout>
-		),
+		path: '/admin',
+		element: <AdminGuard />,
+		children: [
+			{
+				path: 'laporan',
+				element: (
+					<BaseLayout>
+						<AdminLaporanPage />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'detail-laporan',
+				element: (
+					<BaseLayout>
+						<AdminDetailLaporanPage />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika',
+				element: (
+					<BaseLayout>
+						<AdminAdvika />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika/detailAdvika/:id',
+				element: (
+					<BaseLayout>
+						<AdminDetailAdvika />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika/editAdvika/:id',
+				element: (
+					<BaseLayout>
+						<EditAdvika />
+					</BaseLayout>
+				),
+			},
+		],
 	},
 ];
 
