@@ -1,7 +1,6 @@
 import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
-import BandingUkt from '@/pages/bandingUkt';
 import LaporanPage from '@/pages/laporan';
 import AuthLayout from '@/layouts/auth-layout';
 import BaseLayout from '@/layouts/base-layout';
@@ -15,10 +14,10 @@ import AdminAdvika from '../pages/adminPages/advika';
 import EditAdvika from "../pages/adminPages/advika/EditAdvika"
 import {default as AdminDetailAdvika} from '../pages/adminPages/advika/DetailAdvika'
 import ProfilePage from '../pages/profilePage';
-import LaporanProfile from '../pages/laporanProfile';
-import BandingProfile from '../pages/bandingProfile';
-import NotifProfile from '../pages/notificationProfile';
-import PasswordProfile from '../pages/passwordProfile';
+import AdminLaporanPage from '@/pages/adminPages/laporan';
+import AdminGuard from './admin-guard';
+import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
+
 const routes = [
 	{
 		path: '/',
@@ -85,10 +84,18 @@ const routes = [
 		),
 	},
 	{
-		path: '/bandingukt',
+		path: '/banding-ukt',
 		element: (
 			<BaseLayout>
-				<BandingUkt />
+				<div className="min-h-screen bg-white"></div>
+			</BaseLayout>
+		),
+	},
+	{
+		path: '/tentang',
+		element: (
+			<BaseLayout>
+				<div className="min-h-screen bg-white"></div>
 			</BaseLayout>
 		),
 	},
@@ -108,67 +115,58 @@ const routes = [
 			</BaseLayout>
 		),
 	},
+
 	{
-		path: '/admin/advika',
-		element: (
-			<BaseLayout>
-				<AdminAdvika />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/admin/advika/detailAdvika/:id',
-		element: (
-			<BaseLayout>
-				<AdminDetailAdvika />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/admin/advika/editAdvika/:id',
-		element: (
-			<BaseLayout>
-				<EditAdvika />
-			</BaseLayout>
-		),
+		path: '/admin',
+		element: <AdminGuard />,
+		children: [
+			{
+				path: 'laporan',
+				element: (
+					<BaseLayout>
+						<AdminLaporanPage />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'detail-laporan',
+				element: (
+					<BaseLayout>
+						<AdminDetailLaporanPage />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika',
+				element: (
+					<BaseLayout>
+						<AdminAdvika />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika/detailAdvika/:id',
+				element: (
+					<BaseLayout>
+						<AdminDetailAdvika />
+					</BaseLayout>
+				),
+			},
+			{
+				path: 'advika/editAdvika/:id',
+				element: (
+					<BaseLayout>
+						<EditAdvika />
+					</BaseLayout>
+				),
+			},
+		],
 	},
 	{
 		path: '/profilePage',
 		element: (
 			<BaseLayout>
 				<ProfilePage />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/profilePage/password',
-		element: (
-			<BaseLayout>
-				<PasswordProfile />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/profilePage/banding',
-		element: (
-			<BaseLayout>
-				<BandingProfile />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/profilePage/notification',
-		element: (
-			<BaseLayout>
-				<NotifProfile/>
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/profilePage/laporan',
-		element: (
-			<BaseLayout>
-				<LaporanProfile />
 			</BaseLayout>
 		),
 	},

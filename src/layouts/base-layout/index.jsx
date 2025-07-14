@@ -1,42 +1,31 @@
 import Navbar from '@/components/navbar';
-import ProcessSteps from '@/components/process-steps';
 import Footer from '@/components/footer';
 import { useLocation } from 'react-router-dom';
 
 const BaseLayout = ({ children }) => {
 	const location = useLocation();
 
+	const bgPatternPaths = ['/', '/aju-laporan', '/ubah-laporan'];
+	const isBgPattern = bgPatternPaths.includes(location.pathname);
+
 	const containerClass = 'container mx-auto max-w-full';
-
-	const pathPattern = ['/', '/aju-laporan', '/ubah-laporan'];
-
-	const isBgPattern = pathPattern.includes(location.pathname);
+	const paddingX = 'px-4 md:px-10';
 
 	return (
-		<div className={`${isBgPattern ? "bg-[url('/images/top-blue-bg.png')] bg-cover bg-center bg-no-repeat text-white" : 'bg-white'} min-h-screen w-full`}>
-			<div className={`${isBgPattern ? 'bg-transparent' : 'bg-primary'}`}>
-				<div className={`${containerClass} md:px-10 lg:px-20 px-4`}>
-					{/* Navbar */}
+		<div className={`min-h-screen w-full ${isBgPattern ? "bg-[url('/images/top-blue-bg.png')] bg-cover bg-center bg-no-repeat text-white" : 'bg-white'}`}>
+			{/* Navbar */}
+			<div className={isBgPattern ? 'bg-transparent' : 'bg-primary'}>
+				<div className={`${containerClass} ${paddingX}`}>
 					<Navbar />
 				</div>
 			</div>
-			{location.pathname === '/' ? (
-				<>
-					{/* Main Section */}
-					<section>{children}</section>
-				</>
-			) : null}
 
-			{location.pathname !== '/' ? (
-				<>
-					{/* Main Section */}
-					<section>{children}</section>
-				</>
-			) : null}
+			{/* Main Content */}
+			<section>{children}</section>
 
 			{/* Footer */}
 			<div className={`${isBgPattern ? 'bg-transparent' : 'bg-primary'} text-white pt-12 pb-[140px]`}>
-				<div className={`${containerClass} md:px-10 lg:px-20 px-4`}>
+				<div className={`${containerClass} lg:px-20 ${paddingX}`}>
 					<Footer />
 				</div>
 			</div>

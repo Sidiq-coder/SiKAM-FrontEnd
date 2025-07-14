@@ -8,7 +8,7 @@ import { daftarLaporan } from '@/mocks/laporanMock';
 import Button from '@/components/button';
 import LaporanCard from '@/components/laporan-card';
 
-const DetailLaporan = () => {
+const AdminDetailLaporanPage = () => {
 	useEffect(() => {
 		setPageTitle('/detail-laporan');
 	}, []);
@@ -19,7 +19,7 @@ const DetailLaporan = () => {
 				{/* Main Content */}
 				<div className="flex-1">
 					{/* Page Header */}
-					<Link to="/laporan" className="flex items-center text-gray-500 mb-6">
+					<Link to="/admin/laporan" className="flex items-center text-gray-500 mb-6">
 						<ChevronLeft className="w-8 h-8" />
 						<h1 className="text-xl">Laporan</h1>
 					</Link>
@@ -35,4 +35,4 @@ const DetailLaporan = () => {
 	);
 };
 
-export default DetailLaporan;
+export default AdminDetailLaporanPage;

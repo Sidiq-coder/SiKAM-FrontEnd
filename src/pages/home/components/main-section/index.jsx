@@ -72,7 +72,9 @@ const MainSection = () => {
 
 					<div className="space-y-6">
 						{reportsData.map((report) => (
-							<LaporanCard report={report} className="border-none shadow-md rounded" />
+							<div key={report.id}>
+								<LaporanCard report={report} className="border-none shadow-md rounded" />
+							</div>
 						))}
 					</div>
 				</div>
