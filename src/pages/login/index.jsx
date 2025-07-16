@@ -34,11 +34,19 @@ const Login = () => {
 
 			toast.success('Berhasil Masuk!');
 
-			getUserData(1);
+			if (formData.get('npm') === '1234567890') {
+				getUserData(2);
 
-			setTimeout(() => {
-				navigate('/');
-			}, 2000);
+				setTimeout(() => {
+					navigate('/admin');
+				}, 2000);
+			} else {
+				getUserData(1);
+
+				setTimeout(() => {
+					navigate('/');
+				}, 2000);
+			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat masuk');
 			console.error('Login error:', error);
@@ -62,7 +70,7 @@ const Login = () => {
 				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword isForgotPassword />
 			</div>
 
-			<div className="flex items-center justify-between mt-12">
+			<div className="flex flex-wrap items-center justify-between mt-12 gap-y-4">
 				{/* Register Link */}
 				<RedirectLink sourceLabel="Belum memiliki akun?" targetLabel="Daftar" href="/register" />
 

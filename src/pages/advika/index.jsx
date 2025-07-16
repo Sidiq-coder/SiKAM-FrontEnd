@@ -122,9 +122,10 @@ const TrendingNews = () => {
 const NewNews = () => {
   // Pagination logic
   const [page, setPage] = useState(1);
-  const perPage = 3;
+  const perPage = 5;
   const totalPages = Math.ceil(beritaTerbaru.length / perPage);
   const pagedData = beritaTerbaru.slice((page - 1) * perPage, page * perPage);
+
 
   return (
     <div>
@@ -132,22 +133,21 @@ const NewNews = () => {
         <h1 className="uppercase">berita terbaru</h1>
       </div>
       <Berita data={pagedData} />
-      <Berita data={pagedData} />
-      <Berita data={pagedData} />
-      <Berita data={pagedData} />
-      <Berita data={pagedData} />
-
+      <div className="flex flex-row">
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+      </div>
     </div>
   );
 };
 
 const Berita = ({ data }) => {
+  const repeatTimes = 1;
+  const repeatedMock = Array.from({ length: repeatTimes }).flatMap(() => data);
   return (
     <div>
-      {data.map((item) => (
+      {repeatedMock.map((item, index) => (
         <div
-          key={item.id}
+          key={`${item.id}-${index}`}
           className="flex flex-col lg:flex-row items-start gap-4 p-4 rounded-xl cursor-pointer shadow hover:shadow-lg hover:brightness-95 transition duration-300 mb-3"
         >
           {/* Image Section */}

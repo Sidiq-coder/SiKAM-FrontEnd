@@ -7,7 +7,7 @@ import Button from '@/components/button';
 import LaporanCard from '@/components/laporan-card';
 import BackLink from '@/components/back-link';
 
-const DetailLaporan = () => {
+const AdminDetailLaporanPage = () => {
 	useEffect(() => {
 		setPageTitle('/detail-laporan');
 	}, []);
@@ -31,4 +31,4 @@ const DetailLaporan = () => {
 	);
 };
 
-export default DetailLaporan;
+export default AdminDetailLaporanPage;
