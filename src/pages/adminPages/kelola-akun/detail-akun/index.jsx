@@ -34,8 +34,8 @@ const AccountProfileDetail = ({ profile }) => (
 );
 
 const AccountStatusHeader = ({ currentStatus, newStatus, setNewStatus, statusOptions }) => (
-	<div className="flex flex-wrap items-center justify-between px-6 py-4">
-		<div className="flex items-center gap-x-4">
+	<div className="flex flex-wrap items-center justify-between px-6 py-4 gap-4">
+		<div className="flex flex-wrap items-center gap-4">
 			<div className="flex items-center gap-x-12">
 				<span className="text-2xl text-[#2A2A2A] font-extrabold">Profil</span>
 				<div className="flex items-center gap-x-1">
@@ -75,7 +75,7 @@ const DetailAkunPage = () => {
 					<div className="w-full h-26"></div>
 				</div>
 
-				<div className="flex">
+				<div className="flex flex-col md:flex-row">
 					{/* Sidebar */}
 					<AccountSidebar name={'John Doe'} npm={'2315150115'} />
 

@@ -1,9 +1,5 @@
-import { Hourglass, ArrowRight, Check } from 'lucide-react';
-import Button from '@/components/button';
-import FileImageComponent from '@/components/file-image';
-
 export const AccountSidebar = ({ name, npm }) => (
-	<div className="w-64 bg-white shadow-sm min-h-screen pt-13 relative">
+	<div className="w-full md:w-64 bg-white shadow-sm h-fit md:min-h-screen pt-13 relative">
 		<div className="p-6">
 			<div className="absolute left-1/2 -top-18 -translate-x-1/2">
 				<div className="w-34 h-34 bg-primary rounded-full flex items-center justify-center border-4 border-white">
@@ -12,7 +8,7 @@ export const AccountSidebar = ({ name, npm }) => (
 			</div>
 			<div className="text-center mb-6">
 				<h2 className="text-2xl font-extrabold text-[#2A2A2A]">{name}</h2>
-				<p className="text-[#90909099] text-sm font-medium tracking-wide">{npm}</p>
+				<p className="text-[#91575799] text-sm font-medium tracking-wide">{npm}</p>
 			</div>
 			<nav className="space-y-2">
 				<div className="text-primary font-semibold py-2 px-3 border-b border-t border-[#ACACAC99]">Profil</div>
