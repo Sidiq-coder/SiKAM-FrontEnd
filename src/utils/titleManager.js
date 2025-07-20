@@ -1,19 +1,43 @@
 const siteTitle = 'Sistem Klinik Advokasi Mahasiswa';
 
 export const pageTitles = {
-	'/': `Beranda - ${siteTitle}`,
-	'/register': `Registrasi - ${siteTitle}`,
-	'/registrasi-ulang': `Registrasi Ulang - ${siteTitle}`,
-	'/login': `Login - ${siteTitle}`,
-	'/reset-password': `Reset Password - ${siteTitle}`,
-	'/verifikasi-otp': `Verifikasi OTP - ${siteTitle}`,
+	'/login': `Login`,
+	'/register': `Registrasi`,
+	'/registrasi-ulang': `Registrasi Ulang`,
+	'/reset-password': `Reset Password`,
+	'/verifikasi-otp': `Verifikasi OTP`,
 
-	'/aju-laporan': `Aju Laporan - ${siteTitle}`,
-	'/detail-laporan': `Detail Laporan - ${siteTitle}`,
-	'/ubah-laporan': `Ubah Laporan - ${siteTitle}`,
+	'/': `Beranda`,
+
+	'/laporan': `Laporan`,
+	'/detail-laporan': `Detail Laporan`,
+	'/aju-laporan': `Aju Laporan`,
+	'/ubah-laporan': `Ubah Laporan`,
+
+	'/banding-ukt': `Banding UKT`,
+
+	'/advika': `Advika`,
+	'/advika/detailAdvika': `Detail Advika`,
+
+	'/tentang': `Tentang SIKAM`,
+
+	'/profilePage': `Profil Saya`,
+
+	'/admin/laporan': `Laporan`,
+	'/admin/detail-laporan': `Detail Laporan`,
+
+	'/admin/kelola-akun': `Kelola Akun`,
+	'/admin/detail-akun': `Detail Akun`,
+
+	'/admin/banding-ukt': `Banding UKT`,
+	'/admin/detail-banding-ukt': `Banding UKT`,
+
+	'/admin/advika': `Advika`,
+	'/admin/detailAdvika': `Detail Advika`,
+	'/admin/editAdvika': `Edit Advika`,
 };
 
 export const setPageTitle = (pathname) => {
-	const title = pageTitles[pathname] || siteTitle;
+	const title = pageTitles[pathname] ? `${pageTitles[pathname]} - ${siteTitle}` : siteTitle;
 	document.title = title;
 };
