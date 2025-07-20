@@ -1,11 +1,11 @@
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
-const BaseLayout = ({ children }) => {
+const BaseLayout = () => {
 	const location = useLocation();
 
-	const bgPatternPaths = ['/', '/aju-laporan', '/ubah-laporan'];
+	const bgPatternPaths = ['/', '/aju-laporan', '/ubah-laporan', '/admin/detail-banding-ukt'];
 	const isBgPattern = bgPatternPaths.includes(location.pathname);
 
 	const containerClass = 'container mx-auto max-w-full';
@@ -21,7 +21,9 @@ const BaseLayout = ({ children }) => {
 			</div>
 
 			{/* Main Content */}
-			<section>{children}</section>
+			<section>
+				<Outlet />
+			</section>
 
 			{/* Footer */}
 			<div className={`${isBgPattern ? 'bg-transparent' : 'bg-primary'} text-white pt-12 pb-[140px]`}>

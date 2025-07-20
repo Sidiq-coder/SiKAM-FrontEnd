@@ -212,7 +212,7 @@ const Laporan = () => {
 				<div className="flex-1">
 					{/* Page Header */}
 					<div className="flex items-center justify-between mb-6">
-						<h1 className="text-2xl font-bold text-[#2A2A2A]">Laporan Saya</h1>
+						<h1 className="text-2xl font-bold text-dark">Laporan Saya</h1>
 					</div>
 
 					<div className="flex justify-end mb-4">

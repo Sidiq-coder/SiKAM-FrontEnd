@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Header = () => {
 	return (
 		<div className="mb-8">
-			<div className="flex items-center gap-x-3 text-[#2A2A2A] mb-2">
+			<div className="flex items-center gap-x-3 text-dark mb-2">
 				<Link to="/login">
 					<ChevronLeft className="w-9 h-9" />
 				</Link>

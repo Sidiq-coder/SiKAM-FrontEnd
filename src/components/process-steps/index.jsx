@@ -32,8 +32,8 @@ const ProcessSteps = () => {
 					{steps.map((step, index) => (
 						<div key={index} className="text-center relative z-10">
 							<div className="w-18 h-18 bg-[#ED9E31] rounded-full flex items-center justify-center mx-auto mb-4 text-[#0B4D9B]">{step.icon}</div>
-							<h3 className="text-xl font-semibold mb-3 text-[#2A2A2A]">{step.title}</h3>
-							<p className="text-[#2A2A2A] leading-relaxed">{step.description}</p>
+							<h3 className="text-xl font-semibold mb-3 text-dark">{step.title}</h3>
+							<p className="text-dark leading-relaxed">{step.description}</p>
 						</div>
 					))}
 				</div>

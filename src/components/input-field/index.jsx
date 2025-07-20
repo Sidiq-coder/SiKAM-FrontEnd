@@ -24,13 +24,13 @@ const InputField = ({
 			{type === 'checkbox' ? (
 				<label className="flex items-center space-x-2">
 					<input type="checkbox" {...(register && name ? register(name) : {})} className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-blue-500" />
-					<span className="text-sm text-[#2A2A2A]">{label}</span>
+					<span className="text-sm text-dark">{label}</span>
 				</label>
 			) : (
 				<>
 					{!label ? null : (
 						<div className="flex justify-between mb-1">
-							<label htmlFor={name} className="text-sm font-medium text-[#2A2A2A]">
+							<label htmlFor={name} className="text-sm font-medium text-dark">
 								{label}
 							</label>
 							{!isForgotPassword ? null : (

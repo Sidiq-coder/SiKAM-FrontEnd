@@ -12,197 +12,67 @@ import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
 import DetailAdvika from '@/pages/advika/DetailAdvika';
 import AdminAdvika from '../pages/adminPages/advika';
-import EditAdvika from "../pages/adminPages/advika/EditAdvika"
-import {default as AdminDetailAdvika} from '../pages/adminPages/advika/DetailAdvika'
+import EditAdvika from '../pages/adminPages/advika/EditAdvika';
+import { default as AdminDetailAdvika } from '../pages/adminPages/advika/DetailAdvika';
 import ProfilePage from '../pages/profilePage';
 import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
 import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
 import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
 import DetailAkunPage from '@/pages/adminPages/kelola-akun/detail-akun';
+import AdminBandingUKTPage from '@/pages/adminPages/banding-ukt';
+import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
+import TentangSikam from '@/pages/tentang-sikam';
 
 const routes = [
 	{
 		path: '/',
-		element: (
-			<BaseLayout>
-				<Home />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/register',
-		element: (
-			<AuthLayout>
-				<Register />
-			</AuthLayout>
-		),
-	},
-	{
-		path: '/registrasi-ulang',
-		element: (
-			<AuthLayout>
-				<RegistrasiUlang />
-			</AuthLayout>
-		),
-	},
-	{
-		path: '/login',
-		element: (
-			<AuthLayout>
-				<Login />
-			</AuthLayout>
-		),
-	},
-	{
-		path: '/laporan',
-		element: (
-			<BaseLayout>
-				<LaporanPage />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/detail-laporan',
-		element: (
-			<BaseLayout>
-				<DetailLaporan />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/aju-laporan',
-		element: (
-			<BaseLayout>
-				<AjuLaporan />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/ubah-laporan',
-		element: (
-			<BaseLayout>
-				<UbahLaporan />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/banding-ukt',
-		element: (
-			<BaseLayout>
-				<EmptyPage />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/tentang',
-		element: (
-			<BaseLayout>
-				<EmptyPage />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/advika',
-		element: (
-			<BaseLayout>
-				<Advika />
-			</BaseLayout>
-		),
-	},
-	{
-		path: '/advika/detailAdvika/:id',
-		element: (
-			<BaseLayout>
-				<DetailAdvika />
-			</BaseLayout>
-		),
-	},
-
-	// Admin Routes
-	{
-		path: '/admin',
-		element: <AdminGuard />,
+		element: <AuthLayout />,
 		children: [
-			// Laporan
-			{
-				path: 'laporan',
-				element: (
-					<BaseLayout>
-						<AdminLaporanPage />
-					</BaseLayout>
-				),
-			},
-			{
-				path: 'detail-laporan',
-				element: (
-					<BaseLayout>
-						<AdminDetailLaporanPage />
-					</BaseLayout>
-				),
-			},
-
-			// Kelola Akun
-			{
-				path: 'kelola-akun',
-				element: (
-					<BaseLayout>
-						<KelolaAkunPage />
-					</BaseLayout>
-				),
-			},
-			{
-				path: 'detail-akun',
-				element: (
-					<BaseLayout>
-						<DetailAkunPage />
-					</BaseLayout>
-				),
-			},
-
-			// Banding UKT
-			{
-				path: 'banding-ukt',
-				element: (
-					<BaseLayout>
-						<EmptyPage />
-					</BaseLayout>
-				),
-			},
-
-			{
-				path: 'advika',
-				element: (
-					<BaseLayout>
-						<AdminAdvika />
-					</BaseLayout>
-				),
-			},
-			{
-				path: 'advika/detailAdvika/:id',
-				element: (
-					<BaseLayout>
-						<AdminDetailAdvika />
-					</BaseLayout>
-				),
-			},
-			{
-				path: 'advika/editAdvika/:id',
-				element: (
-					<BaseLayout>
-						<EditAdvika />
-					</BaseLayout>
-				),
-			},
+			{ path: 'login', element: <Login /> },
+			{ path: 'register', element: <Register /> },
+			{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
 		],
 	},
 	{
-		path: '/profilePage',
-		element: (
-			<BaseLayout>
-				<ProfilePage />
-			</BaseLayout>
-		),
+		path: '/',
+		element: <BaseLayout />,
+		children: [
+			{ index: true, element: <Home /> },
+			{ path: 'laporan', element: <LaporanPage /> },
+			{ path: 'detail-laporan', element: <DetailLaporan /> },
+			{ path: 'aju-laporan', element: <AjuLaporan /> },
+			{ path: 'ubah-laporan', element: <UbahLaporan /> },
+			{ path: 'banding-ukt', element: <EmptyPage /> },
+			{ path: 'advika', element: <Advika /> },
+			{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
+			{ path: 'tentang', element: <TentangSikam /> },
+			{ path: 'profilePage', element: <ProfilePage /> },
+
+			// Admin Routes
+			{
+				path: 'admin',
+				element: <AdminGuard />,
+				children: [
+					// Laporan
+					{ path: 'laporan', element: <AdminLaporanPage /> },
+					{ path: 'detail-laporan', element: <AdminDetailLaporanPage /> },
+
+					// Kelola Akun
+					{ path: 'kelola-akun', element: <KelolaAkunPage /> },
+					{ path: 'detail-akun', element: <DetailAkunPage /> },
+
+					// Banding UKT
+					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
+					{ path: 'detail-banding-ukt', element: <DetailBandingUKT /> },
+
+					// Advika
+					{ path: 'advika', element: <AdminAdvika /> },
+					{ path: 'advika/detailAdvika/:id', element: <AdminDetailAdvika /> },
+					{ path: 'advika/editAdvika/:id', element: <EditAdvika /> },
+				],
+			},
+		],
 	},
 ];
 

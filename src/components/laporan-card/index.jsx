@@ -13,7 +13,7 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 			<div className="flex flex-col items-center space-y-2">
 				<span className="text-primary text font-medium">Vote</span>
 				<div className="flex flex-col items-center">
-					<span className="text-4xl font-bold text-[#2A2A2A]">{report.votes}</span>
+					<span className="text-4xl font-bold text-dark">{report.votes}</span>
 				</div>
 			</div>
 		);
@@ -21,7 +21,7 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 	return (
 		<div className="flex flex-col items-center">
 			<Triangle fill="#0B4D9B" />
-			<span className="text-2xl font-bold text-[#2A2A2A]">{report.votes}</span>
+			<span className="text-2xl font-bold text-dark">{report.votes}</span>
 			<Triangle fill="#0B4D9B" isFlip />
 		</div>
 	);
@@ -66,7 +66,7 @@ const LaporanBody = ({ report, isDetail, isAdmin }) => {
 	return (
 		<div className="mb-4">
 			<div className="flex flex-col md:flex-row md:items-center justify-between gap-y-2 mb-2">
-				<h2 className="text-2xl font-bold text-[#2A2A2A]">{report.title}</h2>
+				<h2 className="text-2xl font-bold text-dark">{report.title}</h2>
 
 				{showActions && (
 					<div className="flex items-center space-x-2">
@@ -89,7 +89,7 @@ const LaporanFooter = ({ report, isDetail }) => {
 		<div className="flex justify-between">
 			<Hashtag label={report.category} />
 			{report.file && !isDetail ? (
-				<div className="flex justify-center items-center bg-[#C9CEFF] text-[#2A2A2A] px-2 rounded-xl">
+				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark px-2 rounded-xl">
 					<Plus className="w-4 h-4" />
 					<FileImage className="w-4 h-4" />
 				</div>

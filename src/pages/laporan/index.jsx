@@ -44,13 +44,13 @@ const LaporanPage = () => {
 	}, [filteredReports]);
 
 	return (
-		<div className="bg-white md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
+		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
 			<div className="container mx-auto flex flex-col lg:flex-row gap-8">
 				{/* Main Content */}
 				<div className="flex-1">
 					{/* Page Header */}
 					<div className="flex items-center justify-between mb-6">
-						<h1 className="text-4xl font-bold text-[#2A2A2A]">Daftar Laporan</h1>
+						<h1 className="text-4xl font-bold text-dark">Daftar Laporan</h1>
 						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
 					</div>
 
@@ -78,7 +78,7 @@ const LaporanPage = () => {
 					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full hidden lg:block" href="/aju-laporan" />
 
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-						<h3 className="text-2xl font-bold text-[#2A2A2A] mb-4">Kategori Terkait</h3>
+						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
 						<div className="flex flex-col items-start space-y-4">
 							<Hashtag label="#Fasilitas" quantity={1} />
 							<Hashtag label="#Kebersihan" quantity={1} />

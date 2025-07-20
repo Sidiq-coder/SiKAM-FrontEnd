@@ -7,13 +7,13 @@ export const AccountSidebar = ({ name, npm }) => (
 				</div>
 			</div>
 			<div className="text-center mb-6">
-				<h2 className="text-2xl font-extrabold text-[#2A2A2A]">{name}</h2>
+				<h2 className="text-2xl font-extrabold text-dark">{name}</h2>
 				<p className="text-[#91575799] text-sm font-medium tracking-wide">{npm}</p>
 			</div>
 			<nav className="space-y-2">
 				<div className="text-primary font-semibold py-2 px-3 border-b border-t border-[#ACACAC99]">Profil</div>
-				<div className="text-[#2A2A2A] font-semibold py-2 px-3 hover:bg-gray-50 rounded cursor-pointer">Laporan</div>
-				<div className="text-[#2A2A2A] font-semibold py-2 px-3 hover:bg-gray-50 rounded cursor-pointer">Banding UKT</div>
+				<div className="text-dark font-semibold py-2 px-3 hover:bg-gray-50 rounded cursor-pointer">Laporan</div>
+				<div className="text-dark font-semibold py-2 px-3 hover:bg-gray-50 rounded cursor-pointer">Banding UKT</div>
 			</nav>
 		</div>
 	</div>

@@ -12,8 +12,8 @@ const FilterButton = ({ Icon = Calendar, options, selectedFilter, setSelectedFil
 						</option>
 					))}
 				</select>
-				<Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#2A2A2A] pointer-events-none" />
-				<ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#2A2A2A] pointer-events-none" />
+				<Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-dark pointer-events-none" />
+				<ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-dark pointer-events-none" />
 			</div>
 		</div>
 	);

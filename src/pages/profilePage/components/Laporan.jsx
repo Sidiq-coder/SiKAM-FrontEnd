@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const Laporan = () => {
 	const [activeTab, setActiveTab] = useState('laporan-saya');
@@ -7,8 +7,8 @@ export const Laporan = () => {
 	const tabOptions = [
 		{ label: 'Semua', value: 'semua' },
 		{ label: 'Pending', value: 'pending' },
-    { label: 'Proses', value: 'proses' },
-    { label: 'selesai', value: 'selesai' },
+		{ label: 'Proses', value: 'proses' },
+		{ label: 'selesai', value: 'selesai' },
 	];
 
 	const filteredReports = useMemo(() => {
@@ -26,7 +26,7 @@ export const Laporan = () => {
 				<div className="flex-1">
 					{/* Page Header */}
 					<div className="flex items-center justify-between mb-6">
-						<h1 className="text-2xl font-bold text-[#2A2A2A]">Laporan Saya</h1>
+						<h1 className="text-2xl font-bold text-dark">Laporan Saya</h1>
 					</div>
 
 					<div className="flex justify-end mb-4">
@@ -48,8 +48,6 @@ export const Laporan = () => {
 					{/* Pagination */}
 					{reports.length === 0 ? null : <Pagination className="mt-8" />}
 				</div>
-
-				
 			</div>
 		</div>
 	);
