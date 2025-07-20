@@ -23,8 +23,8 @@ const FAQ = ({ faqData }) => {
 				{faqData.map((item, index) => (
 					<div key={index} className="bg-white">
 						<button onClick={() => toggleItem(index)} className="w-full px-6 py-4 text-left flex items-center hover:bg-gray-50 transition-colors duration-200 cursor-pointer">
-							<div className="flex-shrink-0 text-[#2A2A2A]">{expandedItems[index] ? <ChevronDown className="h-7 w-7" /> : <ChevronRight className="h-7 w-7" />}</div>
-							<span className="text-[#2A2A2A] text-lg pr-4">{item.question}</span>
+							<div className="flex-shrink-0 text-dark">{expandedItems[index] ? <ChevronDown className="h-7 w-7" /> : <ChevronRight className="h-7 w-7" />}</div>
+							<span className="text-dark text-lg pr-4">{item.question}</span>
 						</button>
 
 						{expandedItems[index] && (

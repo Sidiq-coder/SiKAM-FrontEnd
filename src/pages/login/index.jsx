@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
-import { setPageTitle } from '../../utils/titleManager';
-import { KeyRound, User } from 'lucide-react';
+import { GraduationCap, KeyRound } from 'lucide-react';
 import { useUser } from '@/hooks/useUser';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
@@ -53,10 +51,6 @@ const Login = () => {
 		}
 	};
 
-	useEffect(() => {
-		setPageTitle('/login');
-	}, []);
-
 	return (
 		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-lg">
 			{/* Header */}
@@ -64,7 +58,7 @@ const Login = () => {
 
 			<div className="grid grid-cols-1 gap-7">
 				{/* NPM */}
-				<InputField name="npm" label="NPM" placeholder="NPM" type="text" register={register} error={errors.npm} icon={User} />
+				<InputField name="npm" label="Email Mahasiswa/NPM" placeholder="Email Mahasiswa/NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
 
 				{/* Password */}
 				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword isForgotPassword />

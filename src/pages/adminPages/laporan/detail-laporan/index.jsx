@@ -1,17 +1,11 @@
-import { useEffect } from 'react';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { setPageTitle } from '@/utils/titleManager';
 import { daftarLaporan } from '@/mocks/laporanMock';
 import Button from '@/components/button';
 import LaporanCard from '@/components/laporan-card';
 import BackLink from '@/components/back-link';
 
 const AdminDetailLaporanPage = () => {
-	useEffect(() => {
-		setPageTitle('/detail-laporan');
-	}, []);
-
 	return (
 		<div className="bg-[url('/images/bg-pattern.png')] bg-cover bg-center bg-no-repeat md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
 			<div className="container mx-auto flex flex-col lg:flex-row gap-8">

@@ -69,7 +69,7 @@ const SelectField = ({ name, label, placeholder = '', register, error, options, 
 					<div className="flex-1 flex items-center flex-wrap gap-2">
 						{multiple && selectedValues.length > 0 ? (
 							selectedValues.map((value) => (
-								<span key={value} className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-[#2A2A2A] font-medium">
+								<span key={value} className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-dark font-medium">
 									{name === 'kategoriLaporan' && <span>#</span>}
 									{name === 'tingkatLaporan' && <Globe className="w-4 h-4 mr-1" />}
 									{getSelectedLabel(value)}
@@ -87,7 +87,7 @@ const SelectField = ({ name, label, placeholder = '', register, error, options, 
 							))
 						) : !multiple && selectedValues ? (
 							<>
-								<span className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-[#2A2A2A] font-medium">
+								<span className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-dark font-medium">
 									{name === 'kategoriLaporan' && <span>#</span>}
 									{name === 'tingkatLaporan' && <Globe className="w-4 h-4 mr-1" />}
 									{getSelectedLabel(selectedValues)}

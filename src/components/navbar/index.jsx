@@ -25,21 +25,21 @@ const NavbarAuthButtons = () => {
 	return (
 		<>
 			{/* Desktop View */}
-			<div className="hidden md:flex items-center space-x-4">
-				<Link to="/login" className="bg-white text-blue-600 px-6 py-3 rounded-lg">
+			<div className="hidden lg:flex items-center space-x-4">
+				<Link to="/login" className="bg-white text-primary px-6 py-3 rounded-lg">
 					Masuk
 				</Link>
-				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors">
+				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary transition-colors">
 					Daftar
 				</Link>
 			</div>
 
 			{/* Mobile View */}
-			<div className="flex flex-col md:hidden space-y-3">
-				<Link to="/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-center">
+			<div className="flex flex-col lg:hidden space-y-1">
+				<Link to="/login" className="bg-white text-primary px-2 py-1 rounded text-center">
 					Masuk
 				</Link>
-				<Link to="/register" className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg text-center hover:bg-blue-600 hover:text-white transition-colors">
+				<Link to="/register" className="bg-primary text-white px-2 py-1 rounded text-center hover:bg-dark-primary transition-colors">
 					Daftar
 				</Link>
 			</div>
@@ -48,17 +48,17 @@ const NavbarAuthButtons = () => {
 };
 
 const NavbarActions = ({ handleProfile }) => {
-	const iconStyle = 'w-6 h-6 text-primary';
+	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
 
 	return (
 		<>
-			<IconButton>
+			<IconButton bgColor="bg-primary lg:bg-white">
 				<HelpCircle className={iconStyle} />
 			</IconButton>
-			<IconButton>
+			<IconButton bgColor="bg-primary lg:bg-white">
 				<Bell className={iconStyle} />
 			</IconButton>
-			<IconButton rounded="rounded-full" onClick={handleProfile}>
+			<IconButton bgColor="bg-primary lg:bg-white" rounded="rounded-full" onClick={handleProfile}>
 				<User className={iconStyle} />
 			</IconButton>
 		</>
@@ -104,25 +104,28 @@ const Navbar = () => {
 
 			{/* Mobile Dropdown Menu */}
 			{!menuOpen ? null : (
-				<div className="fixed inset-0 z-50 bg-white p-6 flex flex-col space-y-4 slide-left">
-					{/* Close Button */}
-					<button className="self-end text-gray-800 text-2xl cursor-pointer" onClick={() => setMenuOpen(false)}>
-						&times;
-					</button>
+				<div className="fixed inset-0 z-50 bg-white p-6 flex flex-col space-y-2 slide-left">
+					<div className="flex items-center justify-between mb-6">
+						{/* Nav Logo */}
+						<NavLogo textColorAdmin="text-yellow" textColor="text-yellow" />
+
+						{/* Close Button */}
+						<button className="self-end text-primary text-5xl cursor-pointer" onClick={() => setMenuOpen(false)}>
+							&times;
+						</button>
+					</div>
 
 					{/* Nav Links */}
 					{links.map((link) => (
-						<Link key={link.href} to={link.href} className="text-gray-800 text-lg font-medium hover:text-blue-500 transition-colors" onClick={() => setMenuOpen(false)}>
+						<Link key={link.href} to={link.href} className="text-primary text-lg font-medium hover:text-yellow transition-colors" onClick={() => setMenuOpen(false)}>
 							{link.label}
 						</Link>
 					))}
 
-					<hr className="border-gray-300" />
-
 					{/* Auth Section */}
-					<div className="flex flex-col items-start space-y-3">
+					<div className="flex flex-col items-start space-y-3 mt-10">
 						{user ? (
-							<div className="flex flex-wrap">
+							<div className="flex flex-wrap gap-4">
 								<NavbarActions handleProfile={handleProfile} />
 							</div>
 						) : (

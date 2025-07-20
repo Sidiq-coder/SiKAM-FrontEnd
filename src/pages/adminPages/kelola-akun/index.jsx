@@ -82,7 +82,7 @@ const KelolaAkunPage = () => {
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
 			<div className="container mx-auto">
 				{/* Heading */}
-				<h1 className="text-4xl font-bold text-[#2A2A2A] mb-8">Kelola Akun</h1>
+				<h1 className="text-4xl font-bold text-dark mb-8">Kelola Akun</h1>
 
 				{/* Stats */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">

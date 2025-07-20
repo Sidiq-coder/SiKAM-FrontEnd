@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const VARIANT_CLASSES = {
-	primary: 'bg-primary text-white hover:bg-darkPrimary',
-	secondary: 'bg-[#ACACAC] text-white',
+	primary: 'bg-primary text-white hover:bg-dark-primary',
+	secondary: 'bg-gray text-white',
 	outline: 'border border-primary text-primary hover:bg-primary hover:text-white',
 	danger: 'bg-[#EE4848] text-white hover:bg-[#EE4848]',
 	ghost: 'bg-transparent hover:bg-gray-100 text-gray-700',

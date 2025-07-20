@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { X, Check, File } from 'lucide-react';
+import { Check, File } from 'lucide-react';
 import FileImageComponent from '@/components/file-image';
 import { toast } from 'react-toastify';
 
@@ -7,6 +7,8 @@ const FileUploadDropzone = ({
 	name,
 	label,
 	labelDescription = null,
+	inputIcon: InputIcon = File,
+	inputDescription = 'Upload file atau tarik ke sini',
 	acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'],
 	maxSizeMB = 5,
 	error,
@@ -14,6 +16,7 @@ const FileUploadDropzone = ({
 	trigger,
 	className = null,
 	description = null,
+	required = true,
 }) => {
 	const [uploadedFile, setUploadedFile] = useState(null);
 	const [dragActive, setDragActive] = useState(false);
@@ -99,7 +102,7 @@ const FileUploadDropzone = ({
 	return (
 		<div>
 			<label className="block text-sm font-medium mb-1">
-				{label} {!labelDescription ? null : <span className="text-[#ACACAC] font-normal">{labelDescription}</span>}
+				{label} {!labelDescription ? null : <span className="text-gray font-normal">{labelDescription}</span>} {required ? <span className="text-red-500">*</span> : ''}
 			</label>
 			<div
 				className={`relative border-2 border-dashed rounded-lg p-3 transition-colors ${dragActive ? 'border-blue-400 bg-gray-50' : 'border-gray-300 bg-white'} ${className || ''}`}
@@ -114,12 +117,13 @@ const FileUploadDropzone = ({
 					accept="image/*"
 					className={`absolute inset-0 w-full h-full opacity-0 ${uploadedFile === null ? 'cursor-pointer' : ''}`}
 					onChange={(e) => handleFileUpload(e.target.files)}
+					required={required}
 				/>
 
 				{!uploadedFile ? (
-					<div className="flex items-center justify-center text-[#ACACAC] space-x-1">
-						<File className="w-4 h-4" />
-						<span>Upload file atau tarik ke sini</span>
+					<div className="flex flex-wrap items-center justify-center text-gray space-x-1">
+						{InputIcon && <InputIcon className="w-4 h-4" />}
+						<span>{inputDescription}</span>
 					</div>
 				) : null}
 
@@ -130,7 +134,7 @@ const FileUploadDropzone = ({
 						</div>
 
 						<div>
-							<div className="flex flex-wrap items-center space-x-1 mb-2 text-[#ACACAC]">
+							<div className="flex flex-wrap items-center space-x-1 mb-2 text-gray">
 								<Check className="w-4 h-4" />
 								<span className="text-sm font-medium">{uploadedFile.name}</span>
 								<span className="text-sm">({uploadedFile.size})</span>

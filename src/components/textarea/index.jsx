@@ -4,7 +4,7 @@ const Textarea = ({ name, label, placeholder = '', register, error, rows = 4 }) 
 	return (
 		<div>
 			<div className="flex justify-between mb-1">
-				<label htmlFor={name} className="text-sm font-medium text-[#2A2A2A]">
+				<label htmlFor={name} className="text-sm font-medium text-dark">
 					{label}
 				</label>
 			</div>

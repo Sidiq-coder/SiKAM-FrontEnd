@@ -66,7 +66,7 @@ const MainSection = () => {
 			<div className="flex flex-col lg:flex-row justify-between mt-12 gap-x-10">
 				<div>
 					<div className="flex items-center justify-between mb-12">
-						<h1 className="text-4xl font-bold text-[#2A2A2A]">Laporan Terkini</h1>
+						<h1 className="text-4xl font-bold text-dark">Laporan Terkini</h1>
 						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="lg:hidden" />
 					</div>
 
@@ -81,7 +81,7 @@ const MainSection = () => {
 				<div>
 					<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="hidden lg:block" />
 
-					<h3 className="text-2xl font-bold text-[#2A2A2A] mb-4 mt-12">Kategori Terkait</h3>
+					<h3 className="text-2xl font-bold text-dark mb-4 mt-12">Kategori Terkait</h3>
 
 					<div className="flex flex-col items-start space-y-4 w-60">
 						<Hashtag label="#Fasilitas" quantity={1} />

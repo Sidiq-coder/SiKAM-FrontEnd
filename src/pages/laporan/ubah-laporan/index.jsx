@@ -1,16 +1,15 @@
-import InputField from '@/components/input-field';
-import SubmitButton from '@/components/submit-button';
 import { useEffect } from 'react';
-import { setPageTitle } from '@/utils/titleManager';
 import { useForm } from 'react-hook-form';
+import { ChevronLeft, CircleQuestionMark, Edit } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import InputField from '@/components/input-field';
+import SubmitButton from '@/components/submit-button';
 import SelectField from '@/components/select-field';
 import Textarea from '@/components/textarea';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
-import { ChevronLeft, CircleQuestionMark, Edit } from 'lucide-react';
 
 const reportData = {
 	id: 1,
@@ -61,7 +60,6 @@ const UbahLaporan = () => {
 	};
 
 	useEffect(() => {
-		setPageTitle('/ubah-laporan');
 		setValue('judulLaporan', reportData.title);
 		setValue('tingkatLaporan', reportData.level);
 		setValue('kategoriLaporan', reportData.category);
@@ -94,12 +92,12 @@ const UbahLaporan = () => {
 
 	return (
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
-			<div className="mx-auto bg-white text-[#2A2A2A] rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
+			<div className="mx-auto bg-white text-dark rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
 				<div className="flex justify-between items-center mb-10">
 					<Link to="/laporan">
 						<ChevronLeft className="w-8 h-8" />
 					</Link>
-					<h2 className="text-3xl text-center text-[#2A2A2A] font-bold">LAPORAN</h2>
+					<h2 className="text-3xl text-center text-dark font-bold">LAPORAN</h2>
 					<div className="flex items-center space-x-3">
 						<Edit className="w-6 h-6 text-[#0B4A94]" />
 						<CircleQuestionMark className="w-8 h-8 text-[#EE4848]" />

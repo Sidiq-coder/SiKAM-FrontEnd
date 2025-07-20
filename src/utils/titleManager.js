@@ -1,14 +1,43 @@
+const siteTitle = 'Sistem Klinik Advokasi Mahasiswa';
+
 export const pageTitles = {
-	'/': 'Beranda - Sistem Klinik Advokasi Mahasiswa',
-	'/register': 'Registrasi - Sistem Klinik Advokasi Mahasiswa',
-	'/registrasi-ulang': 'Registrasi Ulang - Sistem Klinik Advokasi Mahasiswa',
-	'/login': 'Login - Sistem Klinik Advokasi Mahasiswa',
-	'/aju-laporan': 'Aju Laporan - Sistem Klinik Advokasi Mahasiswa',
-	'/detail-laporan': 'Detail Laporan - Sistem Klinik Advokasi Mahasiswa',
-	'/ubah-laporan': 'Ubah Laporan - Sistem Klinik Advokasi Mahasiswa',
+	'/login': `Login`,
+	'/register': `Registrasi`,
+	'/registrasi-ulang': `Registrasi Ulang`,
+	'/reset-password': `Reset Password`,
+	'/verifikasi-otp': `Verifikasi OTP`,
+
+	'/': `Beranda`,
+
+	'/laporan': `Laporan`,
+	'/detail-laporan': `Detail Laporan`,
+	'/aju-laporan': `Aju Laporan`,
+	'/ubah-laporan': `Ubah Laporan`,
+
+	'/banding-ukt': `Banding UKT`,
+
+	'/advika': `Advika`,
+	'/advika/detailAdvika': `Detail Advika`,
+
+	'/tentang': `Tentang SIKAM`,
+
+	'/profilePage': `Profil Saya`,
+
+	'/admin/laporan': `Laporan`,
+	'/admin/detail-laporan': `Detail Laporan`,
+
+	'/admin/kelola-akun': `Kelola Akun`,
+	'/admin/detail-akun': `Detail Akun`,
+
+	'/admin/banding-ukt': `Banding UKT`,
+	'/admin/detail-banding-ukt': `Banding UKT`,
+
+	'/admin/advika': `Advika`,
+	'/admin/detailAdvika': `Detail Advika`,
+	'/admin/editAdvika': `Edit Advika`,
 };
 
 export const setPageTitle = (pathname) => {
-	const title = pageTitles[pathname] || 'Sistem Klinik Advokasi Mahasiswa';
+	const title = pageTitles[pathname] ? `${pageTitles[pathname]} - ${siteTitle}` : siteTitle;
 	document.title = title;
 };

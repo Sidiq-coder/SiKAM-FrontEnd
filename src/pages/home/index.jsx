@@ -33,7 +33,7 @@ const Home = () => {
 			<HeroSection />
 			<MainSection />
 			<div className="bg-white flex flex-col px-10 md:px-20 lg:px-32 pb-[100px]">
-				<h2 className="text-2xl font-semibold text-[#2A2A2A] mb-2 mt-4">FAQ (Frequently Asked Question)</h2>
+				<h2 className="text-2xl font-semibold text-dark mb-2 mt-4">FAQ (Frequently Asked Question)</h2>
 				<FaqComponent faqData={faqData} />
 			</div>
 		</div>
