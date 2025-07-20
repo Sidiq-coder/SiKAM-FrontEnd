@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { X, Check, File } from 'lucide-react';
+import { Check, File } from 'lucide-react';
 import FileImageComponent from '@/components/file-image';
 import { toast } from 'react-toastify';
 
@@ -7,6 +7,8 @@ const FileUploadDropzone = ({
 	name,
 	label,
 	labelDescription = null,
+	inputIcon: InputIcon = File,
+	inputDescription = 'Upload file atau tarik ke sini',
 	acceptTypes = ['image/jpeg', 'image/jpg', 'image/png'],
 	maxSizeMB = 5,
 	error,
@@ -119,9 +121,9 @@ const FileUploadDropzone = ({
 				/>
 
 				{!uploadedFile ? (
-					<div className="flex items-center justify-center text-[#ACACAC] space-x-1">
-						<File className="w-4 h-4" />
-						<span>Pilih file atau tarik ke sini</span>
+					<div className="flex flex-wrap items-center justify-center text-[#ACACAC] space-x-1">
+						{InputIcon && <InputIcon className="w-4 h-4" />}
+						<span>{inputDescription}</span>
 					</div>
 				) : null}
 

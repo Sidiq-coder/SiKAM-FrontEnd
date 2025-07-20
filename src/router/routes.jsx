@@ -24,6 +24,7 @@ import AdminBandingUKTPage from '@/pages/adminPages/banding-ukt';
 import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
+import VerifikasiOTP from '@/pages/verifikasi-otp';
 
 const routes = [
 	{
@@ -34,6 +35,7 @@ const routes = [
 			{ path: 'register', element: <Register /> },
 			{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
 			{ path: 'reset-password', element: <ResetPassword /> },
+			{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
 		],
 	},
 	{

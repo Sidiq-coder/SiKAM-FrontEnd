@@ -1,16 +1,19 @@
-export const pageTitles = {
-	'/': 'Beranda - Sistem Klinik Advokasi Mahasiswa',
-	'/register': 'Registrasi - Sistem Klinik Advokasi Mahasiswa',
-	'/registrasi-ulang': 'Registrasi Ulang - Sistem Klinik Advokasi Mahasiswa',
-	'/login': 'Login - Sistem Klinik Advokasi Mahasiswa',
-	'/reset-password': 'Reset Password - Sistem Klinik Advokasi Mahasiswa',
+const siteTitle = 'Sistem Klinik Advokasi Mahasiswa';
 
-	'/aju-laporan': 'Aju Laporan - Sistem Klinik Advokasi Mahasiswa',
-	'/detail-laporan': 'Detail Laporan - Sistem Klinik Advokasi Mahasiswa',
-	'/ubah-laporan': 'Ubah Laporan - Sistem Klinik Advokasi Mahasiswa',
+export const pageTitles = {
+	'/': `Beranda - ${siteTitle}`,
+	'/register': `Registrasi - ${siteTitle}`,
+	'/registrasi-ulang': `Registrasi Ulang - ${siteTitle}`,
+	'/login': `Login - ${siteTitle}`,
+	'/reset-password': `Reset Password - ${siteTitle}`,
+	'/verifikasi-otp': `Verifikasi OTP - ${siteTitle}`,
+
+	'/aju-laporan': `Aju Laporan - ${siteTitle}`,
+	'/detail-laporan': `Detail Laporan - ${siteTitle}`,
+	'/ubah-laporan': `Ubah Laporan - ${siteTitle}`,
 };
 
 export const setPageTitle = (pathname) => {
-	const title = pageTitles[pathname] || 'Sistem Klinik Advokasi Mahasiswa';
+	const title = pageTitles[pathname] || siteTitle;
 	document.title = title;
 };

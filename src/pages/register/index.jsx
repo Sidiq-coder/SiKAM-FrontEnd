@@ -10,6 +10,7 @@ import FileUploadDropzone from '@/components/file-upload-dropzone';
 import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
 import RedirectLink from './components/redirect-link';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const ChevronButton = ({ icon: Icon, onClick }) => {
 	return (
@@ -20,6 +21,7 @@ const ChevronButton = ({ icon: Icon, onClick }) => {
 };
 
 const Register = () => {
+	const isMobile = useIsMobile();
 	const navigate = useNavigate();
 	const {
 		register,
@@ -67,37 +69,41 @@ const Register = () => {
 			<Header />
 
 			{/* Desktop View */}
-			<div className="hidden sm:grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-7">
-				{/* Email */}
-				<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
+			{!isMobile && (
+				<>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-7">
+						{/* Email */}
+						<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
 
-				{/* Password */}
-				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
+						{/* Password */}
+						<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
 
-				{/* Nama */}
-				<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
+						{/* Nama */}
+						<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
 
-				{/* Konfirmasi Password */}
-				<InputField name="confirmPassword" label="Konfirmasi Password" placeholder="Konfirmasi Password" register={register} error={errors.confirmPassword} icon={KeyRound} isPassword />
+						{/* Konfirmasi Password */}
+						<InputField name="confirmPassword" label="Konfirmasi Password" placeholder="Konfirmasi Password" register={register} error={errors.confirmPassword} icon={KeyRound} isPassword />
 
-				{/* Upload Foto KTM */}
-				<div className="col-span-full">
-					<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} />
-				</div>
-			</div>
+						{/* Upload Foto KTM */}
+						<div className="col-span-full">
+							<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
+						</div>
+					</div>
 
-			<div className="hidden sm:flex items-center justify-between mt-12">
-				{/* Login Link */}
-				<RedirectLink sourceLabel="Sudah memiliki akun?" targetLabel="Login" href="/login" />
+					<div className="flex items-center justify-between mt-12">
+						{/* Login Link */}
+						<RedirectLink sourceLabel="Sudah memiliki akun?" targetLabel="Login" href="/login" />
 
-				{/* Submit Button */}
-				<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
-			</div>
+						{/* Submit Button */}
+						<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+					</div>
+				</>
+			)}
 
 			{/* Mobile View */}
-			{step === 1 && (
+			{isMobile && step === 1 && (
 				<>
-					<div className="grid sm:hidden grid-cols-1 gap-y-7">
+					<div className="grid grid-cols-1 gap-y-7">
 						{/* Nama */}
 						<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
 
@@ -105,7 +111,7 @@ const Register = () => {
 						<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
 					</div>
 
-					<div className="flex sm:hidden items-center justify-between mt-12">
+					<div className="flex flex-wrap items-center justify-between mt-12 gap-2">
 						{/* Login Link */}
 						<RedirectLink sourceLabel="Sudah memiliki akun?" targetLabel="Login" href="/login" />
 
@@ -115,9 +121,9 @@ const Register = () => {
 				</>
 			)}
 
-			{step === 2 && (
+			{isMobile && step === 2 && (
 				<>
-					<div className="grid sm:hidden grid-cols-1 gap-y-7">
+					<div className="grid grid-cols-1 gap-y-7">
 						{/* Password */}
 						<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
 
@@ -126,11 +132,11 @@ const Register = () => {
 
 						{/* Upload Foto KTM */}
 						<div className="col-span-full">
-							<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} />
+							<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
 						</div>
 					</div>
 
-					<div className="flex sm:hidden items-center justify-between mt-12">
+					<div className="flex flex-wrap items-center justify-between mt-12 gap-2">
 						{/* Prev Button */}
 						<ChevronButton onClick={prevStep} icon={ChevronLeft} />
 
