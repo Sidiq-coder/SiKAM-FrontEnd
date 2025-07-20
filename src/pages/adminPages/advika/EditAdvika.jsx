@@ -1,11 +1,10 @@
 import { useParams, NavLink } from 'react-router-dom';
 import { Upload } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faFile, faFilePdf, faSave, faImage, faEdit, faTrash, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { mainAdvika } from '../../../mocks/advikaMock';
-import pdf from '../../../../public/images/example.pdf';
+import { faChevronLeft, faFilePdf, faSave, faImage, faEdit, faTrash, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { mainAdvika } from '@/mocks/advikaMock';
 import { useState, useEffect } from 'react';
-import FilterButton from '../../../components/filter-button';
+import FilterButton from '@/components/filter-button';
 
 const COLORS = {
 	primary: '#2A2A2A',
@@ -17,7 +16,7 @@ const COLORS = {
 
 export default function DetailAdvika() {
 	const params = useParams();
-	const [articles, setArticles] = useState([]);
+	const [_, setArticles] = useState([]);
 	const [editingId, setEditingId] = useState(null);
 	const [editedData, setEditedData] = useState({});
 	const article = mainAdvika.find((item) => item.id === Number(params.id));
@@ -140,7 +139,7 @@ const BackButton = () => (
 
 const EditableArticleCard = ({ article, isEditing, editedData, onInputChange, onImageUpdate, onPdfUpdate }) => {
 	const currentData = isEditing ? editedData : article;
-	const [pdfPath, setPdfPath] = useState(pdf);
+	const [pdfPath, setPdfPath] = useState('/images/Example.pdf');
 
 	const handlePdfUpdate = (newPdfPath) => {
 		setPdfPath(newPdfPath);
