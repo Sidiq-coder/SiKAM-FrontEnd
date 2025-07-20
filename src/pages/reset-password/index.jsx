@@ -3,14 +3,13 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
-import { GraduationCap, KeyRound } from 'lucide-react';
+import { KeyRound } from 'lucide-react';
 import { useUser } from '@/hooks/useUser';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
-import RedirectLink from './components/redirect-link';
 
-const Login = () => {
+const ResetPassword = () => {
 	const navigate = useNavigate();
 	const { getUserData } = useUser();
 	const {
@@ -25,8 +24,8 @@ const Login = () => {
 	const onSubmit = async (data) => {
 		try {
 			const formData = new FormData();
-			formData.append('npm', data.npm);
 			formData.append('password', data.password);
+			formData.append('confirmPassword', data.confirmPassword);
 
 			await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -47,7 +46,7 @@ const Login = () => {
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat masuk');
-			console.error('Login error:', error);
+			console.error('Reset password error:', error);
 		}
 	};
 
@@ -57,22 +56,28 @@ const Login = () => {
 			<Header />
 
 			<div className="grid grid-cols-1 gap-7">
-				{/* NPM */}
-				<InputField name="npm" label="Email Mahasiswa/NPM" placeholder="Email Mahasiswa/NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
+				{/* Password */}
+				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
 
 				{/* Password */}
-				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword isForgotPassword />
+				<InputField
+					name="confirmPassword"
+					label="Konfirmasi Password"
+					placeholder="Konfirmasi Password"
+					register={register}
+					error={errors.confirmPassword}
+					icon={KeyRound}
+					isPassword
+					description="Password Anda harus memiliki minimal 8 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus."
+				/>
 			</div>
 
-			<div className="flex flex-wrap items-center justify-between mt-12 gap-y-4">
-				{/* Register Link */}
-				<RedirectLink sourceLabel="Belum memiliki akun?" targetLabel="Daftar" href="/register" />
-
+			<div className="flex items-center justify-end mt-12">
 				{/* Submit Button */}
-				<SubmitButton label="Masuk" loadingLabel="Masuk..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Reset Password" loadingLabel="Reset..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);
 };
 
-export default Login;
+export default ResetPassword;

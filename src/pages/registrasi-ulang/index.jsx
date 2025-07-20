@@ -1,9 +1,7 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
 import { User, Mail, KeyRound, GraduationCap } from 'lucide-react';
-import { setPageTitle } from '../../utils/titleManager';
 import { schema } from './schema';
 import { useNavigate } from 'react-router-dom';
 import InputField from '@/components/input-field';
@@ -45,10 +43,6 @@ const RegistrasiUlang = () => {
 			console.error('Registration error:', error);
 		}
 	};
-
-	useEffect(() => {
-		setPageTitle('/registrasi-ulang');
-	}, []);
 
 	return (
 		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-xl">

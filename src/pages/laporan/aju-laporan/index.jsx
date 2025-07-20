@@ -1,7 +1,5 @@
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
-import { useEffect } from 'react';
-import { setPageTitle } from '@/utils/titleManager';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema } from './schema';
@@ -43,10 +41,6 @@ const AjuLaporan = () => {
 			console.error('Error:', error);
 		}
 	};
-
-	useEffect(() => {
-		setPageTitle('/aju-laporan');
-	}, []);
 
 	const tingkatLaporanOptions = [
 		{

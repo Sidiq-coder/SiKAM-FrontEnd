@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import { setPageTitle } from '@/utils/titleManager';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
-import { Outlet, useLocation } from 'react-router-dom';
 
 const BaseLayout = () => {
 	const location = useLocation();
@@ -10,6 +12,10 @@ const BaseLayout = () => {
 
 	const containerClass = 'container mx-auto max-w-full';
 	const paddingX = 'px-4 md:px-10';
+
+	useEffect(() => {
+		setPageTitle(location.pathname);
+	}, [location.pathname]);
 
 	return (
 		<div className={`min-h-screen w-full ${isBgPattern ? "bg-[url('/images/top-blue-bg.png')] bg-cover bg-center bg-no-repeat text-white" : 'bg-white'}`}>

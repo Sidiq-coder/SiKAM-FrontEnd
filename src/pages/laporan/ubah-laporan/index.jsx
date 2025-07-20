@@ -1,16 +1,15 @@
-import InputField from '@/components/input-field';
-import SubmitButton from '@/components/submit-button';
 import { useEffect } from 'react';
-import { setPageTitle } from '@/utils/titleManager';
 import { useForm } from 'react-hook-form';
+import { ChevronLeft, CircleQuestionMark, Edit } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import InputField from '@/components/input-field';
+import SubmitButton from '@/components/submit-button';
 import SelectField from '@/components/select-field';
 import Textarea from '@/components/textarea';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
-import { ChevronLeft, CircleQuestionMark, Edit } from 'lucide-react';
 
 const reportData = {
 	id: 1,
@@ -61,7 +60,6 @@ const UbahLaporan = () => {
 	};
 
 	useEffect(() => {
-		setPageTitle('/ubah-laporan');
 		setValue('judulLaporan', reportData.title);
 		setValue('tingkatLaporan', reportData.level);
 		setValue('kategoriLaporan', reportData.category);
