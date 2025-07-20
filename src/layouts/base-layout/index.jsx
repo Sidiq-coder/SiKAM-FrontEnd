@@ -37,6 +37,12 @@ const BaseLayout = () => {
 					<Footer />
 				</div>
 			</div>
+
+			<div className="bg-[#01428E] text-white py-2">
+				<div className={`${containerClass} lg:px-20 ${paddingX}`}>
+					<p>&copy; 2025 Badan Eksekutif Mahasiswa, Universitas Lampung.</p>
+				</div>
+			</div>
 		</div>
 	);
 };

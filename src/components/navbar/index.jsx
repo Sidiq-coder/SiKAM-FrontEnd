@@ -106,13 +106,13 @@ const Navbar = () => {
 			{!menuOpen ? null : (
 				<div className="fixed inset-0 z-50 bg-white p-6 flex flex-col space-y-4 slide-left">
 					{/* Close Button */}
-					<button className="self-end text-gray-800 text-2xl cursor-pointer" onClick={() => setMenuOpen(false)}>
+					<button className="self-end text-dark text-2xl cursor-pointer" onClick={() => setMenuOpen(false)}>
 						&times;
 					</button>
 
 					{/* Nav Links */}
 					{links.map((link) => (
-						<Link key={link.href} to={link.href} className="text-gray-800 text-lg font-medium hover:text-blue-500 transition-colors" onClick={() => setMenuOpen(false)}>
+						<Link key={link.href} to={link.href} className="text-dark text-lg font-medium hover:text-primary transition-colors" onClick={() => setMenuOpen(false)}>
 							{link.label}
 						</Link>
 					))}
