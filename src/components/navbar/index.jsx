@@ -26,10 +26,10 @@ const NavbarAuthButtons = () => {
 		<>
 			{/* Desktop View */}
 			<div className="hidden md:flex items-center space-x-4">
-				<Link to="/login" className="bg-white text-blue-600 px-6 py-3 rounded-lg">
+				<Link to="/login" className="bg-white text-primary px-6 py-3 rounded-lg">
 					Masuk
 				</Link>
-				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-blue-600 transition-colors">
+				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary transition-colors">
 					Daftar
 				</Link>
 			</div>
@@ -39,7 +39,7 @@ const NavbarAuthButtons = () => {
 				<Link to="/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-center">
 					Masuk
 				</Link>
-				<Link to="/register" className="border border-blue-600 text-blue-600 px-6 py-2 rounded-lg text-center hover:bg-blue-600 hover:text-white transition-colors">
+				<Link to="/register" className="border border-blue-600 text-primary px-6 py-2 rounded-lg text-center hover:bg-blue-600 hover:text-white transition-colors">
 					Daftar
 				</Link>
 			</div>

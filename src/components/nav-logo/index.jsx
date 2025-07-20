@@ -14,8 +14,8 @@ const NavLogo = () => {
 
 	return (
 		<Link to="/" className="flex items-center space-x-2">
-			<img className="w-8" src="/images/logo-unila.png" alt="logo-unila" />
-			<span className="text-yellow-400 text-xl font-bold">SIKAM</span>
+			<img className="w-8" src="/images/bem.png" alt="logo-bem" />
+			<span className="text-white text-xl font-bold">SIKAM</span>
 		</Link>
 	);
 };

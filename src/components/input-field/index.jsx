@@ -29,7 +29,7 @@ const InputField = ({
 			) : (
 				<>
 					{!label ? null : (
-						<div className="flex justify-between mb-1">
+						<div className="flex flex-wrap justify-between mb-1">
 							<label htmlFor={name} className="text-sm font-medium text-dark">
 								{label}
 							</label>

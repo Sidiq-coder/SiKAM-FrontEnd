@@ -97,7 +97,7 @@ export default function TentangSikam() {
 						<p className="mb-4">
 							SIKAM adalah suara digital mahasiswa. Melalui sistem ini, kita membangun kampus yang lebih terbuka, adil, dan bertanggung jawab. Sampaikan keluhanmu, kuatkan advokasimu.
 						</p>
-						<p className="text-xl font-semibold italic">“Bersama SIKAM, setiap suara mahasiswa punya tempat.”</p>
+						<p className="text-xl font-semibold">“Bersama SIKAM, setiap suara mahasiswa punya tempat.”</p>
 					</footer>
 				</div>
 			</div>
