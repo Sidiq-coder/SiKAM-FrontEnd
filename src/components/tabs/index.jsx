@@ -1,6 +1,6 @@
 const Tabs = ({ tabs, activeTab, onTabChange, data = null, className = '', gap = 8, textSize = 'base' }) => {
 	return (
-		<div className={`flex gap-x-${gap} border-b border-[#ACACAC] overflow-auto ${className}`}>
+		<div className={`flex gap-x-${gap} border-b border-gray overflow-auto ${className}`}>
 			{tabs.map((tab) => {
 				const isActive = activeTab === tab.value;
 

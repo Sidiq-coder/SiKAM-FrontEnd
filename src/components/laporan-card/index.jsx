@@ -38,10 +38,10 @@ const LaporanHeader = ({ report, isVoteable }) => {
 						<LaporanVoteSection report={report} isVoteable={isVoteable} />
 					</div>
 					<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-						<User className="w-8 h-8 text-darkPrimary" />
+						<User className="w-8 h-8 text-dark-primary" />
 					</div>
 					<div>
-						<h3 className="text-sm font-medium text-darkPrimary mb-1.5">{report.author}</h3>
+						<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report.author}</h3>
 						<div className="flex flex-wrap items-center gap-x-6 text-sm text-gray-500 gap-y-1">
 							<div className="flex items-center space-x-1">
 								<Calendar className="w-4 h-4" />
@@ -70,7 +70,7 @@ const LaporanBody = ({ report, isDetail, isAdmin }) => {
 
 				{showActions && (
 					<div className="flex items-center space-x-2">
-						<Link to="/ubah-laporan" className="p-1 text-primary hover:text-darkPrimary transition-colors cursor-pointer">
+						<Link to="/ubah-laporan" className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
 							<Edit className="w-5 h-5 md:w-6 md:h-6" />
 						</Link>
 						<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
@@ -122,7 +122,7 @@ const LaporanDetailSection = ({ isAdmin }) => {
 			</div>
 
 			{isAdmin ? null : (
-				<div className="flex items-center justify-center text-[#ED9E3199] gap-x-2">
+				<div className="flex items-center justify-center text-yellow gap-x-2">
 					<Hourglass className="w-5 h-5" />
 					<p className="font-semibold text-lg">Menunggu Verifikasi</p>
 				</div>
@@ -144,13 +144,13 @@ const LaporanCard = ({ report, isDetail = false, isVote = true, className = '' }
 	return (
 		<div
 			onClick={() => (isDetail ? null : navigate(detailPath))}
-			className={`flex gap-x-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-[#ACACAC] cursor-pointer'} ${className}`}
+			className={`flex gap-x-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray cursor-pointer'} ${className}`}
 		>
 			<div className="hidden lg:block">
 				<LaporanVoteSection report={report} isVoteable={isVoteable} />
 			</div>
 			<div className="w-full">
-				<div className={isDetail ? 'border-b border-[#ACACAC] pb-6' : ''}>
+				<div className={isDetail ? 'border-b border-gray pb-6' : ''}>
 					<LaporanHeader report={report} isVoteable={isVoteable} />
 					<LaporanBody report={report} isDetail={isDetail} isAdmin={isAdmin} />
 					<LaporanFooter report={report} isDetail={isDetail} />

@@ -14,7 +14,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 
 const ChevronButton = ({ icon: Icon, onClick }) => {
 	return (
-		<button onClick={onClick} className="bg-primary text-white rounded-lg p-2 hover:bg-darkPrimary">
+		<button onClick={onClick} className="bg-primary text-white rounded-lg p-2 hover:bg-dark-primary">
 			{Icon && <Icon className="w-5 h-5" />}
 		</button>
 	);

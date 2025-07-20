@@ -28,12 +28,12 @@ export default function AdminAdvika() {
 				</div>
 				{/* Halo di kanan (30%) */}
 				<div className="flex flex-col gap-12">
-					<div className="rounded-[8px] border-[1.5px] border-[#ACACAC] flex items-center gap-2 p-2 w-full max-w-xs bg-white">
-						<FontAwesomeIcon icon={faSearch} className="text-[#ACACAC] w-5 h-5 cursor-pointer" onClick={() => searchInputRef.current && searchInputRef.current.focus()} />
-						<input ref={searchInputRef} type="search" placeholder="cari berita" className="bg-transparent outline-none border-none w-full text-sm text-dark placeholder-[#ACACAC] shadow-2xl" />
+					<div className="rounded-[8px] border-[1.5px] border-gray flex items-center gap-2 p-2 w-full max-w-xs bg-white">
+						<FontAwesomeIcon icon={faSearch} className="text-gray w-5 h-5 cursor-pointer" onClick={() => searchInputRef.current && searchInputRef.current.focus()} />
+						<input ref={searchInputRef} type="search" placeholder="cari berita" className="bg-transparent outline-none border-none w-full text-sm text-dark placeholder-gray shadow-2xl" />
 					</div>
 
-					<div className="border-[#ACACAC] rounded-[8px] w- p-4 shadow hover:shadow-2xl transition-duration-500 cursor-pointer transition-all ">
+					<div className="border-gray rounded-[8px] w- p-4 shadow hover:shadow-2xl transition-duration-500 cursor-pointer transition-all ">
 						<div className="flex justify-center items-center w-full">
 							<h1 className="font-bold text-2xl capitalize text-center">berdasarkan status</h1>
 						</div>
@@ -42,11 +42,11 @@ export default function AdminAdvika() {
 							<Button
 								href={`#`}
 								label={`Publish`}
-								className={`bg-[#ED9E31] text-xs text-white h-8 flex items-center hover:opacity-80 w-26`}
+								className={`bg-yellow text-xs text-white h-8 flex items-center hover:opacity-80 w-26`}
 								icon={<FontAwesomeIcon icon={faDownload} flip="vertical" />}
 							/>
 
-							<Button href={`#`} label={`Draft`} className={`bg-[#ED9E31] text-xs text-white h-8 flex items-center w-26 hover:opacity-80`} icon={<FontAwesomeIcon icon={faFile} flip="vertical" />} />
+							<Button href={`#`} label={`Draft`} className={`bg-yellow text-xs text-white h-8 flex items-center w-26 hover:opacity-80`} icon={<FontAwesomeIcon icon={faFile} flip="vertical" />} />
 						</div>
 					</div>
 				</div>

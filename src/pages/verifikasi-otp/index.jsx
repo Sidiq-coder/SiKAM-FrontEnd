@@ -100,7 +100,7 @@ export default function VerifikasiOTP() {
 										pattern="[0-9]*"
 										maxLength="1"
 										value={value || ''}
-										className="w-10 h-10 sm:w-12 sm:h-12 text-center text-dark sm:text-lg bg-[#EFEFEF] border border-primary rounded-md focus:outline-none focus:border-darkPrimary"
+										className="w-10 h-10 sm:w-12 sm:h-12 text-center text-dark sm:text-lg bg-[#EFEFEF] border border-primary rounded-md focus:outline-none focus:border-dark-primary"
 										onChange={(e) => {
 											field.onChange(e);
 											handleChange(e, index);

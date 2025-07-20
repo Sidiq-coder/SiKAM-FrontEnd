@@ -11,7 +11,7 @@ import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
 
 const rawStatusOptions = [
-	{ status: 'Pending', color: 'text-[#ED9E31]' },
+	{ status: 'Pending', color: 'text-yellow' },
 	{ status: 'Ditinjau', color: 'text-[#EDC831]' },
 	{ status: 'Ditanggapi', color: 'text-[#007BFF]' },
 	{ status: 'Selesai', color: 'text-[#2FCB51]' },

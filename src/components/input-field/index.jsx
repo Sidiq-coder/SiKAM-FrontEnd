@@ -64,7 +64,7 @@ const InputField = ({
 				</>
 			)}
 			{error?.message && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
-			{!description ? null : <p className="text-[#ACACAC] text-sm mt-2">{description}</p>}
+			{!description ? null : <p className="text-gray text-sm mt-2">{description}</p>}
 		</div>
 	);
 };

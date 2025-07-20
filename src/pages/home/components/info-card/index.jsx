@@ -6,7 +6,7 @@ const InfoCard = ({ title1, title2, description, linkLabel, linkHref, position =
 	if (position === 'right') {
 		return (
 			<div className="flex justify-end">
-				<div className="flex-1 relative bg-[#ED9E31] rounded-2xl shadow-lg max-w-3xl h-[380px] my-10 px-4 pt-4 flex items-center lg:mr-20 overflow-hidden">
+				<div className="flex-1 relative bg-yellow rounded-2xl shadow-lg max-w-3xl h-[380px] my-10 px-4 pt-4 flex items-center lg:mr-20 overflow-hidden">
 					<img src="/images/pattern1-1.png" alt="pattern1-1" className="w-[280px] absolute bottom-0 left-0" />
 
 					<img src="/images/pattern1-2.png" alt="pattern1-2" className="w-[280px] absolute top-0 right-0" />
@@ -32,7 +32,7 @@ const InfoCard = ({ title1, title2, description, linkLabel, linkHref, position =
 	}
 
 	return (
-		<div className="relative bg-[#ED9E31] rounded-2xl shadow-lg max-w-3xl h-[380px] my-10 px-4 pt-4 flex items-center justify-end lg:ml-20 overflow-hidden">
+		<div className="relative bg-yellow rounded-2xl shadow-lg max-w-3xl h-[380px] my-10 px-4 pt-4 flex items-center justify-end lg:ml-20 overflow-hidden">
 			<img src="/images/pattern1-1.png" alt="pattern1-1" className="w-[280px] absolute bottom-0 left-0" />
 
 			<img src="/images/pattern1-2.png" alt="pattern1-2" className="w-[280px] absolute top-0 right-0" />

@@ -81,7 +81,7 @@ export default function Advika() {
 const TrendingNews = () => {
 	return (
 		<div className="max-w-xs w-full">
-			<div className="bg-[#ED9E31] text-white px-[.5rem] text-[1.2rem] tracking-tighter rounded-[3px] hover:brightness-90 transition-all duration-500 ease-in-out mt-[2rem] mb-[1.6rem] cursor-pointer w-fit">
+			<div className="bg-yellow text-white px-[.5rem] text-[1.2rem] tracking-tighter rounded-[3px] hover:brightness-90 transition-all duration-500 ease-in-out mt-[2rem] mb-[1.6rem] cursor-pointer w-fit">
 				<h1 className="uppercase">trending</h1>
 			</div>
 			<div className="flex flex-col gap-3">

@@ -102,7 +102,7 @@ const FileUploadDropzone = ({
 	return (
 		<div>
 			<label className="block text-sm font-medium mb-1">
-				{label} {!labelDescription ? null : <span className="text-[#ACACAC] font-normal">{labelDescription}</span>} {required ? <span className="text-red-500">*</span> : ''}
+				{label} {!labelDescription ? null : <span className="text-gray font-normal">{labelDescription}</span>} {required ? <span className="text-red-500">*</span> : ''}
 			</label>
 			<div
 				className={`relative border-2 border-dashed rounded-lg p-3 transition-colors ${dragActive ? 'border-blue-400 bg-gray-50' : 'border-gray-300 bg-white'} ${className || ''}`}
@@ -121,7 +121,7 @@ const FileUploadDropzone = ({
 				/>
 
 				{!uploadedFile ? (
-					<div className="flex flex-wrap items-center justify-center text-[#ACACAC] space-x-1">
+					<div className="flex flex-wrap items-center justify-center text-gray space-x-1">
 						{InputIcon && <InputIcon className="w-4 h-4" />}
 						<span>{inputDescription}</span>
 					</div>
@@ -134,7 +134,7 @@ const FileUploadDropzone = ({
 						</div>
 
 						<div>
-							<div className="flex flex-wrap items-center space-x-1 mb-2 text-[#ACACAC]">
+							<div className="flex flex-wrap items-center space-x-1 mb-2 text-gray">
 								<Check className="w-4 h-4" />
 								<span className="text-sm font-medium">{uploadedFile.name}</span>
 								<span className="text-sm">({uploadedFile.size})</span>

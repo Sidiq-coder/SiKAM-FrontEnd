@@ -4,7 +4,7 @@ const Footer = () => {
 			<div>
 				<div className="flex flex-wrap items-center space-x-2 mb-4">
 					<img className="w-8" src="/images/bem.png" alt="logo-bem" />
-					<span className="text-xl font-bold">SIKAM</span>
+					<span className="text-2xl font-bold">SIKAM</span>
 				</div>
 			</div>
 			<div>
