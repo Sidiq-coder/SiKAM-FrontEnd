@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'react-toastify';
-import { User, Mail, KeyRound, GraduationCap } from 'lucide-react';
+import { InfoIcon, User } from 'lucide-react';
 import { schema } from './schema';
 import { useNavigate } from 'react-router-dom';
 import InputField from '@/components/input-field';
@@ -25,9 +25,6 @@ const RegistrasiUlang = () => {
 	const onSubmit = async (data) => {
 		try {
 			const formData = new FormData();
-			formData.append('npm', data.npm);
-			formData.append('email', data.email);
-			formData.append('password', data.password);
 			formData.append('nama', data.nama);
 			formData.append('fotoKTM', data.fotoKTM[0]);
 
@@ -53,11 +50,13 @@ const RegistrasiUlang = () => {
 				{/* Nama */}
 				<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
 
-				{/* NPM */}
-				<InputField name="npm" label="NPM" placeholder="NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
-
 				{/* Upload Foto KTM */}
-				<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} description="Pastikan Data yang Anda kirim sudah sesuai" />
+				<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} />
+			</div>
+
+			<div className="flex items-center text-[#909090] gap-1 mt-20">
+				<InfoIcon className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+				<span className="text-sm sm:text-base">Pastikan Data yang Anda kirim sudah sesuai</span>
 			</div>
 
 			<div className="flex items-center justify-end mt-8">
