@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import { daftarBandingUkt } from '@/mocks/bandingUktMock';
-import Hashtag from '@/components/hashtag';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
 import InputField from '@/components/input-field';
 import BandingUKTCard from '@/components/banding-ukt-card';
+import { usePeriodStore } from '../../../components/zustand/period-banding-ukt/usePeriodStore';
 
 const logs = [
 	{ no: 1, date: '12 Jul 2025, 10:32', admin: 'admin1', action: 'Mengaktifkan fitur' },
@@ -21,8 +21,8 @@ const AdminBandingUKTPage = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [data, setData] = useState([]);
 	const [allData, setAllData] = useState([]);
-	const [isActive, setIsActive] = useState(true);
-
+	const isPeriodOpen = usePeriodStore((state) => state.isPeriodOpen);
+  	const togglePeriod = usePeriodStore((state) => state.togglePeriod);
 	const tabOptions = [
 		{ label: 'Semua', value: 'semua' },
 		{ label: 'Pending', value: 'pending' },
@@ -95,11 +95,10 @@ const AdminBandingUKTPage = () => {
 					<div className="bg-white rounded-lg p-4 drop-shadow-md mb-6">
 						<h2 className="text-xl font-bold text-dark mb-6">Status Fitur Banding UKT</h2>
 						<div className="flex items-center space-x-3">
-							{/* Toggle Switch */}
-							<button onClick={() => setIsActive(!isActive)} className={`w-12 h-6 rounded-full p-1 flex items-center transition ${isActive ? 'bg-primary justify-end' : 'bg-gray-300 justify-start'}`}>
-								<span className="w-4 h-4 bg-white rounded-full shadow"></span>
-							</button>
-							<span className={`font-semibold ${isActive ? 'text-primary' : 'text-gray-500'}`}>Status {isActive ? 'Aktif' : 'Nonaktif'}</span>
+								<button onClick={togglePeriod} className={`w-12 h-6 rounded-full p-1 flex items-center transition ${ isPeriodOpen ? 'bg-primary justify-end' : 'bg-gray-300 justify-start'}`}>
+									<span className="w-4 h-4 bg-white rounded-full shadow" />
+								</button>
+								<span className={`font-semibold ${ isPeriodOpen ? 'text-primary' : 'text-gray-500' }`}>Status {isPeriodOpen ? 'Aktif' : 'Nonaktif'}</span>
 						</div>
 					</div>
 
