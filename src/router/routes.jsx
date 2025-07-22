@@ -1,6 +1,5 @@
 import AuthLayout from '@/layouts/auth-layout';
 import BaseLayout from '@/layouts/base-layout';
-import EmptyPage from '@/pages/empty';
 import Register from '@/pages/register';
 import Login from '@/pages/login';
 import Home from '@/pages/home';
@@ -25,6 +24,7 @@ import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt'
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
+import BandingUkt from '../pages/bandingUkt';
 
 const routes = [
 	{
@@ -49,7 +49,7 @@ const routes = [
 			{ path: 'aju-laporan', element: <AjuLaporan /> },
 			{ path: 'ubah-laporan', element: <UbahLaporan /> },
 
-			{ path: 'banding-ukt', element: <EmptyPage /> },
+			{ path: 'banding-ukt', element: <BandingUkt /> },
 
 			{ path: 'advika', element: <Advika /> },
 			{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
