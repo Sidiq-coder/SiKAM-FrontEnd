@@ -7,11 +7,12 @@ import { BandingUkt } from './components/BandingUkt';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { Notifikasi } from './components/Notifikasi';
 import { PasswordContent } from './components/PasswordContent';
-import { useUser } from '@/hooks/useUser';
+import useAuth from '@/hooks/useAuth';
 import Button from '@/components/button';
 import Tabs from '@/components/tabs';
 import LaporanCard from '@/components/laporan-card';
 import Pagination from '@/components/pagination';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
 	return (
@@ -25,12 +26,16 @@ export default function ProfilePage() {
 
 const ProfileSection = () => {
 	const [option, setOption] = useState('Profil');
-	const { logout } = useUser();
+	const { logout } = useAuth();
+	const navigate = useNavigate();
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		if (confirm('Apakah Anda yakin ingin keluar?')) {
-			logout();
-			toast.success('Berhasil keluar');
+			const response = await logout();
+			if (response?.data?.success) {
+				toast.success(response?.data?.message);
+				navigate('/login');
+			}
 		}
 	};
 

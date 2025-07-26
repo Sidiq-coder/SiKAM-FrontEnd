@@ -1,7 +1,6 @@
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useMemo, useState } from 'react';
-import { daftarLaporan } from '@/mocks/laporanMock';
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from '@/components/status-filter';
@@ -9,6 +8,7 @@ import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
+import useReportStore from '@/stores/useReportStore';
 
 const rawStatusOptions = [
 	{ status: 'Pending', color: 'text-yellow' },
@@ -19,9 +19,9 @@ const rawStatusOptions = [
 ];
 
 const LaporanPage = () => {
+	const { getReports, reports } = useReportStore();
 	const [activeTab, setActiveTab] = useState('laporan-saya');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
-	const [reports, setReports] = useState([]);
 
 	const tabOptions = [
 		{ label: 'Semua', value: 'semua' },
@@ -29,8 +29,8 @@ const LaporanPage = () => {
 	];
 
 	const filteredReports = useMemo(() => {
-		return activeTab === 'laporan-saya' ? daftarLaporan.filter((report) => report.isMy) : daftarLaporan;
-	}, [activeTab]);
+		return activeTab === 'laporan-saya' ? reports : reports;
+	}, [activeTab, reports]);
 
 	const visibleStatusOptions = useMemo(() => {
 		if (activeTab === 'semua') {
@@ -40,8 +40,10 @@ const LaporanPage = () => {
 	}, [activeTab]);
 
 	useEffect(() => {
-		setReports(filteredReports);
-	}, [filteredReports]);
+		getReports();
+	}, []);
+
+	console.log(reports);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
@@ -63,7 +65,7 @@ const LaporanPage = () => {
 
 					{/* Reports List */}
 					<div className="space-y-6">
-						{reports.map((report) => (
+						{filteredReports?.map((report) => (
 							<div key={report.id}>
 								<LaporanCard report={report} />
 							</div>
@@ -71,7 +73,7 @@ const LaporanPage = () => {
 					</div>
 
 					{/* Pagination */}
-					{reports.length === 0 ? null : <Pagination className="mt-8" />}
+					{filteredReports?.length === 0 ? null : <Pagination className="mt-8" />}
 				</div>
 
 				<div className="w-80 space-y-6">

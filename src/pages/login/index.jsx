@@ -4,15 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
 import { GraduationCap, KeyRound } from 'lucide-react';
-import { useUser } from '@/hooks/useUser';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
 import RedirectLink from './components/redirect-link';
+import useAuth from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
 const Login = () => {
+	const { login, isLoading, error, clearError } = useAuth();
+
 	const navigate = useNavigate();
-	const { getUserData } = useUser();
+
 	const {
 		register,
 		handleSubmit,
@@ -24,25 +27,18 @@ const Login = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const formData = new FormData();
-			formData.append('npm', data.npm);
-			formData.append('password', data.password);
+			const result = await login(data);
 
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-
-			toast.success('Berhasil Masuk!');
-
-			if (formData.get('npm') === '1234567890') {
-				getUserData(2);
-
+			if (result?.data?.success) {
+				toast.success(result?.data?.message);
 				setTimeout(() => {
-					navigate('/admin');
-				}, 2000);
-			} else {
-				getUserData(1);
+					clearError();
 
-				setTimeout(() => {
-					navigate('/');
+					if (data.identifier === 'admin@gmail.com') {
+						navigate('/admin');
+					} else {
+						navigate('/');
+					}
 				}, 2000);
 			}
 		} catch (error) {
@@ -51,6 +47,10 @@ const Login = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
+
 	return (
 		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-lg">
 			{/* Header */}
@@ -58,7 +58,7 @@ const Login = () => {
 
 			<div className="grid grid-cols-1 gap-7">
 				{/* NPM */}
-				<InputField name="npm" label="Email Mahasiswa/NPM" placeholder="Email Mahasiswa/NPM" type="text" register={register} error={errors.npm} icon={GraduationCap} />
+				<InputField name="identifier" label="Email Mahasiswa/NPM" placeholder="Email Mahasiswa/NPM" type="text" register={register} error={errors.identifier} icon={GraduationCap} />
 
 				{/* Password */}
 				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword isForgotPassword />
@@ -69,7 +69,7 @@ const Login = () => {
 				<RedirectLink sourceLabel="Belum memiliki akun?" targetLabel="Daftar" href="/register" />
 
 				{/* Submit Button */}
-				<SubmitButton label="Masuk" loadingLabel="Masuk..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Masuk" loadingLabel="Masuk..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);

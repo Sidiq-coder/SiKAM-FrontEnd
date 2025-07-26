@@ -1,10 +1,59 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Globe, X } from 'lucide-react';
 
-const SelectField = ({ name, label, placeholder = '', register, error, options, multiple = false, value, onChange }) => {
+const SelectField = ({
+	name = null,
+	label = null,
+	placeholder = '',
+	register = null,
+	setValue = null, // Tambahkan setValue dari useForm
+	watch = null, // Tambahkan watch dari useForm
+	error = null,
+	options = [],
+	multiple = false,
+	value = null,
+	onChange = null,
+}) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedValues, setSelectedValues] = useState(multiple ? value || [] : value || '');
+
+	// Gunakan watch untuk mendapatkan nilai terkini dari form
+	const watchedValue = watch ? watch(name) : value;
+	const [selectedValues, setSelectedValues] = useState(() => {
+		if (multiple) {
+			// Jika watchedValue adalah string JSON, parse terlebih dahulu
+			if (typeof watchedValue === 'string' && watchedValue.startsWith('[')) {
+				try {
+					return JSON.parse(watchedValue);
+				} catch {
+					return watchedValue || [];
+				}
+			}
+			return watchedValue || [];
+		}
+		return watchedValue || '';
+	});
+
 	const dropdownRef = useRef(null);
+
+	// Sinkronkan dengan form value
+	useEffect(() => {
+		if (watchedValue !== undefined) {
+			if (multiple) {
+				// Jika watchedValue adalah string JSON, parse terlebih dahulu
+				if (typeof watchedValue === 'string' && watchedValue.startsWith('[')) {
+					try {
+						setSelectedValues(JSON.parse(watchedValue));
+					} catch {
+						setSelectedValues(watchedValue || []);
+					}
+				} else {
+					setSelectedValues(watchedValue || []);
+				}
+			} else {
+				setSelectedValues(watchedValue || '');
+			}
+		}
+	}, [watchedValue, multiple]);
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -22,9 +71,23 @@ const SelectField = ({ name, label, placeholder = '', register, error, options, 
 			const newValues = selectedValues.includes(option.value) ? selectedValues.filter((v) => v !== option.value) : [...selectedValues, option.value];
 
 			setSelectedValues(newValues);
+
+			// Update form value menggunakan setValue
+			if (setValue) {
+				setValue(name, newValues, { shouldValidate: true, shouldDirty: true });
+			}
+
+			// Panggil onChange jika ada
 			onChange?.(newValues);
 		} else {
 			setSelectedValues(option.value);
+
+			// Update form value menggunakan setValue
+			if (setValue) {
+				setValue(name, option.value, { shouldValidate: true, shouldDirty: true });
+			}
+
+			// Panggil onChange jika ada
 			onChange?.(option.value);
 			setIsOpen(false);
 		}
@@ -33,7 +96,26 @@ const SelectField = ({ name, label, placeholder = '', register, error, options, 
 	const handleRemoveTag = (valueToRemove) => {
 		const newValues = selectedValues.filter((v) => v !== valueToRemove);
 		setSelectedValues(newValues);
+
+		// Update form value menggunakan setValue
+		if (setValue) {
+			setValue(name, newValues, { shouldValidate: true, shouldDirty: true });
+		}
+
+		// Panggil onChange jika ada
 		onChange?.(newValues);
+	};
+
+	const handleClearSingle = () => {
+		setSelectedValues('');
+
+		// Update form value menggunakan setValue
+		if (setValue) {
+			setValue(name, '', { shouldValidate: true, shouldDirty: true });
+		}
+
+		// Panggil onChange jika ada
+		onChange?.('');
 	};
 
 	const getSelectedLabel = (value) => {
@@ -96,8 +178,7 @@ const SelectField = ({ name, label, placeholder = '', register, error, options, 
 									type="button"
 									onClick={(e) => {
 										e.stopPropagation();
-										setSelectedValues('');
-										onChange?.('');
+										handleClearSingle();
 									}}
 									className="text-[#909090]"
 								>

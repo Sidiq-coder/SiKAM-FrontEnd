@@ -25,43 +25,63 @@ import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
 import BandingUkt from '../pages/bandingUkt';
+import AuthGuard from './auth-guard';
+import GuestGuard from './guest-guard';
 
 const routes = [
+	// Auth Routes
 	{
 		path: '/',
-		element: <AuthLayout />,
+		element: <GuestGuard />,
 		children: [
-			{ path: 'login', element: <Login /> },
-			{ path: 'register', element: <Register /> },
-			{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
-			{ path: 'reset-password', element: <ResetPassword /> },
-			{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
+			{
+				element: <AuthLayout />,
+				children: [
+					{ path: 'login', element: <Login /> },
+					{ path: 'register', element: <Register /> },
+					{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
+					{ path: 'reset-password', element: <ResetPassword /> },
+					{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
+				],
+			},
 		],
 	},
+
+	// Main Routes
 	{
 		path: '/',
-		element: <BaseLayout />,
+		element: <AuthGuard />,
 		children: [
-			{ index: true, element: <Home /> },
-
-			{ path: 'laporan', element: <LaporanPage /> },
-			{ path: 'detail-laporan', element: <DetailLaporan /> },
-			{ path: 'aju-laporan', element: <AjuLaporan /> },
-			{ path: 'ubah-laporan', element: <UbahLaporan /> },
-
-			{ path: 'banding-ukt', element: <BandingUkt /> },
-
-			{ path: 'advika', element: <Advika /> },
-			{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
-
-			{ path: 'tentang', element: <TentangSikam /> },
-
-			{ path: 'profilePage', element: <ProfilePage /> },
-
-			// Admin Routes
 			{
-				path: 'admin',
-				element: <AdminGuard />,
+				element: <BaseLayout />,
+				children: [
+					{ index: true, element: <Home /> },
+
+					{ path: 'laporan', element: <LaporanPage /> },
+					{ path: 'detail-laporan', element: <DetailLaporan /> },
+					{ path: 'aju-laporan', element: <AjuLaporan /> },
+					{ path: 'ubah-laporan', element: <UbahLaporan /> },
+
+					{ path: 'banding-ukt', element: <BandingUkt /> },
+
+					{ path: 'advika', element: <Advika /> },
+					{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
+
+					{ path: 'tentang', element: <TentangSikam /> },
+
+					{ path: 'profilePage', element: <ProfilePage /> },
+				],
+			},
+		],
+	},
+
+	// Admin Routes
+	{
+		path: '/admin',
+		element: <AdminGuard />,
+		children: [
+			{
+				element: <BaseLayout />,
 				children: [
 					// Laporan
 					{ path: 'laporan', element: <AdminLaporanPage /> },

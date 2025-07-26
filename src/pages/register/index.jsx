@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -11,6 +11,7 @@ import SubmitButton from '@/components/submit-button';
 import Header from './components/header';
 import RedirectLink from './components/redirect-link';
 import useIsMobile from '@/hooks/useIsMobile';
+import useAuth from '@/hooks/useAuth';
 
 const ChevronButton = ({ icon: Icon, onClick }) => {
 	return (
@@ -21,8 +22,11 @@ const ChevronButton = ({ icon: Icon, onClick }) => {
 };
 
 const Register = () => {
+	const { register: registerUser, isLoading, error, clearError } = useAuth();
+
 	const isMobile = useIsMobile();
 	const navigate = useNavigate();
+
 	const {
 		register,
 		handleSubmit,
@@ -44,24 +48,24 @@ const Register = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const formData = new FormData();
-			formData.append('email', data.email);
-			formData.append('password', data.password);
-			formData.append('nama', data.nama);
-			formData.append('fotoKTM', data.fotoKTM[0]);
+			const result = await registerUser(data);
 
-			await new Promise((resolve) => setTimeout(resolve, 2000));
-
-			toast.success('Registrasi berhasil! Silahkan login.');
-
-			setTimeout(() => {
-				navigate('/login');
-			}, 2000);
+			if (result?.data?.success) {
+				toast.success(result?.data?.message);
+				setTimeout(() => {
+					clearError();
+					navigate('/verifikasi-otp');
+				}, 2000);
+			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat registrasi');
 			console.error('Registration error:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
 
 	return (
 		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-4xl">
@@ -73,20 +77,20 @@ const Register = () => {
 				<>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-3 gap-y-7">
 						{/* Email */}
-						<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
+						<InputField name="campus_email" label="Email" placeholder="Email" type="email" register={register} error={errors.campus_email} icon={Mail} />
 
 						{/* Password */}
 						<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
 
 						{/* Nama */}
-						<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
+						<InputField name="name" label="Nama" placeholder="Nama" type="text" register={register} error={errors.name} icon={User} />
 
 						{/* Konfirmasi Password */}
 						<InputField name="confirmPassword" label="Konfirmasi Password" placeholder="Konfirmasi Password" register={register} error={errors.confirmPassword} icon={KeyRound} isPassword />
 
 						{/* Upload Foto KTM */}
 						<div className="col-span-full">
-							<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
+							<FileUploadDropzone name="ktm" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.ktm} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
 						</div>
 					</div>
 
@@ -141,7 +145,7 @@ const Register = () => {
 						<ChevronButton onClick={prevStep} icon={ChevronLeft} />
 
 						{/* Submit Button */}
-						<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+						<SubmitButton label="Daftar" loadingLabel="Mendaftar..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 					</div>
 				</>
 			)}

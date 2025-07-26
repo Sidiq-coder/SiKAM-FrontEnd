@@ -1,15 +1,15 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useUser } from '@/hooks/useUser';
+import useAuth from '@/hooks/useAuth';
 
 const AdminGuard = () => {
-	const { user } = useUser();
+	const { user } = useAuth();
 	const location = useLocation();
 
 	if (!user) {
 		return <Navigate to="/login" replace />;
 	}
 
-	if (user.userType !== 'admin') {
+	if (user.role !== 'superadmin') {
 		return <Navigate to="/" replace />;
 	}
 

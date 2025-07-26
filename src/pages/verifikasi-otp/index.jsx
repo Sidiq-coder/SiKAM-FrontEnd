@@ -1,12 +1,15 @@
 import { useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ChevronLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SubmitButton from '@/components/submit-button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { otpSchema } from './schema';
+import { toast } from 'react-toastify';
 
 export default function VerifikasiOTP() {
+	const navigate = useNavigate();
+
 	const {
 		handleSubmit,
 		control,
@@ -26,7 +29,14 @@ export default function VerifikasiOTP() {
 	const onSubmit = (data) => {
 		const otpNumbers = data.otp.map((digit) => parseInt(digit, 10));
 		const otpCode = otpNumbers.join('');
-		alert(`OTP yang dimasukkan: ${otpCode}`);
+
+		console.log(otpCode);
+
+		toast.success('Verifikasi OTP Berhasil');
+
+		setTimeout(() => {
+			navigate('/login');
+		}, 2000);
 	};
 
 	const handleChange = (e, index) => {

@@ -1,10 +1,33 @@
 import * as z from 'zod';
+import { reportCategories, reportLevels } from '@/utils/reports';
 
 export const schema = z.object({
-	judulLaporan: z.string().min(1, 'Judul Laporan harus diisi'),
-	tingkatLaporan: z.string().min(1, 'Tingkat Laporan harus diisi'),
-	kategoriLaporan: z.string().min(1, 'Kategori Laporan harus diisi'),
-	isiLaporan: z.string().min(1, 'Isi Laporan harus diisi'),
-	lampiran: z.any().refine((file) => file && file.length > 0, 'Lampiran harus diupload'),
-	isAnonim: z.boolean(),
+	title: z.string({ required_error: 'Judul wajib diisi' }).max(50, { message: 'Judul maksimal 50 karakter' }).nonempty({ message: 'Judul wajib diisi' }),
+
+	report_level: z.enum(
+		reportLevels.map((item) => item.value),
+		{
+			required_error: 'Tingkat laporan wajib dipilih',
+			invalid_type_error: 'Tingkat laporan tidak valid',
+		}
+	),
+
+	category: z.enum(
+		reportCategories.map((item) => item.value),
+		{
+			required_error: 'Kategori wajib dipilih',
+			invalid_type_error: 'Kategori tidak valid',
+		}
+	),
+
+	description: z.string({ required_error: 'Deskripsi wajib diisi' }).max(1000, { message: 'Deskripsi maksimal 1000 karakter' }).nonempty({ message: 'Deskripsi wajib diisi' }),
+
+	isAnonymous: z.boolean().default(false),
+
+	file: z
+		.any()
+		.optional()
+		.refine((file) => !file || file.length > 0, {
+			message: 'Lampiran harus diupload',
+		}),
 });

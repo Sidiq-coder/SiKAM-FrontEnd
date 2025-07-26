@@ -5,6 +5,7 @@ import Triangle from '@/components/triangle';
 import FileImageComponent from '@/components/file-image';
 import { getStatusMeta } from '@/utils/getStatusMeta';
 import { truncateText } from '@/utils/truncateText';
+import { formatDate, timeAgo } from '@/utils/date';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
 
 const LaporanVoteSection = ({ report, isVoteable }) => {
@@ -13,7 +14,7 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 			<div className="flex flex-col items-center space-y-2">
 				<span className="text-primary text font-medium">Vote</span>
 				<div className="flex flex-col items-center">
-					<span className="text-4xl font-bold text-dark">{report.votes}</span>
+					<span className="text-4xl font-bold text-dark">{report?.vote_total}</span>
 				</div>
 			</div>
 		);
@@ -21,14 +22,14 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 	return (
 		<div className="flex flex-col items-center">
 			<Triangle fill="#0B4D9B" />
-			<span className="text-2xl font-bold text-dark">{report.votes}</span>
+			<span className="text-2xl font-bold text-dark">{report?.vote_total}</span>
 			<Triangle fill="#0B4D9B" isFlip />
 		</div>
 	);
 };
 
 const LaporanHeader = ({ report, isVoteable }) => {
-	const { icon: StatusIcon, textColor, label } = getStatusMeta(report.status);
+	const { icon: StatusIcon, textColor, label } = getStatusMeta(report?.status);
 
 	return (
 		<div className="flex flex-wrap items-start justify-between mb-6 gap-y-3">
@@ -41,11 +42,11 @@ const LaporanHeader = ({ report, isVoteable }) => {
 						<User className="w-8 h-8 text-dark-primary" />
 					</div>
 					<div>
-						<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report.author}</h3>
+						<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report?.students?.name ?? 'Anonim'}</h3>
 						<div className="flex flex-wrap items-center gap-x-6 text-sm text-gray-500 gap-y-1">
 							<div className="flex items-center space-x-1">
 								<Calendar className="w-4 h-4" />
-								<span>{report.date}</span>
+								<span>{report?.submitted_at && formatDate(report?.submitted_at)}</span>
 							</div>
 							<div className={`flex items-center space-x-1 ${textColor}`}>
 								<StatusIcon className="w-4 h-4" />
@@ -55,7 +56,7 @@ const LaporanHeader = ({ report, isVoteable }) => {
 					</div>
 				</div>
 			</div>
-			<span className="text-sm text-gray-500">{report.timeAgo}</span>
+			<span className="text-sm text-gray-500">{report?.submitted_at && timeAgo(report?.submitted_at)}</span>
 		</div>
 	);
 };
