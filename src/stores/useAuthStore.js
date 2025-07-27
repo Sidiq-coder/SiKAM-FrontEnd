@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authAPI } from '@/api/endpoints/auth';
+import { usersAPI } from '@/api/endpoints/users';
 
 const useAuthStore = create(
 	persist(
@@ -113,7 +114,7 @@ const useAuthStore = create(
 
 			getProfile: async () => {
 				try {
-					const response = await authAPI.getProfile();
+					const response = await usersAPI.getProfile();
 					set({ user: response.data.user });
 				} catch (error) {
 					console.error('Get profile error:', error);

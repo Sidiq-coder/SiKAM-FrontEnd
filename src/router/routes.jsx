@@ -59,19 +59,22 @@ const routes = [
 				children: [
 					{ index: true, element: <Home /> },
 
+					// Laporan
 					{ path: 'laporan', element: <LaporanPage /> },
 					{ path: 'detail-laporan', element: <DetailLaporan /> },
 					{ path: 'aju-laporan', element: <AjuLaporan /> },
 					{ path: 'ubah-laporan', element: <UbahLaporan /> },
 
+					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },
 
+					// Advika
 					{ path: 'advika', element: <Advika /> },
 					{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
 
 					{ path: 'tentang', element: <TentangSikam /> },
 
-					{ path: 'profilePage', element: <ProfilePage /> },
+					{ path: 'profil', element: <ProfilePage /> },
 				],
 			},
 		],

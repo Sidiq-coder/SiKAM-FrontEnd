@@ -82,7 +82,7 @@ const NavbarActions = () => {
 				rounded="rounded-full"
 				onClick={() => {
 					setMenuOpen(false);
-					navigate('/profilePage');
+					navigate('/profil');
 				}}
 			>
 				<User className={iconStyle} />

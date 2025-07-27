@@ -4,6 +4,7 @@ export const pageTitles = {
 	'/login': `Login`,
 	'/register': `Registrasi`,
 	'/registrasi-ulang': `Registrasi Ulang`,
+	'/lupa-password': `Lupa Password`,
 	'/reset-password': `Reset Password`,
 	'/verifikasi-otp': `Verifikasi OTP`,
 
@@ -21,7 +22,7 @@ export const pageTitles = {
 
 	'/tentang': `Tentang SIKAM`,
 
-	'/profilePage': `Profil Saya`,
+	'/profil': `Profil Saya`,
 
 	'/admin/laporan': `Laporan`,
 	'/admin/detail-laporan': `Detail Laporan`,

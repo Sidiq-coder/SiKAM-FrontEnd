@@ -1,8 +1,10 @@
 import apiClient from '@/api/client';
 
+const baseURL = '/reports';
+
 export const reportsAPI = {
 	getReports: async () => {
-		const response = await apiClient.get('/reports');
+		const response = await apiClient.get(baseURL);
 		return response.data;
 	},
 
@@ -19,12 +21,57 @@ export const reportsAPI = {
 			formData.append('file', data.file[0]);
 		}
 
-		const response = await apiClient.post('/reports', formData, {
+		const response = await apiClient.post(baseURL, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
 		});
 
+		return response.data;
+	},
+
+	getReport: async (id) => {
+		const response = await apiClient.get(`${baseURL}/${id}`);
+		return response.data;
+	},
+
+	updateReport: async (id, data) => {
+		const response = await apiClient.patch(`${baseURL}/${id}`, data);
+		return response.data;
+	},
+
+	deleteReport: async (id) => {
+		const response = await apiClient.delete(`${baseURL}/${id}`);
+		return response.data;
+	},
+
+	updateReportStatus: async (id, data) => {
+		const response = await apiClient.patch(`${baseURL}/${id}/status`, data);
+		return response.data;
+	},
+
+	createReportResponse: async (id, data) => {
+		const response = await apiClient.post(`${baseURL}/${id}/response`, data);
+		return response.data;
+	},
+
+	deleteReportResponse: async (id) => {
+		const response = await apiClient.delete(`${baseURL}/${id}/response`);
+		return response.data;
+	},
+
+	getMyReports: async () => {
+		const response = await apiClient.get(`${baseURL}/me`);
+		return response.data;
+	},
+
+	getVotesReport: async (id) => {
+		const response = await apiClient.get(`${baseURL}/${id}/votes`);
+		return response.data;
+	},
+
+	voteReport: async (id) => {
+		const response = await apiClient.post(`${baseURL}/${id}/vote`);
 		return response.data;
 	},
 };
