@@ -8,19 +8,12 @@ import { schema } from './schema';
 import InputField from '@/components/input-field';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
 import SubmitButton from '@/components/submit-button';
+import ChevronButton from '@/components/chevron-button';
 import Header from './components/header';
 import RedirectLink from './components/redirect-link';
 import useIsMobile from '@/hooks/useIsMobile';
 import useAuth from '@/hooks/useAuth';
 import useOtpStore from '@/stores/useOtpStore';
-
-const ChevronButton = ({ icon: Icon, onClick }) => {
-	return (
-		<button onClick={onClick} className="bg-primary text-white rounded-lg p-2 hover:bg-dark-primary">
-			{Icon && <Icon className="w-5 h-5" />}
-		</button>
-	);
-};
 
 const Register = () => {
 	const { register: registerUser, isLoading, error, clearError } = useAuth();
@@ -113,10 +106,10 @@ const Register = () => {
 				<>
 					<div className="grid grid-cols-1 gap-y-7">
 						{/* Nama */}
-						<InputField name="nama" label="Nama" placeholder="Nama" type="text" register={register} error={errors.nama} icon={User} />
+						<InputField name="name" label="Nama" placeholder="Nama" type="text" register={register} error={errors.name} icon={User} />
 
 						{/* Email */}
-						<InputField name="email" label="Email" placeholder="Email" type="email" register={register} error={errors.email} icon={Mail} />
+						<InputField name="campus_email" label="Email" placeholder="Email" type="email" register={register} error={errors.campus_email} icon={Mail} />
 					</div>
 
 					<div className="flex flex-wrap items-center justify-between mt-12 gap-2">
@@ -140,7 +133,7 @@ const Register = () => {
 
 						{/* Upload Foto KTM */}
 						<div className="col-span-full">
-							<FileUploadDropzone name="fotoKTM" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.fotoKTM} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
+							<FileUploadDropzone name="ktm" label="Foto KTM" setValue={setValue} trigger={trigger} error={errors.ktm} inputIcon={null} inputDescription="Pilih file atau tarik ke sini" />
 						</div>
 					</div>
 

@@ -4,8 +4,12 @@ import useAuth from '@/hooks/useAuth';
 const GuestGuard = () => {
 	const { user } = useAuth();
 
-	if (user) {
+	if (user && user.role !== 'superadmin') {
 		return <Navigate to="/" replace />;
+	}
+
+	if (user && user.role === 'superadmin') {
+		return <Navigate to="/admin" replace />;
 	}
 
 	return <Outlet />;
