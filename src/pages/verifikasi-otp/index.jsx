@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ChevronLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,8 +6,12 @@ import SubmitButton from '@/components/submit-button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { otpSchema } from './schema';
 import { toast } from 'react-toastify';
+import useAuth from '@/hooks/useAuth';
+import useOtpStore from '@/stores/useOtpStore';
 
 export default function VerifikasiOTP() {
+	const { verifyEmail, isLoading, error, clearError } = useAuth();
+	const { email } = useOtpStore();
 	const navigate = useNavigate();
 
 	const {
@@ -26,17 +30,26 @@ export default function VerifikasiOTP() {
 
 	const inputsRef = useRef([]);
 
-	const onSubmit = (data) => {
-		const otpNumbers = data.otp.map((digit) => parseInt(digit, 10));
-		const otpCode = otpNumbers.join('');
+	const onSubmit = async (data) => {
+		try {
+			const otp_code = data.otp.join('');
 
-		console.log(otpCode);
+			const result = await verifyEmail({
+				email,
+				otp_code,
+			});
 
-		toast.success('Verifikasi OTP Berhasil');
-
-		setTimeout(() => {
-			navigate('/login');
-		}, 2000);
+			if (result?.data?.success) {
+				toast.success(result?.data?.message);
+				setTimeout(() => {
+					clearError();
+					navigate('/login');
+				}, 2000);
+			}
+		} catch (error) {
+			toast.error('Terjadi kesalahan');
+			console.error('Error:', error);
+		}
 	};
 
 	const handleChange = (e, index) => {
@@ -81,6 +94,10 @@ export default function VerifikasiOTP() {
 	const handleFocus = (e) => {
 		e.target.select();
 	};
+
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
 
 	return (
 		<div className="bg-white rounded-xl shadow-md p-6 w-full max-w-xl">
@@ -129,7 +146,7 @@ export default function VerifikasiOTP() {
 					{errors.otp && <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>}
 
 					{/* Submit Button */}
-					<SubmitButton label="Verifikasi" loadingLabel="Verifikasi..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} className="mt-6" />
+					<SubmitButton label="Verifikasi" loadingLabel="Verifikasi..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} className="mt-6" />
 				</form>
 			</div>
 		</div>

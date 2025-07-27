@@ -21,6 +21,11 @@ export const authAPI = {
 		return response.data;
 	},
 
+	verifyEmail: async (data) => {
+		const response = await apiClient.post('/auth/verify-email', data);
+		return response.data;
+	},
+
 	login: async (data) => {
 		const response = await apiClient.post('/auth/login', data);
 		return response.data;
@@ -28,6 +33,16 @@ export const authAPI = {
 
 	logout: async () => {
 		const response = await apiClient.post('/auth/logout');
+		return response.data;
+	},
+
+	requestPasswordReset: async (data) => {
+		const response = await apiClient.post('/auth/request-password-reset', data);
+		return response.data;
+	},
+
+	verifyPasswordReset: async (data) => {
+		const response = await apiClient.post('/auth/verify-password-reset', data);
 		return response.data;
 	},
 

@@ -24,9 +24,10 @@ import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt'
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
-import BandingUkt from '../pages/bandingUkt';
+import BandingUkt from '@/pages/bandingUkt';
 import AuthGuard from './auth-guard';
 import GuestGuard from './guest-guard';
+import LupaPasswordPage from '@/pages/lupa-password';
 
 const routes = [
 	// Auth Routes
@@ -40,6 +41,7 @@ const routes = [
 					{ path: 'login', element: <Login /> },
 					{ path: 'register', element: <Register /> },
 					{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
+					{ path: 'lupa-password', element: <LupaPasswordPage /> },
 					{ path: 'reset-password', element: <ResetPassword /> },
 					{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
 				],

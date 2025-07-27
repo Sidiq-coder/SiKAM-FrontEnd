@@ -12,6 +12,7 @@ import Header from './components/header';
 import RedirectLink from './components/redirect-link';
 import useIsMobile from '@/hooks/useIsMobile';
 import useAuth from '@/hooks/useAuth';
+import useOtpStore from '@/stores/useOtpStore';
 
 const ChevronButton = ({ icon: Icon, onClick }) => {
 	return (
@@ -23,6 +24,7 @@ const ChevronButton = ({ icon: Icon, onClick }) => {
 
 const Register = () => {
 	const { register: registerUser, isLoading, error, clearError } = useAuth();
+	const { setEmail } = useOtpStore();
 
 	const isMobile = useIsMobile();
 	const navigate = useNavigate();
@@ -37,6 +39,7 @@ const Register = () => {
 		resolver: zodResolver(schema),
 		mode: 'onChange',
 	});
+
 	const [step, setStep] = useState(1);
 
 	const nextStep = () => {
@@ -51,6 +54,7 @@ const Register = () => {
 			const result = await registerUser(data);
 
 			if (result?.data?.success) {
+				setEmail(data.campus_email);
 				toast.success(result?.data?.message);
 				setTimeout(() => {
 					clearError();

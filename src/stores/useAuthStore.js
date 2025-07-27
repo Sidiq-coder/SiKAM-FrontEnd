@@ -26,6 +26,20 @@ const useAuthStore = create(
 				}
 			},
 
+			verifyEmail: async (data) => {
+				set({ isLoading: true, error: null });
+				try {
+					const response = await authAPI.verifyEmail(data);
+					return { success: true, data: response };
+				} catch (error) {
+					const errorMessage = error.response?.data?.message || 'Verify email failed';
+					set({ error: errorMessage, isLoading: false });
+					return { success: false, error: errorMessage };
+				} finally {
+					set({ isLoading: false });
+				}
+			},
+
 			login: async (data) => {
 				set({ isLoading: true, error: null });
 				try {
@@ -55,6 +69,34 @@ const useAuthStore = create(
 				} finally {
 					localStorage.removeItem('token');
 					set({ user: null, token: null, error: null });
+				}
+			},
+
+			requestPasswordReset: async (data) => {
+				set({ isLoading: true, error: null });
+				try {
+					const response = await authAPI.requestPasswordReset(data);
+					return { success: true, data: response };
+				} catch (error) {
+					const errorMessage = error.response?.data?.message || 'Request password failed';
+					set({ error: errorMessage, isLoading: false });
+					return { success: false, error: errorMessage };
+				} finally {
+					set({ isLoading: false });
+				}
+			},
+
+			verifyPasswordReset: async (data) => {
+				set({ isLoading: true, error: null });
+				try {
+					const response = await authAPI.verifyPasswordReset(data);
+					return { success: true, data: response };
+				} catch (error) {
+					const errorMessage = error.response?.data?.message || 'Verify password failed';
+					set({ error: errorMessage, isLoading: false });
+					return { success: false, error: errorMessage };
+				} finally {
+					set({ isLoading: false });
 				}
 			},
 

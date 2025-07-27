@@ -36,7 +36,7 @@ const InputField = ({
 								{label} {required ? <span className="text-red-500">*</span> : ''}
 							</label>
 							{!isForgotPassword ? null : (
-								<Link to="/login" className="text-sm font-light text-red-500">
+								<Link to="/lupa-password" className="text-sm font-light text-red-500">
 									Lupa Password?
 								</Link>
 							)}
