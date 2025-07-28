@@ -17,6 +17,15 @@ const useReportStore = create((set) => ({
 		}
 	},
 
+	getMyReports: async () => {
+		try {
+			const response = await reportsAPI.getMyReports();
+			set({ reports: response.data });
+		} catch (error) {
+			console.error('Get my reports error:', error);
+		}
+	},
+
 	setReports: async (reports) => {
 		set({ reports });
 	},

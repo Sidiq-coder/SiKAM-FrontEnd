@@ -61,9 +61,9 @@ const routes = [
 
 					// Laporan
 					{ path: 'laporan', element: <LaporanPage /> },
-					{ path: 'detail-laporan', element: <DetailLaporan /> },
+					{ path: 'laporan/:id', element: <DetailLaporan /> },
 					{ path: 'aju-laporan', element: <AjuLaporan /> },
-					{ path: 'ubah-laporan', element: <UbahLaporan /> },
+					{ path: 'laporan/:id/ubah', element: <UbahLaporan /> },
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },

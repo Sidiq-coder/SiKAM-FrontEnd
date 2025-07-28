@@ -62,24 +62,11 @@ const LaporanHeader = ({ report, isVoteable }) => {
 	);
 };
 
-const LaporanBody = ({ report, isDetail, isAdmin, isMy }) => {
-	const showActions = isMy && !isAdmin;
-
+const LaporanBody = ({ report, isDetail }) => {
 	return (
 		<div className="mb-4">
 			<div className="flex flex-col md:flex-row md:items-center justify-between gap-y-2 mb-2">
 				<h2 className="text-2xl font-bold text-dark">{report?.title}</h2>
-
-				{showActions && (
-					<div className="flex items-center space-x-2">
-						<Link to="/ubah-laporan" className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
-							<Edit className="w-5 h-5 md:w-6 md:h-6" />
-						</Link>
-						<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
-							<Trash className="w-5 h-5 md:w-6 md:h-6" />
-						</button>
-					</div>
-				)}
 			</div>
 			<p className="text-[#909090] text-sm leading-relaxed">{isDetail ? report?.description : truncateText(report?.description, 300)}</p>
 		</div>
@@ -148,23 +135,40 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const isMy = user?.id === report?.student_id;
 	const isVote = user?.id !== report?.student_id;
 
+	const showActions = isMy && !isAdmin;
 	const isVoteable = isVote && !isMy && !isAdmin;
-	const detailPath = isAdmin ? '/admin/detail-laporan' : '/detail-laporan';
+	const detailPath = isAdmin ? '/admin/detail-laporan' : `/laporan/${report?.id}`;
 
 	return (
-		<div
-			onClick={() => (isDetail ? null : navigate(detailPath))}
-			className={`flex gap-x-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray cursor-pointer'} ${className}`}
-		>
+		<div className={`flex gap-x-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray'} ${className}`}>
 			<div className="hidden lg:block">
 				<LaporanVoteSection report={report} isVoteable={isVoteable} />
 			</div>
+
 			<div className="w-full">
 				<div className={isDetail ? 'border-b border-gray pb-6' : ''}>
 					<LaporanHeader report={report} isVoteable={isVoteable} />
-					<LaporanBody report={report} isDetail={isDetail} isAdmin={isAdmin} isMy={isMy} />
+
+					<div className="flex">
+						<div className="flex-1 cursor-pointer" onClick={() => (isDetail ? null : navigate(detailPath))}>
+							<LaporanBody report={report} isDetail={isDetail} />
+						</div>
+
+						{showActions && (
+							<div className="flex items-center space-x-2">
+								<Link to={`/laporan/${report?.id}/ubah`} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
+									<Edit className="w-5 h-5 md:w-6 md:h-6" />
+								</Link>
+								<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
+									<Trash className="w-5 h-5 md:w-6 md:h-6" />
+								</button>
+							</div>
+						)}
+					</div>
+
 					<LaporanFooter report={report} isDetail={isDetail} />
 				</div>
+
 				{isDetail && <LaporanDetailSection report={report} isAdmin={isAdmin} />}
 			</div>
 		</div>

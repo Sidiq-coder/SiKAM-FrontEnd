@@ -1,6 +1,6 @@
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from '@/components/status-filter';
@@ -19,7 +19,7 @@ const rawStatusOptions = [
 ];
 
 const LaporanPage = () => {
-	const { getReports, reports } = useReportStore();
+	const { getReports, getMyReports, reports } = useReportStore();
 	const [activeTab, setActiveTab] = useState('laporan-saya');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
 
@@ -28,20 +28,13 @@ const LaporanPage = () => {
 		{ label: 'Laporan Saya', value: 'laporan-saya' },
 	];
 
-	const filteredReports = useMemo(() => {
-		return activeTab === 'laporan-saya' ? reports : reports;
-	}, [activeTab, reports]);
-
-	const visibleStatusOptions = useMemo(() => {
-		if (activeTab === 'semua') {
-			return rawStatusOptions;
-		}
-		return rawStatusOptions.filter((item) => item.status !== 'Pending' && item.status !== 'Ditolak');
-	}, [activeTab]);
-
 	useEffect(() => {
-		getReports();
-	}, []);
+		if (activeTab === 'laporan-saya') {
+			getMyReports();
+		} else if (activeTab === 'semua') {
+			getReports();
+		}
+	}, [activeTab]);
 
 	console.log(reports);
 
@@ -65,7 +58,7 @@ const LaporanPage = () => {
 
 					{/* Reports List */}
 					<div className="space-y-6">
-						{filteredReports?.map((report) => (
+						{reports?.map((report) => (
 							<div key={report.id}>
 								<LaporanCard report={report} />
 							</div>
@@ -73,7 +66,7 @@ const LaporanPage = () => {
 					</div>
 
 					{/* Pagination */}
-					{filteredReports?.length === 0 ? null : <Pagination className="mt-8" />}
+					{reports?.length === 0 ? null : <Pagination className="mt-8" />}
 				</div>
 
 				<div className="w-80 space-y-6">
@@ -88,7 +81,7 @@ const LaporanPage = () => {
 						</div>
 					</div>
 
-					<StatusFilter title="Status" statusList={visibleStatusOptions} />
+					<StatusFilter title="Status" statusList={rawStatusOptions} />
 				</div>
 			</div>
 		</div>

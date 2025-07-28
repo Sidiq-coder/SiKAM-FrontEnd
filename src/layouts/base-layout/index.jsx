@@ -7,8 +7,10 @@ import Footer from '@/components/footer';
 const BaseLayout = () => {
 	const location = useLocation();
 
-	const bgPatternPaths = ['/', '/aju-laporan', '/ubah-laporan', '/admin/detail-banding-ukt'];
-	const isBgPattern = bgPatternPaths.includes(location.pathname);
+	const bgPatternPaths = ['/', '/aju-laporan', '/admin/detail-banding-ukt'];
+	const dynamicPatterns = [/^\/laporan\/\d+\/ubah$/];
+
+	const isBgPattern = bgPatternPaths.includes(location.pathname) || dynamicPatterns.some((regex) => regex.test(location.pathname));
 
 	const containerClass = 'container mx-auto max-w-full';
 	const paddingX = 'px-4 md:px-10';
