@@ -42,3 +42,8 @@ export const setPageTitle = (pathname) => {
 	const title = pageTitles[pathname] ? `${pageTitles[pathname]} - ${siteTitle}` : siteTitle;
 	document.title = title;
 };
+
+export const setCustomPageTitle = (name) => {
+	const title = `${name} - ${siteTitle}`;
+	document.title = title;
+};

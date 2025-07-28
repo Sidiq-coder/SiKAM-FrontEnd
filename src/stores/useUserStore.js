@@ -1,0 +1,37 @@
+import { create } from 'zustand';
+import { usersAPI } from '../api/endpoints/users';
+
+const useUserStore = create((set) => ({
+	// State
+	user: null,
+	isLoading: false,
+	error: null,
+
+	// Actions
+	getProfile: async () => {
+		try {
+			const response = await usersAPI.getProfile();
+			set({ user: response.data });
+		} catch (error) {
+			console.error('Get profile error:', error);
+		}
+	},
+
+	updateProfile: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await usersAPI.updateProfile(data);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Update profile failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	clearError: () => set({ error: null }),
+}));
+
+export default useUserStore;

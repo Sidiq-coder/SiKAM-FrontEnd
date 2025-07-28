@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import useAuthStore from '@/stores/useAuthStore';
 
 const useAuth = () => {
-	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset } = useAuthStore();
+	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset, resetPassword } = useAuthStore();
 
 	useEffect(() => {
 		initializeAuth();
@@ -23,6 +23,7 @@ const useAuth = () => {
 		verifyEmail,
 		requestPasswordReset,
 		verifyPasswordReset,
+		resetPassword,
 	};
 };
 

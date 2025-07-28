@@ -43,6 +43,11 @@ export const authAPI = {
 		return response.data;
 	},
 
+	resetPassword: async (data) => {
+		const response = await apiClient.patch(`${baseURL}/reset-password`, data);
+		return response.data;
+	},
+
 	requestPasswordReset: async (data) => {
 		const response = await apiClient.post(`${baseURL}/request-password-reset`, data);
 		return response.data;

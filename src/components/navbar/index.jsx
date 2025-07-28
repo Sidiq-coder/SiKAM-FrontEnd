@@ -5,6 +5,7 @@ import NavLogo from '../nav-logo';
 import IconButton from '../icon-button';
 import useAuth from '@/hooks/useAuth';
 import { create } from 'zustand';
+import useProfilStore from '@/stores/useProfilStore';
 
 const navLinks = {
 	student: [
@@ -59,6 +60,7 @@ const NavbarActions = () => {
 	const navigate = useNavigate();
 	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
 	const { setMenuOpen } = useNavbarStore();
+	const { setProfilMenu } = useProfilStore();
 
 	return (
 		<>
@@ -82,6 +84,7 @@ const NavbarActions = () => {
 				rounded="rounded-full"
 				onClick={() => {
 					setMenuOpen(false);
+					setProfilMenu('profil');
 					navigate('/profil');
 				}}
 			>

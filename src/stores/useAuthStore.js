@@ -73,13 +73,27 @@ const useAuthStore = create(
 				}
 			},
 
+			resetPassword: async (data) => {
+				set({ isLoading: true, error: null });
+				try {
+					const response = await authAPI.resetPassword(data);
+					return { success: true, data: response };
+				} catch (error) {
+					const errorMessage = error.response?.data?.message || 'Reset password failed';
+					set({ error: errorMessage, isLoading: false });
+					return { success: false, error: errorMessage };
+				} finally {
+					set({ isLoading: false });
+				}
+			},
+
 			requestPasswordReset: async (data) => {
 				set({ isLoading: true, error: null });
 				try {
 					const response = await authAPI.requestPasswordReset(data);
 					return { success: true, data: response };
 				} catch (error) {
-					const errorMessage = error.response?.data?.message || 'Request password failed';
+					const errorMessage = error.response?.data?.message || 'Request reset password failed';
 					set({ error: errorMessage, isLoading: false });
 					return { success: false, error: errorMessage };
 				} finally {

@@ -13,7 +13,7 @@ import DetailAdvika from '@/pages/advika/DetailAdvika';
 import AdminAdvika from '@/pages/adminPages/advika';
 import EditAdvika from '@/pages/adminPages/advika/EditAdvika';
 import { default as AdminDetailAdvika } from '@/pages/adminPages/advika/DetailAdvika';
-import ProfilePage from '@/pages/profilePage';
+import ProfilePage from '@/pages/profil';
 import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
 import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
