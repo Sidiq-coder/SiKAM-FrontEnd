@@ -123,6 +123,9 @@ const useAuthStore = create(
 				if (token) {
 					set({ token });
 					get().getProfile();
+				} else {
+					localStorage.removeItem('token');
+					set({ user: null, token: null, error: null });
 				}
 			},
 

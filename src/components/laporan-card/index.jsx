@@ -1,13 +1,13 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Calendar, Edit, FileImage, Hourglass, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
+import { Calendar, Clock, Edit, FileImage, Hourglass, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import Triangle from '@/components/triangle';
 import FileImageComponent from '@/components/file-image';
-import { getStatusMeta } from '@/utils/getStatusMeta';
 import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo } from '@/utils/date';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
 import useAuthStore from '@/stores/useAuthStore';
+import { getReportStatuses, getCategoryLabel } from '@/utils/reports';
 
 const LaporanVoteSection = ({ report, isVoteable }) => {
 	if (!isVoteable)
@@ -30,7 +30,7 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 };
 
 const LaporanHeader = ({ report, isVoteable }) => {
-	const { icon: StatusIcon, textColor, label } = getStatusMeta(report?.status);
+	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
 
 	return (
 		<div className="flex flex-wrap items-start justify-between mb-6 gap-y-3">
@@ -76,7 +76,7 @@ const LaporanBody = ({ report, isDetail }) => {
 const LaporanFooter = ({ report, isDetail }) => {
 	return (
 		<div className="flex justify-between">
-			<Hashtag label={report?.category} />
+			<Hashtag label={`#${getCategoryLabel(report?.category ?? '')}`} />
 			{report?.file_url && !isDetail ? (
 				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark px-2 rounded-xl">
 					<Plus className="w-4 h-4" />
@@ -88,6 +88,8 @@ const LaporanFooter = ({ report, isDetail }) => {
 };
 
 const LaporanDetailSection = ({ report, isAdmin }) => {
+	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
+
 	return (
 		<div className="mt-4">
 			<div className="flex items-center space-x-1.5 mb-3">
@@ -97,7 +99,7 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 
 			{report?.file_url ? (
 				<div className="mb-8">
-					<FileImageComponent filePath={report.file_url} fileName="Lampiran" />
+					<FileImageComponent filePath={`${import.meta.env.VITE_API_BASE_URL}/${report.file_url}`} fileName="Lampiran" />
 				</div>
 			) : (
 				<p className="text-gray-500 mb-8">Tidak ada lampiran</p>
@@ -115,9 +117,9 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 			</div>
 
 			{!isAdmin ? (
-				<div className="flex items-center justify-center text-yellow gap-x-2">
-					<Hourglass className="w-5 h-5" />
-					<p className="font-semibold text-lg">Menunggu Verifikasi</p>
+				<div className={`flex items-center justify-center gap-x-2 ${textColor}`}>
+					<StatusIcon className="w-5 h-5" />
+					<p className="font-semibold text-lg">{label}</p>
 				</div>
 			) : (
 				<UpdateStatusForm />

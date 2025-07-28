@@ -4,6 +4,7 @@ import { reportsAPI } from '@/api/endpoints/reports';
 const useReportStore = create((set) => ({
 	// State
 	reports: [],
+	report: null,
 	isLoading: false,
 	error: null,
 
@@ -14,6 +15,15 @@ const useReportStore = create((set) => ({
 			set({ reports: response.data });
 		} catch (error) {
 			console.error('Get reports error:', error);
+		}
+	},
+
+	getReport: async (id) => {
+		try {
+			const response = await reportsAPI.getReport(id);
+			set({ report: response.data });
+		} catch (error) {
+			console.error('Get report error:', error);
 		}
 	},
 

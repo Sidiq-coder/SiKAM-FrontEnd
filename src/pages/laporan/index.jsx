@@ -1,6 +1,6 @@
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from '@/components/status-filter';
@@ -9,24 +9,54 @@ import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
 import useReportStore from '@/stores/useReportStore';
-
-const rawStatusOptions = [
-	{ status: 'Pending', color: 'text-yellow' },
-	{ status: 'Ditinjau', color: 'text-[#EDC831]' },
-	{ status: 'Ditanggapi', color: 'text-primary' },
-	{ status: 'Selesai', color: 'text-[#2FCB51]' },
-	{ status: 'Ditolak', color: 'text-[#EE4848]' },
-];
+import { getCategoryLabel } from '@/utils/reports';
 
 const LaporanPage = () => {
 	const { getReports, getMyReports, reports } = useReportStore();
-	const [activeTab, setActiveTab] = useState('laporan-saya');
+	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
 
 	const tabOptions = [
 		{ label: 'Semua', value: 'semua' },
 		{ label: 'Laporan Saya', value: 'laporan-saya' },
 	];
+
+	const categorizedReports = useMemo(() => {
+		if (!reports) return [];
+
+		const categoryMap = reports.reduce((acc, report) => {
+			const key = report.category;
+			if (!key) return acc;
+
+			if (acc[key]) {
+				acc[key].quantity += 1;
+			} else {
+				acc[key] = {
+					value: key,
+					quantity: 1,
+				};
+			}
+			return acc;
+		}, {});
+
+		return Object.values(categoryMap);
+	}, [reports]);
+
+	const uniqueStatuses = useMemo(() => {
+		if (!reports) return [];
+
+		const seen = new Set();
+		const result = [];
+
+		for (const report of reports) {
+			if (report.status && !seen.has(report.status)) {
+				seen.add(report.status);
+				result.push(report.status);
+			}
+		}
+
+		return result;
+	}, [reports]);
 
 	useEffect(() => {
 		if (activeTab === 'laporan-saya') {
@@ -79,13 +109,20 @@ const LaporanPage = () => {
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
 						<div className="flex flex-col items-start space-y-4">
-							<Hashtag label="#Fasilitas" quantity={1} />
-							<Hashtag label="#Kebersihan" quantity={1} />
-							<p className="text-sm text-primary italic">Muat Lebih banyak Kategori</p>
+							{categorizedReports.length > 0 ? (
+								<>
+									{categorizedReports.map(({ value, quantity }) => (
+										<Hashtag key={value} label={`#${getCategoryLabel(value)}`} quantity={quantity} />
+									))}
+									{/* <p className="text-sm text-primary italic">Muat Lebih banyak Kategori</p> */}
+								</>
+							) : (
+								<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
+							)}
 						</div>
 					</div>
 
-					<StatusFilter title="Status" statusList={rawStatusOptions} />
+					<StatusFilter title="Status" statusList={uniqueStatuses} />
 				</div>
 			</div>
 		</div>
