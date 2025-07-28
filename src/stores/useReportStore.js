@@ -22,6 +22,7 @@ const useReportStore = create((set) => ({
 			const response = await reportsAPI.getMyReports();
 			set({ reports: response.data });
 		} catch (error) {
+			set({ reports: [] });
 			console.error('Get my reports error:', error);
 		}
 	},

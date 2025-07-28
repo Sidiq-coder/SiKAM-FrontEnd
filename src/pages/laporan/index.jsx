@@ -58,11 +58,15 @@ const LaporanPage = () => {
 
 					{/* Reports List */}
 					<div className="space-y-6">
-						{reports?.map((report) => (
-							<div key={report.id}>
-								<LaporanCard report={report} />
-							</div>
-						))}
+						{reports && reports.length > 0 ? (
+							reports.map((report) => (
+								<div key={report.id}>
+									<LaporanCard report={report} />
+								</div>
+							))
+						) : (
+							<div className="text-center text-gray my-8">Belum ada laporan yang tersedia.</div>
+						)}
 					</div>
 
 					{/* Pagination */}
