@@ -13,7 +13,7 @@ import useReportStore from '@/stores/useReportStore';
 const rawStatusOptions = [
 	{ status: 'Pending', color: 'text-yellow' },
 	{ status: 'Ditinjau', color: 'text-[#EDC831]' },
-	{ status: 'Ditanggapi', color: 'text-[#007BFF]' },
+	{ status: 'Ditanggapi', color: 'text-primary' },
 	{ status: 'Selesai', color: 'text-[#2FCB51]' },
 	{ status: 'Ditolak', color: 'text-[#EE4848]' },
 ];

@@ -1,11 +1,11 @@
 import * as z from 'zod';
 
 export const studentDataSchema = z.object({
-	name: z.string().min(3, { message: 'Nama minimal terdiri dari 3 karakter' }).max(100, { message: 'Nama tidak boleh lebih dari 100 karakter' }).optional(),
+	name: z.string().min(3, { message: 'Nama minimal terdiri dari 3 karakter' }).max(100, { message: 'Nama tidak boleh lebih dari 100 karakter' }),
 
-	program_study: z.string().max(45, { message: 'Program studi tidak boleh lebih dari 45 karakter' }).optional(),
+	program_study: z.string().min(3, { message: 'Program studi minimal terdiri dari 3 karakter' }).max(45, { message: 'Program studi tidak boleh lebih dari 45 karakter' }),
 
-	batch: z.string().regex(/^\d+$/, { message: 'Angkatan harus berupa angka' }).optional(),
+	batch: z.string().regex(/^\d+$/, { message: 'Angkatan harus berupa angka' }),
 });
 
 export const resetPasswordSchema = z

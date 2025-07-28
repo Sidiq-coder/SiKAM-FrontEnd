@@ -7,6 +7,7 @@ import { getStatusMeta } from '@/utils/getStatusMeta';
 import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo } from '@/utils/date';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
+import useAuthStore from '@/stores/useAuthStore';
 
 const LaporanVoteSection = ({ report, isVoteable }) => {
 	if (!isVoteable)
@@ -61,13 +62,13 @@ const LaporanHeader = ({ report, isVoteable }) => {
 	);
 };
 
-const LaporanBody = ({ report, isDetail, isAdmin }) => {
-	const showActions = report.isMy && !isAdmin;
+const LaporanBody = ({ report, isDetail, isAdmin, isMy }) => {
+	const showActions = isMy && !isAdmin;
 
 	return (
 		<div className="mb-4">
 			<div className="flex flex-col md:flex-row md:items-center justify-between gap-y-2 mb-2">
-				<h2 className="text-2xl font-bold text-dark">{report.title}</h2>
+				<h2 className="text-2xl font-bold text-dark">{report?.title}</h2>
 
 				{showActions && (
 					<div className="flex items-center space-x-2">
@@ -80,7 +81,7 @@ const LaporanBody = ({ report, isDetail, isAdmin }) => {
 					</div>
 				)}
 			</div>
-			<p className="text-[#909090] text-sm leading-relaxed">{isDetail ? report.description : truncateText(report.description, 300)}</p>
+			<p className="text-[#909090] text-sm leading-relaxed">{isDetail ? report?.description : truncateText(report?.description, 300)}</p>
 		</div>
 	);
 };
@@ -88,8 +89,8 @@ const LaporanBody = ({ report, isDetail, isAdmin }) => {
 const LaporanFooter = ({ report, isDetail }) => {
 	return (
 		<div className="flex justify-between">
-			<Hashtag label={report.category} />
-			{report.file && !isDetail ? (
+			<Hashtag label={report?.category} />
+			{report?.file_url && !isDetail ? (
 				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark px-2 rounded-xl">
 					<Plus className="w-4 h-4" />
 					<FileImage className="w-4 h-4" />
@@ -99,7 +100,7 @@ const LaporanFooter = ({ report, isDetail }) => {
 	);
 };
 
-const LaporanDetailSection = ({ isAdmin }) => {
+const LaporanDetailSection = ({ report, isAdmin }) => {
 	return (
 		<div className="mt-4">
 			<div className="flex items-center space-x-1.5 mb-3">
@@ -107,9 +108,13 @@ const LaporanDetailSection = ({ isAdmin }) => {
 				<FileImage className="w-4 h-4" />
 			</div>
 
-			<div className="mb-8">
-				<FileImageComponent filePath="/images/img-laporan.png" fileName="IMG.jpg" />
-			</div>
+			{report?.file_url ? (
+				<div className="mb-8">
+					<FileImageComponent filePath={report.file_url} fileName="Lampiran" />
+				</div>
+			) : (
+				<p className="text-gray-500 mb-8">Tidak ada lampiran</p>
+			)}
 
 			<div className="flex border-b border-gray-200 mb-8">
 				<div className="flex items-center px-2 py-3 text-blue-600 border-b-2 border-blue-600 font-medium">
@@ -122,25 +127,29 @@ const LaporanDetailSection = ({ isAdmin }) => {
 				</button>
 			</div>
 
-			{isAdmin ? null : (
+			{!isAdmin ? (
 				<div className="flex items-center justify-center text-yellow gap-x-2">
 					<Hourglass className="w-5 h-5" />
 					<p className="font-semibold text-lg">Menunggu Verifikasi</p>
 				</div>
+			) : (
+				<UpdateStatusForm />
 			)}
-
-			{!isAdmin ? null : <UpdateStatusForm />}
 		</div>
 	);
 };
 
-const LaporanCard = ({ report, isDetail = false, isVote = true, className = '' }) => {
+const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const location = useLocation();
 	const navigate = useNavigate();
+	const { user } = useAuthStore();
 
 	const isAdmin = location.pathname.includes('admin');
-	const isVoteable = isVote && !report.isMy && !isAdmin;
-	const detailPath = !isAdmin ? '/detail-laporan' : '/admin/detail-laporan';
+	const isMy = user?.id === report?.student_id;
+	const isVote = user?.id !== report?.student_id;
+
+	const isVoteable = isVote && !isMy && !isAdmin;
+	const detailPath = isAdmin ? '/admin/detail-laporan' : '/detail-laporan';
 
 	return (
 		<div
@@ -153,10 +162,10 @@ const LaporanCard = ({ report, isDetail = false, isVote = true, className = '' }
 			<div className="w-full">
 				<div className={isDetail ? 'border-b border-gray pb-6' : ''}>
 					<LaporanHeader report={report} isVoteable={isVoteable} />
-					<LaporanBody report={report} isDetail={isDetail} isAdmin={isAdmin} />
+					<LaporanBody report={report} isDetail={isDetail} isAdmin={isAdmin} isMy={isMy} />
 					<LaporanFooter report={report} isDetail={isDetail} />
 				</div>
-				{!isDetail ? null : <LaporanDetailSection isAdmin={isAdmin} />}
+				{isDetail && <LaporanDetailSection report={report} isAdmin={isAdmin} />}
 			</div>
 		</div>
 	);
