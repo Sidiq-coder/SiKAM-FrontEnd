@@ -40,16 +40,16 @@ const ProfileSection = () => {
 				{/* Sidebar */}
 				<aside className="lg:w-80 w-full bg-white shadow-md relative rounded-b-2xl lg:rounded-bl-2xl font-semibold">
 					{/* Profile Picture */}
-					<div className="absolute -top-16 left-1/2 lg:left-8 transform -translate-x-1/2 lg:translate-x-0">
+					<div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
 						<div className="w-28 h-28 lg:w-32 lg:h-32 bg-primary p-2 rounded-full border-4 border-white mx-auto flex items-center justify-center">
 							<img src="/images/Artboard 3 copy 1.png" alt="User" className="object-cover rounded-full w-full h-full" />
 						</div>
 					</div>
 
 					{/* Sidebar Content */}
-					<div className="pt-20 px-6 lg:px-8 text-center lg:text-left">
-						<h2 className="text-xl font-bold text-dark mb-1">{user?.name ?? '-'}</h2>
-						<p className="text-gray-500 text-sm mb-6">{user?.npm ?? '-'}</p>
+					<div className="pt-20 px-6 lg:px-8">
+						<h2 className="text-2xl font-bold text-dark text-center mb-0.5">{user?.name ?? '-'}</h2>
+						<p className="text-[#90909099] text-center font-medium mb-6">{user?.npm ?? '-'}</p>
 
 						<nav className="space-y-2">
 							{[
@@ -65,15 +65,15 @@ const ProfileSection = () => {
 										setProfilMenu(key);
 										setCustomPageTitle(label);
 									}}
-									className={`py-2 px-4 border-l-4 cursor-pointer transition ${
-										profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-primary border-primary bg-blue-50' : 'text-dark border-transparent hover:bg-gray-50'
+									className={`py-1.5 cursor-pointer transition ${key === 'profil' && 'border-t-2 border-gray/60 pt-3'} ${key === 'notifikasi' && 'border-b-2 border-gray/60 pb-3'} ${
+										profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-primary' : 'text-dark'
 									}`}
 								>
 									{label}
 								</div>
 							))}
 
-							<div className="my-8 flex items-center justify-center lg:justify-start text-[#EE4848] hover:opacity-80 cursor-pointer px-4 py-2" onClick={() => setLogoutModal(true)}>
+							<div className="my-8 flex items-center justify-center lg:justify-start text-[#EE4848] hover:opacity-80 cursor-pointer py-2" onClick={() => setLogoutModal(true)}>
 								<span className="mr-2">Logout</span>
 								<LogOut className="w-5 h-5" />
 							</div>
