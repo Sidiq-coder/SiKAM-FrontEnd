@@ -31,15 +31,12 @@ const Login = () => {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-
-					if (data.identifier === 'admin@gmail.com') {
-						navigate('/admin');
-					} else {
-						navigate('/');
-					}
-				}, 2000);
+				clearError();
+				if (data.identifier === 'admin@gmail.com') {
+					navigate('/admin');
+				} else {
+					navigate('/');
+				}
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat masuk');

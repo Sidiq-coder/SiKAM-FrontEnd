@@ -34,10 +34,8 @@ export const EditProfil = () => {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					setProfilMenu('profil');
-				}, 2000);
+				clearError();
+				setProfilMenu('profil');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');

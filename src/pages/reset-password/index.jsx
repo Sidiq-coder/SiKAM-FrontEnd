@@ -54,10 +54,8 @@ const ResetPassword = () => {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					navigate('/login');
-				}, 2000);
+				clearError();
+				navigate('/login');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');

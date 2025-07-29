@@ -33,10 +33,7 @@ const AjuLaporan = () => {
 
 			if (result?.data?.success) {
 				toast.success('Berhasil mengajukan laporan');
-
-				setTimeout(() => {
-					navigate('/laporan');
-				}, 2000);
+				navigate('/laporan');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan!');

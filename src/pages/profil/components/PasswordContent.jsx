@@ -26,9 +26,7 @@ export const PasswordContent = () => {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-				}, 2000);
+				clearError();
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');
