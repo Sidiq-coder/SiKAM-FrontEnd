@@ -1,5 +1,5 @@
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Calendar, Clock, Edit, FileImage, Hourglass, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import { Calendar, Edit, FileImage, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import Triangle from '@/components/triangle';
 import FileImageComponent from '@/components/file-image';
@@ -130,7 +130,6 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 
 const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { user } = useAuthStore();
 
 	const isAdmin = location.pathname.includes('admin');
@@ -152,15 +151,15 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 					<LaporanHeader report={report} isVoteable={isVoteable} />
 
 					<div className="flex">
-						<div className="flex-1 cursor-pointer" onClick={() => (isDetail ? null : navigate(detailPath))}>
+						<a href={isDetail ? null : detailPath} className="flex-1 cursor-pointer">
 							<LaporanBody report={report} isDetail={isDetail} />
-						</div>
+						</a>
 
 						{showActions && (
 							<div className="flex items-center space-x-2">
-								<Link to={`/laporan/${report?.id}/ubah`} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
+								<a href={`/laporan/${report?.id}/ubah`} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
 									<Edit className="w-5 h-5 md:w-6 md:h-6" />
-								</Link>
+								</a>
 								<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
 									<Trash className="w-5 h-5 md:w-6 md:h-6" />
 								</button>

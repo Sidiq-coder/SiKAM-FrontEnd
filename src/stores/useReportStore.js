@@ -55,6 +55,20 @@ const useReportStore = create((set) => ({
 		}
 	},
 
+	updateReport: async (id, data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await reportsAPI.updateReport(id, data);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Update report failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
 	clearError: () => set({ error: null }),
 }));
 

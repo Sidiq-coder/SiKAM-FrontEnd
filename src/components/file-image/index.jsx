@@ -3,7 +3,7 @@ import React from 'react';
 
 const FileImage = ({ filePath, fileName, isUploaded = false, onClick = null }) => {
 	return (
-		<div className={`w-full h-full sm:w-96 sm:h-64 rounded-md relative ${!onClick ? 'overflow-hidden' : ''}`}>
+		<div className={`w-full h-full sm:w-48 sm:h-32 md:w-96 md:h-64 rounded-md relative ${!onClick ? 'overflow-hidden' : ''}`}>
 			<img src={filePath} alt={fileName} className="w-full h-full rounded-md object-cover" />
 			<div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-[#0E50A0] to-transparent opacity-80"></div>
 			<div className="flex items-center space-x-1 absolute top-3 left-3 text-white text-sm font-medium z-50">

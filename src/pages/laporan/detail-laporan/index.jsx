@@ -12,7 +12,10 @@ const DetailLaporan = () => {
 	const { getReport, report } = useReportStore();
 
 	useEffect(() => {
-		getReport(id);
+		const fetch = async () => {
+			await getReport(id);
+		};
+		fetch();
 	}, [id]);
 
 	return (
