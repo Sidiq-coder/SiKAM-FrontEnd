@@ -24,9 +24,15 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
 	(response) => response,
 	(error) => {
-		if (error.response?.status === 401) {
+		const excludedPaths = ['/reset-password'];
+		const requestUrl = error.config?.url;
+
+		const isExcluded = excludedPaths.some((path) => requestUrl?.includes(path));
+
+		if (error.response?.status === 401 && !isExcluded) {
 			localStorage.removeItem('token');
 		}
+
 		return Promise.reject(error);
 	}
 );

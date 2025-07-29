@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { LogOut, Edit3, Edit } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { LogOut, Edit3 } from 'lucide-react';
 import { daftarLaporan } from '@/mocks/laporanMock';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BandingUkt } from './components/BandingUkt';
@@ -12,11 +11,11 @@ import Button from '@/components/button';
 import Tabs from '@/components/tabs';
 import LaporanCard from '@/components/laporan-card';
 import Pagination from '@/components/pagination';
-import { useNavigate } from 'react-router-dom';
 import { getUserStatus } from '@/utils/users';
 import { EditProfil } from './components/EditProfil';
 import { setCustomPageTitle } from '@/utils/titleManager';
 import useProfilStore from '@/stores/useProfilStore';
+import { LogoutModal } from './components/Modal';
 
 export default function ProfilePage() {
 	return (
@@ -28,18 +27,9 @@ export default function ProfilePage() {
 
 const ProfileSection = () => {
 	const { profilMenu, setProfilMenu } = useProfilStore();
-	const { logout, user } = useAuth();
-	const navigate = useNavigate();
+	const { user } = useAuth();
 
-	const handleLogout = async () => {
-		if (confirm('Apakah Anda yakin ingin keluar?')) {
-			const response = await logout();
-			if (response?.data?.success) {
-				toast.success(response?.data?.message);
-				navigate('/login');
-			}
-		}
-	};
+	const [logoutModal, setLogoutModal] = useState(false);
 
 	return (
 		<div className="bg-white rounded-2xl shadow overflow-hidden">
@@ -83,7 +73,7 @@ const ProfileSection = () => {
 								</div>
 							))}
 
-							<div className="my-8 flex items-center justify-center lg:justify-start text-[#EE4848] hover:opacity-80 cursor-pointer px-4 py-2" onClick={handleLogout}>
+							<div className="my-8 flex items-center justify-center lg:justify-start text-[#EE4848] hover:opacity-80 cursor-pointer px-4 py-2" onClick={() => setLogoutModal(true)}>
 								<span className="mr-2">Logout</span>
 								<LogOut className="w-5 h-5" />
 							</div>
@@ -100,6 +90,9 @@ const ProfileSection = () => {
 					{profilMenu === 'laporan' && <Laporan />}
 					{profilMenu === 'banding' && <BandingUkt />}
 				</main>
+
+				{/* Logout Modal */}
+				<LogoutModal openModal={logoutModal} closeModal={() => setLogoutModal(false)} />
 			</div>
 		</div>
 	);
