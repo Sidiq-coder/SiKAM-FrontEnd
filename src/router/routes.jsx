@@ -52,13 +52,16 @@ const routes = [
 	// Main Routes
 	{
 		path: '/',
+		element: <BaseLayout />,
+		children: [{ index: true, element: <Home /> }],
+	},
+	{
+		path: '/',
 		element: <AuthGuard />,
 		children: [
 			{
 				element: <BaseLayout />,
 				children: [
-					{ index: true, element: <Home /> },
-
 					// Laporan
 					{ path: 'laporan', element: <LaporanPage /> },
 					{ path: 'laporan/:id', element: <DetailLaporan /> },

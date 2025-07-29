@@ -8,13 +8,22 @@ import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
+import useAuthStore from '@/stores/useAuthStore';
 import useReportStore from '@/stores/useReportStore';
 import { getCategoryLabel } from '@/utils/reports';
+import { studentsStatus } from '@/utils/users';
+import NotVerifiedModal from './components/not-verified-modal';
+import { useNavigate } from 'react-router-dom';
 
 const LaporanPage = () => {
+	const navigate = useNavigate();
+
+	const { user } = useAuthStore();
 	const { getReports, getMyReports, reports } = useReportStore();
+
 	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
+	const [openModal, setOpenModal] = useState(false);
 
 	const tabOptions = [
 		{ label: 'Semua', value: 'semua' },
@@ -58,6 +67,14 @@ const LaporanPage = () => {
 		return result;
 	}, [reports]);
 
+	const handleAjuLaporan = () => {
+		if (user.status !== studentsStatus.VERIFIED) {
+			setOpenModal(true);
+		} else {
+			navigate('/aju-laporan');
+		}
+	};
+
 	useEffect(() => {
 		if (activeTab === 'laporan-saya') {
 			getMyReports();
@@ -80,7 +97,7 @@ const LaporanPage = () => {
 					</div>
 
 					<div className="flex justify-end mb-4">
-						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />
+						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" onClick={handleAjuLaporan} />
 					</div>
 
 					{/* Tabs */}
@@ -104,7 +121,7 @@ const LaporanPage = () => {
 				</div>
 
 				<div className="w-80 space-y-6">
-					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full hidden lg:block" href="/aju-laporan" />
+					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full hidden lg:block" onClick={handleAjuLaporan} />
 
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
@@ -125,6 +142,8 @@ const LaporanPage = () => {
 					<StatusFilter title="Status" statusList={uniqueStatuses} />
 				</div>
 			</div>
+
+			<NotVerifiedModal openModal={openModal} closeModal={() => setOpenModal(false)} />
 		</div>
 	);
 };

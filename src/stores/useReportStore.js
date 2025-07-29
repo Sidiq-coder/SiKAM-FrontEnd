@@ -54,6 +54,8 @@ const useReportStore = create((set) => ({
 			set({ isLoading: false });
 		}
 	},
+
+	clearError: () => set({ error: null }),
 }));
 
 export default useReportStore;

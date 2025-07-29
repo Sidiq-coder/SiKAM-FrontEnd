@@ -1,11 +1,25 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
+import { Modal } from '@/components/modal';
+import Button from '@/components/button';
 
 const AuthGuard = () => {
-	const { user } = useAuth();
+	const { token } = useAuth();
 
-	if (!user) {
-		return <Navigate to="/login" replace />;
+	if (!token) {
+		return (
+			<Modal isOpen={true} size="md">
+				<div className="flex flex-col items-center text-center">
+					<img src="/images/artboard-1-1.png" alt="artboard-1-1.png" className="w-60" />
+
+					<h2 className="text-2xl text-dark font-semibold mt-4">Anda harus login terlebih dahulu untuk mengajukan laporan atau Banding UKT</h2>
+				</div>
+				<div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 py-10">
+					<Button variant="primary" label="Masuk" href="/login" size="large" />
+					<Button variant="outline" label="Daftar" href="/register" size="large" />
+				</div>
+			</Modal>
+		);
 	}
 
 	return <Outlet />;

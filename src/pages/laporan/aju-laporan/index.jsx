@@ -11,9 +11,10 @@ import FileUploadDropzone from '@/components/file-upload-dropzone';
 import { ChevronLeft, CircleQuestionMark } from 'lucide-react';
 import useReportStore from '@/stores/useReportStore';
 import { reportCategories, reportLevels } from '@/utils/reports';
+import { useEffect } from 'react';
 
 const AjuLaporan = () => {
-	const { createReport } = useReportStore();
+	const { createReport, error, isLoading, clearError } = useReportStore();
 	const navigate = useNavigate();
 	const {
 		register,
@@ -32,6 +33,7 @@ const AjuLaporan = () => {
 			const result = await createReport(data);
 
 			if (result?.data?.success) {
+				clearError();
 				toast.success('Berhasil mengajukan laporan');
 				navigate('/laporan');
 			}
@@ -40,6 +42,10 @@ const AjuLaporan = () => {
 			console.error('Error:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
 
 	return (
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
@@ -101,7 +107,7 @@ const AjuLaporan = () => {
 
 				<div className="flex items-center justify-between mt-12">
 					{/* Submit Button */}
-					<SubmitButton label="Laporkan" loadingLabel="Melaporkan..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} className="w-full" />
+					<SubmitButton label="Laporkan" loadingLabel="Melaporkan..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} className="w-full" />
 				</div>
 			</div>
 		</div>
