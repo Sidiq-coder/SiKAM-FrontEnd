@@ -70,6 +70,30 @@ const EditLaporanModal = ({ id, openModal, closeModal }) => {
 };
 
 const LaporanVoteSection = ({ report, isVoteable }) => {
+	const { upvoteReport, downvoteReport, clearError } = useReportStore();
+
+	const handleVoteReport = async (type) => {
+		try {
+			let result;
+
+			if (type === 'upvote') {
+				result = await upvoteReport(report.id);
+			}
+
+			if (type === 'downvote') {
+				result = await downvoteReport(report.id);
+			}
+
+			if (result?.data?.success) {
+				clearError();
+				toast.success('Berhasil vote laporan');
+			}
+		} catch (error) {
+			toast.error('Terjadi kesalahan!');
+			console.error('Error:', error);
+		}
+	};
+
 	if (!isVoteable)
 		return (
 			<div className="flex flex-col items-center space-y-2">
@@ -82,9 +106,13 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 
 	return (
 		<div className="flex flex-col items-center">
-			<Triangle fill="#0B4D9B" />
+			<div onClick={() => handleVoteReport('upvote')}>
+				<Triangle fill="#0B4D9B" />
+			</div>
 			<span className="text-2xl font-bold text-dark">{report?.vote_total}</span>
-			<Triangle fill="#0B4D9B" isFlip />
+			<div onClick={() => handleVoteReport('downvote')}>
+				<Triangle fill="#0B4D9B" isFlip />
+			</div>
 		</div>
 	);
 };

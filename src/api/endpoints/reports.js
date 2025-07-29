@@ -87,8 +87,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	voteReport: async (id) => {
-		const response = await apiClient.post(`${baseURL}/${id}/vote`);
+	voteReport: async (id, data) => {
+		const response = await apiClient.post(`${baseURL}/${id}/vote`, data);
 		return response.data;
 	},
 };
