@@ -30,7 +30,7 @@ const DetailLaporan = () => {
 						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />
 					</div>
 
-					<LaporanCard report={report} isDetail />
+					{report && <LaporanCard report={report} isDetail />}
 				</div>
 			</div>
 		</div>
