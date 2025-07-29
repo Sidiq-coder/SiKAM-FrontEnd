@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-const NavLogo = ({ textColorAdmin = 'text-white', textColor = 'text-yellow' }) => {
+const NavLogo = ({ textColorAdmin = 'text-white', textColor = 'text-white' }) => {
 	const location = useLocation();
 
 	if (location.pathname.includes('admin')) {

@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { useUser } from '@/hooks/useUser';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Bell, HelpCircle, Menu, User, X } from 'lucide-react';
 import NavLink from '../nav-link';
 import NavLogo from '../nav-logo';
 import IconButton from '../icon-button';
+import useAuth from '@/hooks/useAuth';
+import { create } from 'zustand';
+import useProfilStore from '@/stores/useProfilStore';
 
 const navLinks = {
 	student: [
@@ -13,13 +14,21 @@ const navLinks = {
 		{ label: 'Advika', href: '/advika' },
 		{ label: 'Tentang Sikam', href: '/tentang' },
 	],
-	admin: [
+	superadmin: [
 		{ label: 'Laporan', href: '/admin/laporan' },
 		{ label: 'Banding UKT', href: '/admin/banding-ukt' },
 		{ label: 'Advika', href: '/admin/advika' },
 		{ label: 'Kelola Akun', href: '/admin/kelola-akun' },
 	],
 };
+
+const useNavbarStore = create((set) => ({
+	isMenuOpen: false,
+
+	setMenuOpen: (isMenuOpen) => {
+		set({ isMenuOpen });
+	},
+}));
 
 const NavbarAuthButtons = () => {
 	return (
@@ -47,18 +56,38 @@ const NavbarAuthButtons = () => {
 	);
 };
 
-const NavbarActions = ({ handleProfile }) => {
+const NavbarActions = () => {
+	const navigate = useNavigate();
 	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
+	const { setMenuOpen } = useNavbarStore();
+	const { setProfilMenu } = useProfilStore();
 
 	return (
 		<>
-			<IconButton bgColor="bg-primary lg:bg-white">
+			<IconButton
+				bgColor="bg-primary lg:bg-white"
+				onClick={() => {
+					setMenuOpen(false);
+					navigate('/');
+					setTimeout(() => {
+						window.location.hash = '#faq';
+					}, 500);
+				}}
+			>
 				<HelpCircle className={iconStyle} />
 			</IconButton>
 			<IconButton bgColor="bg-primary lg:bg-white">
 				<Bell className={iconStyle} />
 			</IconButton>
-			<IconButton bgColor="bg-primary lg:bg-white" rounded="rounded-full" onClick={handleProfile}>
+			<IconButton
+				bgColor="bg-primary lg:bg-white"
+				rounded="rounded-full"
+				onClick={() => {
+					setMenuOpen(false);
+					setProfilMenu('profil');
+					navigate('/profil');
+				}}
+			>
 				<User className={iconStyle} />
 			</IconButton>
 		</>
@@ -66,18 +95,12 @@ const NavbarActions = ({ handleProfile }) => {
 };
 
 const Navbar = () => {
-	const { user } = useUser();
+	const { user } = useAuth();
 	const location = useLocation();
-	const navigate = useNavigate();
+	const { isMenuOpen, setMenuOpen } = useNavbarStore();
 	const isAdminPath = location.pathname.includes('/admin');
-	const userType = isAdminPath && user?.userType === 'admin' ? 'admin' : 'student';
+	const userType = isAdminPath && user?.role === 'superadmin' ? 'superadmin' : 'student';
 	const links = navLinks[userType];
-
-	const [menuOpen, setMenuOpen] = useState(false);
-
-	const handleProfile = () => {
-		navigate(`/profilePage`);
-	};
 
 	return (
 		<header className="text-white py-6 relative z-50">
@@ -94,16 +117,16 @@ const Navbar = () => {
 				</nav>
 
 				{/* Auth Buttons Desktop */}
-				<div className="hidden lg:flex items-center space-x-4">{user ? <NavbarActions handleProfile={handleProfile} /> : <NavbarAuthButtons />}</div>
+				<div className="hidden lg:flex items-center space-x-4">{user ? <NavbarActions /> : <NavbarAuthButtons />}</div>
 
 				{/* Mobile Menu Button */}
-				<button className="lg:hidden text-white focus:outline-none cursor-pointer" onClick={() => setMenuOpen((prev) => !prev)}>
-					{menuOpen ? <X size={28} /> : <Menu size={28} />}
+				<button className="lg:hidden text-white focus:outline-none cursor-pointer" onClick={() => setMenuOpen(!isMenuOpen)}>
+					{isMenuOpen ? <X size={28} /> : <Menu size={28} />}
 				</button>
 			</div>
 
 			{/* Mobile Dropdown Menu */}
-			{!menuOpen ? null : (
+			{isMenuOpen && (
 				<div className="fixed inset-0 z-50 bg-white p-6 flex flex-col space-y-2 slide-left">
 					<div className="flex items-center justify-between mb-6">
 						{/* Nav Logo */}
@@ -126,7 +149,7 @@ const Navbar = () => {
 					<div className="flex flex-col items-start space-y-3 mt-10">
 						{user ? (
 							<div className="flex flex-wrap gap-4">
-								<NavbarActions handleProfile={handleProfile} />
+								<NavbarActions />
 							</div>
 						) : (
 							<NavbarAuthButtons />

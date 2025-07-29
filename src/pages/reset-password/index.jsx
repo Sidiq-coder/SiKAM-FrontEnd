@@ -1,80 +1,129 @@
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
-import { KeyRound } from 'lucide-react';
-import { useUser } from '@/hooks/useUser';
+import { ChevronLeft, ChevronRight, KeyRound } from 'lucide-react';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
+import OtpField from '@/components/otp-field';
 import Header from './components/header';
+import useAuth from '@/hooks/useAuth';
+import useOtpStore from '@/stores/useOtpStore';
+import ChevronButton from '@/components/chevron-button';
 
 const ResetPassword = () => {
 	const navigate = useNavigate();
-	const { getUserData } = useUser();
+	const { verifyPasswordReset, isLoading, error, clearError } = useAuth();
+	const { email } = useOtpStore();
 	const {
 		register,
 		handleSubmit,
+		control,
+		setValue,
+		getValues,
 		formState: { errors, isValid, isSubmitting },
 	} = useForm({
 		resolver: zodResolver(schema),
 		mode: 'onChange',
+		defaultValues: {
+			otp: ['', '', '', '', '', ''],
+		},
 	});
+
+	const [step, setStep] = useState(1);
+
+	const nextStep = () => {
+		if (step === 1) setStep(step + 1);
+	};
+
+	const prevStep = () => {
+		if (step === 2) setStep(step - 1);
+	};
 
 	const onSubmit = async (data) => {
 		try {
-			const formData = new FormData();
-			formData.append('password', data.password);
-			formData.append('confirmPassword', data.confirmPassword);
+			const otp = data.otp.join('');
 
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			const result = await verifyPasswordReset({
+				email,
+				otp,
+				new_password: data.new_password,
+			});
 
-			toast.success('Berhasil Masuk!');
-
-			if (formData.get('npm') === '1234567890') {
-				getUserData(2);
-
+			if (result?.data?.success) {
+				toast.success(result?.data?.message);
 				setTimeout(() => {
-					navigate('/admin');
-				}, 2000);
-			} else {
-				getUserData(1);
-
-				setTimeout(() => {
-					navigate('/');
+					clearError();
+					navigate('/login');
 				}, 2000);
 			}
 		} catch (error) {
-			toast.error('Terjadi kesalahan saat masuk');
-			console.error('Reset password error:', error);
+			toast.error('Terjadi kesalahan');
+			console.error('Error:', error);
 		}
 	};
 
+	useEffect(() => {
+		if (error) toast.error(error);
+	}, [error]);
+
 	return (
-		<div className="bg-white rounded-2xl shadow-2xl px-8 pt-6 pb-10 md:px-12 md:pt-8 md:pb-12 w-full max-w-lg">
-			{/* Header */}
-			<Header />
+		<div className="bg-white rounded-xl shadow-md p-6 w-full max-w-xl">
+			{/* Back Button */}
+			<Link to="/lupa-password">
+				<ChevronLeft className="w-7 h-7 text-dark" />
+			</Link>
 
-			<div className="grid grid-cols-1 gap-7">
-				{/* Password */}
-				<InputField name="password" label="Password" placeholder="Password" register={register} error={errors.password} icon={KeyRound} isPassword />
+			<div className="sm:px-10 py-10">
+				{/* OTP Inputs */}
+				{step === 1 && (
+					<>
+						{/* Title */}
+						<h1 className="text-dark text-[26px] font-semibold text-center mb-0.5">Verifikasi OTP</h1>
+						<p className="text-dark text-center font-extralight mb-6">Silahkan masukan kode OTP yang dikirim melalui Email yang anda masukkan</p>
 
-				{/* Password */}
-				<InputField
-					name="confirmPassword"
-					label="Konfirmasi Password"
-					placeholder="Konfirmasi Password"
-					register={register}
-					error={errors.confirmPassword}
-					icon={KeyRound}
-					isPassword
-					description="Password Anda harus memiliki minimal 8 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus."
-				/>
-			</div>
+						<OtpField name="otp" setValue={setValue} getValues={getValues} control={control} error={errors.otp} />
 
-			<div className="flex items-center justify-end mt-12">
-				{/* Submit Button */}
-				<SubmitButton label="Reset Password" loadingLabel="Reset..." isValid={isValid} isSubmitting={isSubmitting} onSubmit={handleSubmit(onSubmit)} />
+						<div className="flex flex-wrap items-center justify-end mt-12">
+							{/* Next Button */}
+							<ChevronButton onClick={nextStep} icon={ChevronRight} isDisable={!getValues('otp').every((digit) => /^\d$/.test(digit))} />
+						</div>
+					</>
+				)}
+
+				{step === 2 && (
+					<>
+						{/* Header */}
+						<Header />
+
+						<div className="grid grid-cols-1 gap-7">
+							{/* Password */}
+							<InputField name="new_password" label="Password" placeholder="Password" register={register} error={errors.new_password} icon={KeyRound} isPassword />
+
+							{/* Password */}
+							<InputField
+								name="confirm_password"
+								label="Konfirmasi Password"
+								placeholder="Konfirmasi Password"
+								register={register}
+								error={errors.confirm_password}
+								icon={KeyRound}
+								isPassword
+								description="Password Anda harus memiliki minimal 8 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus."
+							/>
+						</div>
+
+						<div className="flex flex-wrap items-center justify-between mt-12 gap-2">
+							{/* Prev Button */}
+							<ChevronButton onClick={prevStep} icon={ChevronLeft} />
+
+							{/* Submit Button */}
+							<SubmitButton label="Reset Password" loadingLabel="Reset..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);

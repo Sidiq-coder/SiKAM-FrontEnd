@@ -17,7 +17,7 @@ export default function AdminAdvika() {
 				<h1 className="capitalize font-bold text-dark text-3xl">daftar berita</h1>
 				<div className="flex gap-4">
 					<FilterButton options={['Terbaru', 'Popularitas']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
-					<Button href={`/admin/buatAdvika`} label={`Buat Berita`} className={`bg-[#007BFF] text-white h-10 flex items-center w-36`} icon={<FontAwesomeIcon icon={faPlus} />} />
+					<Button href={`/admin/buatAdvika`} label={`Buat Berita`} className={`bg-primary text-white h-10 flex items-center w-36`} icon={<FontAwesomeIcon icon={faPlus} />} />
 				</div>
 			</div>
 			{/* Ubah flex menjadi grid di sini */}

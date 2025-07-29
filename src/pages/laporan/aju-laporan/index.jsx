@@ -9,8 +9,11 @@ import SelectField from '@/components/select-field';
 import Textarea from '@/components/textarea';
 import FileUploadDropzone from '@/components/file-upload-dropzone';
 import { ChevronLeft, CircleQuestionMark } from 'lucide-react';
+import useReportStore from '@/stores/useReportStore';
+import { reportCategories, reportLevels } from '@/utils/reports';
 
 const AjuLaporan = () => {
+	const { createReport } = useReportStore();
 	const navigate = useNavigate();
 	const {
 		register,
@@ -18,6 +21,7 @@ const AjuLaporan = () => {
 		formState: { errors, isValid, isSubmitting },
 		setValue,
 		trigger,
+		watch,
 	} = useForm({
 		resolver: zodResolver(schema),
 		mode: 'onChange',
@@ -25,44 +29,20 @@ const AjuLaporan = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const formData = new FormData();
-			formData.append('npm', data.npm);
-			formData.append('password', data.password);
+			const result = await createReport(data);
 
-			await new Promise((resolve) => setTimeout(resolve, 2000));
+			if (result?.data?.success) {
+				toast.success('Berhasil mengajukan laporan');
 
-			toast.success('Berhasil Mengajukan Laporan!');
-
-			setTimeout(() => {
-				navigate('/laporan');
-			}, 2000);
+				setTimeout(() => {
+					navigate('/laporan');
+				}, 2000);
+			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan!');
 			console.error('Error:', error);
 		}
 	};
-
-	const tingkatLaporanOptions = [
-		{
-			label: 'Universitas',
-			value: 'universitas',
-		},
-		{
-			label: 'Fakultas',
-			value: 'fakultas',
-		},
-	];
-
-	const kategoriLaporanOptions = [
-		{
-			label: 'Fasilitas',
-			value: 'fasilitas',
-		},
-		{
-			label: 'Kebersihan',
-			value: 'kebersihan',
-		},
-	];
 
 	return (
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
@@ -77,22 +57,49 @@ const AjuLaporan = () => {
 
 				<div className="grid grid-cols-1 gap-7">
 					{/* Judul Laporan */}
-					<InputField name="judulLaporan" label="Judul Laporan" placeholder="Judul Laporan" type="text" register={register} error={errors.judulLaporan} isSmall />
+					<InputField name="title" label="Judul Laporan" placeholder="Judul Laporan" type="text" register={register} error={errors.title} isSmall />
 
 					{/* Tingkat Laporan */}
-					<SelectField name="tingkatLaporan" label="Tingkat Laporan" placeholder="Tingkatan laporan Anda" register={register} error={errors.tingkatLaporan} options={tingkatLaporanOptions} />
+					<SelectField
+						name="report_level"
+						label="Tingkat Laporan"
+						placeholder="Tingkatan laporan Anda"
+						register={register}
+						error={errors.report_level}
+						options={reportLevels}
+						setValue={setValue}
+						watch={watch}
+					/>
 
 					{/* Kategori Laporan */}
-					<SelectField name="kategoriLaporan" label="Kategori Laporan" placeholder="Kategori laporan Anda" register={register} error={errors.kategoriLaporan} options={kategoriLaporanOptions} />
+					<SelectField
+						name="category"
+						label="Kategori Laporan"
+						placeholder="Kategori laporan Anda"
+						register={register}
+						error={errors.category}
+						options={reportCategories}
+						setValue={setValue}
+						watch={watch}
+					/>
 
 					{/* Isi Laporan */}
-					<Textarea name="isiLaporan" label="Isi Laporan" placeholder="Isi Laporan" register={register} error={errors.isiLaporan} />
+					<Textarea name="description" label="Isi Laporan" placeholder="Isi Laporan" register={register} error={errors.description} />
 
 					{/* Upload Lampiran */}
-					<FileUploadDropzone name="lampiran" label="Lampiran" labelDescription="(File atau foto bukti pendukung)" setValue={setValue} trigger={trigger} error={errors.lampiran} className="p-6" />
+					<FileUploadDropzone
+						name="file"
+						label="Lampiran"
+						labelDescription="(File atau foto bukti pendukung)"
+						setValue={setValue}
+						trigger={trigger}
+						error={errors.file}
+						required={false}
+						className="p-6"
+					/>
 
 					{/* Anonim */}
-					<InputField name="isAnonim" label="Anonim" placeholder="Anonim" type="checkbox" register={register} error={errors.isAnonim} isSmall />
+					<InputField name="isAnonymous" label="Anonim" placeholder="Anonim" type="checkbox" register={register} error={errors.isAnonymous} isSmall />
 				</div>
 
 				<div className="flex items-center justify-between mt-12">
