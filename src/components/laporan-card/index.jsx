@@ -1,13 +1,73 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Calendar, Edit, FileImage, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import Triangle from '@/components/triangle';
+import Button from '@/components/button';
+import { Modal } from '@/components/modal';
 import FileImageComponent from '@/components/file-image';
 import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo } from '@/utils/date';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
 import useAuthStore from '@/stores/useAuthStore';
 import { getReportStatuses, getCategoryLabel } from '@/utils/reports';
+import useReportStore from '@/stores/useReportStore';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+
+const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
+	const navigate = useNavigate();
+	const { deleteReport, clearError } = useReportStore();
+
+	const handleDeleteReport = async () => {
+		try {
+			const result = await deleteReport(id);
+
+			if (result?.data?.success) {
+				closeModal();
+				clearError();
+				toast.success('Berhasil menghapus laporan');
+				if (location.pathname !== '/laporan') {
+					navigate('/laporan');
+				}
+			}
+		} catch (error) {
+			toast.error('Terjadi kesalahan!');
+			console.error('Error:', error);
+		}
+	};
+
+	return (
+		<Modal isOpen={openModal} onClose={closeModal} size="md">
+			<div className="flex flex-col items-center text-center md:pt-10">
+				<img src="/images/trash.png" alt="trash.png" className="w-30" />
+				<h2 className="text-2xl text-dark font-semibold mt-10">Hapus laporan ini?</h2>
+				<p className="text-[#6C757D] mt-2">Tindakan ini akan menghapus laporan secara permanen dari sistem. Anda tidak dapat mengembalikannya.</p>
+			</div>
+			<div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-10 pb-4">
+				<Button variant="secondary" label="Batal" size="large" onClick={closeModal} />
+				<Button variant="danger" label="Hapus" size="large" onClick={handleDeleteReport} />
+			</div>
+		</Modal>
+	);
+};
+
+const EditLaporanModal = ({ id, openModal, closeModal }) => {
+	return (
+		<Modal isOpen={openModal} onClose={closeModal} size="md">
+			<div className="flex flex-col items-center text-center md:pt-10">
+				<img src="/images/pen-to-square.png" alt="pen-to-square.png" className="w-30" />
+				<h2 className="text-2xl text-dark font-semibold mt-10">Ubah Laporan Anda</h2>
+				<p className="text-[#6C757D] mt-2">
+					Anda dapat mengubah laporan selama status laporan <span className="text-yellow italic">pending</span>
+				</p>
+			</div>
+			<div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-10 pb-4">
+				<Button variant="secondary" label="Batal" size="large" onClick={closeModal} />
+				<Button anchor href={`/laporan/${id}/ubah`} variant="primary" label="Edit" size="large" />
+			</div>
+		</Modal>
+	);
+};
 
 const LaporanVoteSection = ({ report, isVoteable }) => {
 	if (!isVoteable)
@@ -132,6 +192,9 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const location = useLocation();
 	const { user } = useAuthStore();
 
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [editModal, setEditModal] = useState(false);
+
 	const isAdmin = location.pathname.includes('admin');
 	const isMy = user?.id === report?.student_id;
 	const isVote = user?.id !== report?.student_id;
@@ -157,10 +220,10 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 						{showActions && (
 							<div className="flex items-center space-x-2">
-								<a href={`/laporan/${report?.id}/ubah`} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
+								<button onClick={() => setEditModal(true)} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
 									<Edit className="w-5 h-5 md:w-6 md:h-6" />
-								</a>
-								<button className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
+								</button>
+								<button onClick={() => setDeleteModal(true)} className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
 									<Trash className="w-5 h-5 md:w-6 md:h-6" />
 								</button>
 							</div>
@@ -169,6 +232,9 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 					<LaporanFooter report={report} isDetail={isDetail} />
 				</div>
+
+				<DeleteLaporanModal id={report.id} openModal={deleteModal} closeModal={() => setDeleteModal(false)} />
+				<EditLaporanModal id={report.id} openModal={editModal} closeModal={() => setEditModal(false)} />
 
 				{isDetail && <LaporanDetailSection report={report} isAdmin={isAdmin} />}
 			</div>

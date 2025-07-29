@@ -24,10 +24,5 @@ export const schema = z.object({
 
 	isAnonymous: z.boolean().default(false),
 
-	file: z
-		.any()
-		.optional()
-		.refine((file) => !file || file.length > 0, {
-			message: 'Lampiran harus diupload',
-		}),
+	file: z.any().optional(),
 });

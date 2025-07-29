@@ -27,6 +27,7 @@ const UbahLaporan = () => {
 		trigger,
 		watch,
 		reset,
+		getValues,
 	} = useForm({
 		resolver: zodResolver(schema),
 		mode: 'onChange',
@@ -86,6 +87,8 @@ const UbahLaporan = () => {
 
 		fetchFile();
 	}, [report?.file_url, setValue]);
+
+	console.log(getValues());
 
 	return (
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">

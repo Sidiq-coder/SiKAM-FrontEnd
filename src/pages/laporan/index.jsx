@@ -19,16 +19,10 @@ const LaporanPage = () => {
 	const navigate = useNavigate();
 
 	const { user } = useAuthStore();
-	const { getReports, getMyReports, reports } = useReportStore();
+	const { getReports, getMyReports, reports, activeTab, setActiveTab, tabOptions, refresh } = useReportStore();
 
-	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
-	const [openModal, setOpenModal] = useState(false);
-
-	const tabOptions = [
-		{ label: 'Semua', value: 'semua' },
-		{ label: 'Laporan Saya', value: 'laporan-saya' },
-	];
+	const [verifModal, setVerifModal] = useState(false);
 
 	const categorizedReports = useMemo(() => {
 		if (!reports) return [];
@@ -69,7 +63,7 @@ const LaporanPage = () => {
 
 	const handleAjuLaporan = () => {
 		if (user.status !== studentsStatus.VERIFIED) {
-			setOpenModal(true);
+			setVerifModal(true);
 		} else {
 			navigate('/aju-laporan');
 		}
@@ -81,9 +75,7 @@ const LaporanPage = () => {
 		} else if (activeTab === 'semua') {
 			getReports();
 		}
-	}, [activeTab]);
-
-	console.log(reports);
+	}, [activeTab, refresh]);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
@@ -143,7 +135,7 @@ const LaporanPage = () => {
 				</div>
 			</div>
 
-			<NotVerifiedModal openModal={openModal} closeModal={() => setOpenModal(false)} />
+			<NotVerifiedModal openModal={verifModal} closeModal={() => setVerifModal(false)} />
 		</div>
 	);
 };

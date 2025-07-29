@@ -1,19 +1,30 @@
 import { create } from 'zustand';
 import { reportsAPI } from '@/api/endpoints/reports';
 
-const useReportStore = create((set) => ({
+const useReportStore = create((set, get) => ({
 	// State
 	reports: [],
 	report: null,
 	isLoading: false,
 	error: null,
+	activeTab: 'semua',
+	tabOptions: [
+		{ label: 'Semua', value: 'semua' },
+		{ label: 'Laporan Saya', value: 'laporan-saya' },
+	],
+	refresh: 0,
 
 	// Actions
+	setActiveTab: (activeTab) => {
+		set({ activeTab });
+	},
+
 	getReports: async () => {
 		try {
 			const response = await reportsAPI.getReports();
 			set({ reports: response.data });
 		} catch (error) {
+			set({ reports: [] });
 			console.error('Get reports error:', error);
 		}
 	},
@@ -23,6 +34,7 @@ const useReportStore = create((set) => ({
 			const response = await reportsAPI.getReport(id);
 			set({ report: response.data });
 		} catch (error) {
+			set({ report: null });
 			console.error('Get report error:', error);
 		}
 	},
@@ -62,6 +74,21 @@ const useReportStore = create((set) => ({
 			return { success: true, data: response };
 		} catch (error) {
 			const errorMessage = error.response?.data?.message || 'Update report failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	deleteReport: async (id) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await reportsAPI.deleteReport(id);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Delete report failed';
 			set({ error: errorMessage, isLoading: false });
 			return { success: false, error: errorMessage };
 		} finally {
