@@ -8,7 +8,7 @@ import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
-import useAuthStore from '@/stores/useAuthStore';
+import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
 import { getCategoryLabel } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 const LaporanPage = () => {
 	const navigate = useNavigate();
 
-	const { user } = useAuthStore();
+	const { user } = useAuth();
 	const { getReports, getMyReports, reports, activeTab, setActiveTab, tabOptions, refresh } = useReportStore();
 
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');

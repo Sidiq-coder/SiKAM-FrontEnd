@@ -15,6 +15,7 @@ import { reportCategories, reportLevels } from '@/utils/reports';
 
 const AjuLaporan = () => {
 	const { createReport, error, isLoading, clearError } = useReportStore();
+
 	const navigate = useNavigate();
 	const {
 		register,

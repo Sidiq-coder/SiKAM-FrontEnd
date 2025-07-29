@@ -1,10 +1,16 @@
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { Modal } from '@/components/modal';
 import Button from '@/components/button';
+import { studentsStatus } from '@/utils/users';
 
 const AuthGuard = () => {
-	const { token } = useAuth();
+	const location = useLocation();
+	const { token, user } = useAuth();
+
+	if (location.pathname === '/aju-laporan' && user?.status !== studentsStatus.VERIFIED) {
+		return <Navigate to="/laporan" replace />;
+	}
 
 	if (!token) {
 		return (
