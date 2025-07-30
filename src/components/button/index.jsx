@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 const VARIANT_CLASSES = {
 	primary: 'bg-primary text-white hover:bg-dark-primary',
 	secondary: 'bg-gray text-dark',
+	warning: 'bg-yellow text-dark',
 	outline: 'border border-primary text-primary hover:bg-primary hover:text-white',
 	danger: 'bg-red text-white',
 	ghost: 'bg-transparent hover:bg-gray-100 text-gray-700',
@@ -28,7 +29,7 @@ const Button = ({
 	disabled = false,
 	anchor = false,
 }) => {
-	const baseClass = 'inline-flex items-center justify-center rounded-lg font-medium transition-colors cursor-pointer';
+	const baseClass = `${className.includes('hidden') ? '' : 'inline-flex'} items-center justify-center rounded-lg font-medium transition-colors cursor-pointer`;
 
 	const variantClass = VARIANT_CLASSES[variant] || VARIANT_CLASSES.primary;
 	const sizeClass = SIZE_CLASSES[size] || SIZE_CLASSES.medium;

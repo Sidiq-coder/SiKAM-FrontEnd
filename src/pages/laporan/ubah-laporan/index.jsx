@@ -94,9 +94,9 @@ const UbahLaporan = () => {
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
 			<div className="mx-auto bg-white text-dark rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
 				<div className="flex justify-between items-center mb-10">
-					<Link to="/laporan">
+					<div className="cursor-pointer" onClick={() => window.history.back()}>
 						<ChevronLeft className="w-8 h-8" />
-					</Link>
+					</div>
 					<h2 className="text-3xl text-center text-dark font-bold">LAPORAN</h2>
 					<div className="flex items-center space-x-3">
 						<Edit className="w-6 h-6 text-[#0B4A94]" />

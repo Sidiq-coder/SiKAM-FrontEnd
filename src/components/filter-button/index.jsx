@@ -1,5 +1,4 @@
 import { Calendar, ChevronDown } from 'lucide-react';
-import React from 'react';
 
 const FilterButton = ({ Icon = Calendar, options, selectedFilter, setSelectedFilter, className = '' }) => {
 	return (

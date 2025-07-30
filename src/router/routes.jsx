@@ -28,6 +28,7 @@ import BandingUkt from '@/pages/bandingUkt';
 import AuthGuard from './auth-guard';
 import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
+import NotFoundPage from '@/pages/not-found';
 
 const routes = [
 	// Auth Routes
@@ -53,7 +54,12 @@ const routes = [
 	{
 		path: '/',
 		element: <BaseLayout />,
-		children: [{ index: true, element: <Home /> }],
+		children: [
+			{ index: true, element: <Home /> },
+			{ path: '/advika', element: <Advika /> },
+			{ path: '/advika/detailAdvika/:id', element: <DetailAdvika /> },
+			{ path: '/tentang', element: <TentangSikam /> },
+		],
 	},
 	{
 		path: '/',
@@ -71,12 +77,7 @@ const routes = [
 					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },
 
-					// Advika
-					{ path: 'advika', element: <Advika /> },
-					{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
-
-					{ path: 'tentang', element: <TentangSikam /> },
-
+					// Profil
 					{ path: 'profil', element: <ProfilePage /> },
 				],
 			},
@@ -111,6 +112,9 @@ const routes = [
 			},
 		],
 	},
+
+	// Not Found Route
+	{ path: '*', element: <NotFoundPage /> },
 ];
 
 export default routes;

@@ -3,8 +3,8 @@ import apiClient from '@/api/client';
 const baseURL = '/reports';
 
 export const reportsAPI = {
-	getReports: async () => {
-		const response = await apiClient.get(baseURL);
+	getReports: async ({ skip, take, status, studentId, isPopular, isRecent, category, report_level, isAnonymous }) => {
+		const response = await apiClient.get('/reports', { params: { skip, take, status, studentId, isPopular, isRecent, category, report_level, isAnonymous } });
 		return response.data;
 	},
 

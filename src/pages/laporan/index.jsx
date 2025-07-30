@@ -10,22 +10,34 @@ import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
 import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
-import { getCategoryLabel } from '@/utils/reports';
+import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
 import NotVerifiedModal from './components/not-verified-modal';
 import { useNavigate } from 'react-router-dom';
+import { FilterIcon } from 'lucide-react';
+import FilterModal from './components/filter-modal';
 
 const LaporanPage = () => {
 	const navigate = useNavigate();
 
 	const { user } = useAuth();
-	const { getReports, getMyReports, reports, activeTab, setActiveTab, tabOptions, refresh } = useReportStore();
+	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh } = useReportStore();
 
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
+	const [category, setCategory] = useState(null);
+	const [status, setStatus] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalPages, _] = useState(1);
+
 	const [verifModal, setVerifModal] = useState(false);
+	const [filterModal, setFilterModal] = useState(false);
 
 	const categorizedReports = useMemo(() => {
-		if (!reports) return [];
+		if (!reports)
+			return reportCategories.map((cat) => ({
+				...cat,
+				quantity: 0,
+			}));
 
 		const categoryMap = reports.reduce((acc, report) => {
 			const key = report.category;
@@ -42,24 +54,15 @@ const LaporanPage = () => {
 			return acc;
 		}, {});
 
-		return Object.values(categoryMap);
+		return reportCategories.map((cat) => ({
+			...cat,
+			quantity: categoryMap[cat.value]?.quantity || 0,
+		}));
 	}, [reports]);
 
-	const uniqueStatuses = useMemo(() => {
-		if (!reports) return [];
-
-		const seen = new Set();
-		const result = [];
-
-		for (const report of reports) {
-			if (report.status && !seen.has(report.status)) {
-				seen.add(report.status);
-				result.push(report.status);
-			}
-		}
-
-		return result;
-	}, [reports]);
+	const filteredStatuses = useMemo(() => {
+		return activeTab === 'semua' ? reportStatuses.filter((status) => ['under_review', 'responded', 'done'].includes(status.value)) : reportStatuses;
+	}, [activeTab]);
 
 	const handleAjuLaporan = () => {
 		if (user.status !== studentsStatus.VERIFIED) {
@@ -69,13 +72,33 @@ const LaporanPage = () => {
 		}
 	};
 
+	const handlePageChange = (newPage) => {
+		const skip = (newPage - 1) * 10;
+
+		getReports({
+			skip,
+			take: 10,
+			isRecent: selectedFilter === 'Terbaru',
+			isPopular: selectedFilter === 'Terpopuler',
+		});
+
+		setCurrentPage(newPage);
+	};
+
 	useEffect(() => {
-		if (activeTab === 'laporan-saya') {
-			getMyReports();
-		} else if (activeTab === 'semua') {
-			getReports();
-		}
-	}, [activeTab, refresh]);
+		const query = {
+			skip: 0,
+			take: 10,
+		};
+
+		if (selectedFilter === 'Terpopuler') query.isPopular = true;
+		if (selectedFilter === 'Terbaru') query.isRecent = true;
+		if (activeTab === 'laporan-saya' && user?.id) query.studentId = user.id;
+		if (category) query.category = category;
+		if (status) query.status = status;
+
+		getReports(query);
+	}, [activeTab, refresh, selectedFilter, category, status]);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
@@ -85,11 +108,14 @@ const LaporanPage = () => {
 					{/* Page Header */}
 					<div className="flex items-center justify-between mb-6">
 						<h1 className="text-4xl font-bold text-dark">Daftar Laporan</h1>
-						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} />
-					</div>
 
-					<div className="flex justify-end mb-4">
-						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" onClick={handleAjuLaporan} />
+						<div className="flex items-center flex-wrap mb-4 lg:hidden gap-4">
+							<Button variant="warning" label="Filter" icon={<FilterIcon className="w-4 h-4" />} onClick={() => setFilterModal(true)} />
+
+							<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} onClick={handleAjuLaporan} />
+						</div>
+
+						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="hidden lg:block" />
 					</div>
 
 					{/* Tabs */}
@@ -109,21 +135,20 @@ const LaporanPage = () => {
 					</div>
 
 					{/* Pagination */}
-					{reports?.length === 0 ? null : <Pagination className="mt-8" />}
+					{reports?.length === 0 ? null : <Pagination className="mt-8" currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />}
 				</div>
 
-				<div className="w-80 space-y-6">
-					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full hidden lg:block" onClick={handleAjuLaporan} />
+				<div className="w-80 space-y-6 hidden lg:block">
+					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full" onClick={handleAjuLaporan} />
 
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
 						<div className="flex flex-col items-start space-y-4">
 							{categorizedReports.length > 0 ? (
 								<>
-									{categorizedReports.map(({ value, quantity }) => (
-										<Hashtag key={value} label={`#${getCategoryLabel(value)}`} quantity={quantity} />
+									{categorizedReports.map(({ label, value, quantity }) => (
+										<Hashtag key={value} label={`#${label}`} quantity={quantity} onClick={() => setCategory(value)} className="cursor-pointer" />
 									))}
-									{/* <p className="text-sm text-primary italic">Muat Lebih banyak Kategori</p> */}
 								</>
 							) : (
 								<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
@@ -131,11 +156,21 @@ const LaporanPage = () => {
 						</div>
 					</div>
 
-					<StatusFilter title="Status" statusList={uniqueStatuses} />
+					<StatusFilter title="Status" statusList={filteredStatuses} onStatusClick={(status) => setStatus(status)} />
 				</div>
 			</div>
 
 			<NotVerifiedModal openModal={verifModal} closeModal={() => setVerifModal(false)} />
+			<FilterModal
+				openModal={filterModal}
+				closeModal={() => setFilterModal(false)}
+				selectedFilter={selectedFilter}
+				setSelectedFilter={setSelectedFilter}
+				categorizedReports={categorizedReports}
+				setCategory={setCategory}
+				filteredStatuses={filteredStatuses}
+				setStatus={setStatus}
+			/>
 		</div>
 	);
 };

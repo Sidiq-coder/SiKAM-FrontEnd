@@ -12,11 +12,11 @@ import useAuthStore from '@/stores/useAuthStore';
 import { getReportStatuses, getCategoryLabel } from '@/utils/reports';
 import useReportStore from '@/stores/useReportStore';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 	const navigate = useNavigate();
-	const { deleteReport, clearError } = useReportStore();
+	const { deleteReport, clearError, error } = useReportStore();
 
 	const handleDeleteReport = async () => {
 		try {
@@ -35,6 +35,13 @@ const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 			console.error('Error:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
+	}, [error]);
 
 	return (
 		<Modal isOpen={openModal} onClose={closeModal} size="md">
@@ -242,7 +249,7 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 					<LaporanHeader report={report} isVoteable={isVoteable} />
 
 					<div className="flex">
-						<a href={isDetail ? null : detailPath} className="flex-1 cursor-pointer">
+						<a href={isDetail ? null : detailPath} className={`flex-1 ${isDetail ? '' : 'cursor-pointer'}`}>
 							<LaporanBody report={report} isDetail={isDetail} />
 						</a>
 

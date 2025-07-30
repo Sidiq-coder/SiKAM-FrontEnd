@@ -19,9 +19,9 @@ const useReportStore = create((set, get) => ({
 		set({ activeTab });
 	},
 
-	getReports: async () => {
+	getReports: async (filters = {}) => {
 		try {
-			const response = await reportsAPI.getReports();
+			const response = await reportsAPI.getReports(filters);
 			set({ reports: response.data });
 		} catch (error) {
 			set({ reports: [] });
