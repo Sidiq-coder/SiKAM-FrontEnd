@@ -135,10 +135,13 @@ const LaporanPage = () => {
 				query.sort = sortValue;
 			}
 
+			if (category) query.category = category;
+			if (status) query.status = status;
+
 			getReports(query);
 			setCurrentPage(newPage);
 		},
-		[selectedFilter, getReports]
+		[selectedFilter, getReports, category, status]
 	);
 
 	const handleCategoryClick = useCallback((categoryValue) => {
