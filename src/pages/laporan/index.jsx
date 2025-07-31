@@ -180,7 +180,7 @@ const LaporanPage = () => {
 
 		getReports(query);
 		setCurrentPage(1); // Reset to first page when filters change
-	}, [refresh, selectedFilter, category, status, getReports]);
+	}, [refresh, selectedFilter, category, status]);
 
 	useEffect(() => {
 		if (error) {
