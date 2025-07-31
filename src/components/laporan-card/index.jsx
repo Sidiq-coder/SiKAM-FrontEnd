@@ -12,11 +12,11 @@ import useAuthStore from '@/stores/useAuthStore';
 import { getReportStatuses, getCategoryLabel } from '@/utils/reports';
 import useReportStore from '@/stores/useReportStore';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 	const navigate = useNavigate();
-	const { deleteReport, clearError, error } = useReportStore();
+	const { deleteReport, clearError } = useReportStore();
 
 	const handleDeleteReport = async () => {
 		try {
@@ -35,13 +35,6 @@ const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 			console.error('Error:', error);
 		}
 	};
-
-	useEffect(() => {
-		if (error) {
-			toast.error(error);
-			clearError();
-		}
-	}, [error]);
 
 	return (
 		<Modal isOpen={openModal} onClose={closeModal} size="md">
@@ -129,24 +122,26 @@ const LaporanHeader = ({ report, isVoteable }) => {
 
 	return (
 		<div className="flex flex-wrap items-start justify-between mb-6 gap-y-3">
-			<div className="flex items-center space-x-3">
-				<div className="flex items-center gap-x-6">
+			<div className="flex flex-wrap items-center space-x-3">
+				<div className="flex flex-wrap items-center gap-6">
 					<div className="lg:hidden">
 						<LaporanVoteSection report={report} isVoteable={isVoteable} />
 					</div>
-					<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-						<User className="w-8 h-8 text-dark-primary" />
-					</div>
-					<div>
-						<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report?.students?.name ?? 'Anonim'}</h3>
-						<div className="flex flex-wrap items-center gap-x-6 text-sm text-gray-500 gap-y-1">
-							<div className="flex items-center space-x-1">
-								<Calendar className="w-4 h-4" />
-								<span>{report?.submitted_at && formatDate(report?.submitted_at)}</span>
-							</div>
-							<div className={`flex items-center space-x-1 ${textColor}`}>
-								<StatusIcon className="w-4 h-4" />
-								<span>{label}</span>
+					<div className="flex flex-wrap gap-3">
+						<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+							<User className="w-8 h-8 text-dark-primary" />
+						</div>
+						<div>
+							<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report?.students?.name ?? 'Anonim'}</h3>
+							<div className="flex flex-wrap items-center gap-x-6 text-sm text-gray-500 gap-y-1">
+								<div className="flex items-center space-x-1">
+									<Calendar className="w-4 h-4" />
+									<span>{report?.submitted_at && formatDate(report?.submitted_at)}</span>
+								</div>
+								<div className={`flex items-center space-x-1 ${textColor}`}>
+									<StatusIcon className="w-4 h-4" />
+									<span>{label}</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -185,6 +180,20 @@ const LaporanFooter = ({ report, isDetail }) => {
 const LaporanDetailSection = ({ report, isAdmin }) => {
 	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
 
+	const filePath = report?.file_url?.startsWith('https') ? report.file_url : `${import.meta.env.VITE_API_BASE_URL}/${report.file_url}`;
+
+	const handleCopyUrl = () => {
+		const currentUrl = window.location.href;
+		navigator.clipboard
+			.writeText(currentUrl)
+			.then(() => {
+				toast.success('URL berhasil disalin!');
+			})
+			.catch((err) => {
+				toast.error('Gagal menyalin URL:', err);
+			});
+	};
+
 	return (
 		<div className="mt-4">
 			<div className="flex items-center space-x-1.5 mb-3">
@@ -194,18 +203,18 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 
 			{report?.file_url ? (
 				<div className="mb-8">
-					<FileImageComponent filePath={`${import.meta.env.VITE_API_BASE_URL}/${report.file_url}`} fileName="Lampiran" />
+					<FileImageComponent filePath={filePath} fileName="Lampiran" />
 				</div>
 			) : (
 				<p className="text-gray-500 mb-8">Tidak ada lampiran</p>
 			)}
 
-			<div className="flex border-b border-gray-200 mb-8">
-				<div className="flex items-center px-2 py-3 text-blue-600 border-b-2 border-blue-600 font-medium">
+			<div className="flex border-b border-gray mb-8">
+				<div className="flex items-center px-2 py-3 text-primary border-b-2 border-primary font-medium">
 					<MessageSquare className="w-4 h-4 text-primary mr-2" />
 					Tindak Lanjut
 				</div>
-				<button className="flex items-center px-2 py-3 text-gray-600 hover:text-gray-900 font-medium ml-6">
+				<button className="flex items-center px-2 py-3 text-dark font-medium ml-6 cursor-pointer" onClick={handleCopyUrl}>
 					<Share2 className="w-4 h-4 mr-2" />
 					Bagikan
 				</button>
@@ -236,10 +245,10 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 	const showActions = isMy && !isAdmin;
 	const isVoteable = isVote && !isMy && !isAdmin;
-	const detailPath = isAdmin ? '/admin/detail-laporan' : `/laporan/${report?.id}`;
+	const detailPath = isAdmin ? `/admin/laporan/${report?.id}` : `/laporan/${report?.id}`;
 
 	return (
-		<div className={`flex gap-x-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray'} ${className}`}>
+		<div className={`flex flex-wrap sm:flex-nowrap gap-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray'} ${className}`}>
 			<div className="hidden lg:block">
 				<LaporanVoteSection report={report} isVoteable={isVoteable} />
 			</div>

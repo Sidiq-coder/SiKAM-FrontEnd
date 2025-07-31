@@ -4,8 +4,10 @@ import { usersAPI } from '../api/endpoints/users';
 const useUserStore = create((set) => ({
 	// State
 	user: null,
+	student: null,
 	isLoading: false,
 	error: null,
+	refresh: 0,
 
 	// Actions
 	getProfile: async () => {
@@ -14,6 +16,15 @@ const useUserStore = create((set) => ({
 			set({ user: response.data });
 		} catch (error) {
 			console.error('Get profile error:', error);
+		}
+	},
+
+	getStudent: async (id) => {
+		try {
+			const response = await usersAPI.getUser(id);
+			set({ student: response.data.student });
+		} catch (error) {
+			console.error('Get user error:', error);
 		}
 	},
 

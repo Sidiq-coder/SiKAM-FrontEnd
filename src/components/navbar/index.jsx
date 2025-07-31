@@ -61,6 +61,7 @@ const NavbarActions = () => {
 	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
 	const { setMenuOpen } = useNavbarStore();
 	const { setProfilMenu } = useProfilStore();
+	const { user } = useAuth();
 
 	return (
 		<>
@@ -85,7 +86,11 @@ const NavbarActions = () => {
 				onClick={() => {
 					setMenuOpen(false);
 					setProfilMenu('profil');
-					navigate('/profil');
+					if (user?.role !== 'superadmin') {
+						navigate('/profil');
+					} else {
+						navigate('/admin/profil');
+					}
 				}}
 			>
 				<User className={iconStyle} />

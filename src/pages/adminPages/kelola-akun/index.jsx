@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Clock, Users, User, Search } from 'lucide-react';
-import { daftarMahasiswa } from '@/mocks/mahasiswaMock';
+import { Clock, Users, User, Search, Trash, CheckSquare, XSquare } from 'lucide-react';
 import StatCard from '@/components/stat-card';
 import DataTable from '@/components/data-table';
 import Tabs from '@/components/tabs';
@@ -8,6 +7,9 @@ import InputField from '@/components/input-field';
 import StatusFilter from '@/components/status-filter';
 import Pagination from '@/components/pagination';
 import { useNavigate } from 'react-router-dom';
+import useAdminStore from '@/stores/useAdminStore';
+import { studentStatuses } from '@/utils/users';
+import { useDetailAkunStore } from './detail-akun/stores/useDetailAkunStore';
 
 const stats = [
 	{
@@ -33,12 +35,48 @@ const stats = [
 	},
 ];
 
-const columns = [
+const mahasiswaColumns = [
 	{ field: 'date', label: 'Tanggal' },
 	{ field: 'name', label: 'Nama' },
 	{ field: 'npm', label: 'NPM' },
 	{ field: 'email', label: 'Email' },
-	{ field: 'status', label: 'Status' },
+	{
+		field: 'status',
+		label: 'Status',
+		render: (row) => {
+			const status = studentStatuses.find((status) => status.value === row.status);
+
+			if (status) {
+				return (
+					<span className={`inline-flex gap-x-2 items-center px-4 py-1.5 rounded-md text-xs font-medium shadow-md ${status.textColor}`}>
+						<status.icon className="w-4 h-4" />
+						<span>{status.label}</span>
+					</span>
+				);
+			}
+		},
+	},
+];
+
+const adminColumns = [
+	{ field: 'name', label: 'Username' },
+	{ field: 'name', label: 'Nama' },
+	{ field: 'email', label: 'Email' },
+	{
+		field: 'actions',
+		label: '',
+		render: (row) => (
+			<button
+				onClick={(e) => {
+					e.stopPropagation();
+					console.log(`Bagikan item ${row.id}`);
+				}}
+				className="flex items-center px-2 py-1"
+			>
+				<Trash className="w-5 h-5 text-red" />
+			</button>
+		),
+	},
 ];
 
 const tabOptions = [
@@ -46,37 +84,35 @@ const tabOptions = [
 	{ label: 'Admin', value: 'admin' },
 ];
 
-const statusOptions = [
-	{ status: 'waiting', color: 'text-[#E79625]' },
-	{ status: 'verified', color: 'text-[#2FCB51]' },
-	{ status: 'not verified', color: 'text-[#EE4848]' },
-];
-
 const KelolaAkunPage = () => {
 	const navigate = useNavigate();
 
+	const { admins, getAdmins } = useAdminStore();
+	const { setActiveMenu } = useDetailAkunStore();
+
 	const [activeTab, setActiveTab] = useState('mahasiswa');
 	const [searchQuery, setSearchQuery] = useState('');
-	const [users, setUsers] = useState([]);
 
 	const handleSearch = (e) => {
 		setSearchQuery(e.target.value);
 	};
 
+	const columns = useMemo(() => (activeTab === 'admin' ? adminColumns : mahasiswaColumns), [activeTab]);
+
 	const filteredUsers = useMemo(() => {
-		if (!searchQuery.trim()) return daftarMahasiswa;
+		if (!searchQuery.trim()) return admins;
 
 		const lowerQuery = searchQuery?.toLowerCase();
-		return daftarMahasiswa.filter((user) => user.name?.toLowerCase().includes(lowerQuery) || user.name?.toLowerCase().includes(lowerQuery));
-	}, [searchQuery]);
+		return admins.filter((user) => user.name?.toLowerCase().includes(lowerQuery) || user.name?.toLowerCase().includes(lowerQuery));
+	}, [searchQuery, admins]);
 
 	const waitingTotal = useMemo(() => {
 		return filteredUsers.filter((user) => user.status === 'waiting').length;
 	}, [filteredUsers]);
 
 	useEffect(() => {
-		setUsers(filteredUsers);
-	}, [filteredUsers]);
+		getAdmins();
+	}, []);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
@@ -114,15 +150,22 @@ const KelolaAkunPage = () => {
 						</div>
 
 						{/* Table */}
-						<DataTable columns={columns} data={users} onClick={() => navigate('/admin/detail-akun')} />
+						<DataTable
+							columns={columns}
+							data={filteredUsers}
+							onClick={(id) => {
+								setActiveMenu('profil');
+								navigate(`/admin/detail-akun/${id}/${activeTab}`);
+							}}
+						/>
 
 						{/* Pagination */}
-						{users.length === 0 ? null : <Pagination className="mt-8" />}
+						{filteredUsers.length === 0 ? null : <Pagination className="mt-8" />}
 					</div>
 
 					{/* Status Filter */}
 					<div className="w-50">
-						<StatusFilter statusList={statusOptions} />
+						<StatusFilter statusList={studentStatuses} />
 					</div>
 				</div>
 			</div>

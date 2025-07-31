@@ -94,11 +94,11 @@ const routes = [
 				children: [
 					// Laporan
 					{ path: 'laporan', element: <AdminLaporanPage /> },
-					{ path: 'detail-laporan', element: <AdminDetailLaporanPage /> },
+					{ path: 'laporan/:id', element: <AdminDetailLaporanPage /> },
 
 					// Kelola Akun
 					{ path: 'kelola-akun', element: <KelolaAkunPage /> },
-					{ path: 'detail-akun', element: <DetailAkunPage /> },
+					{ path: 'detail-akun/:id/:role', element: <DetailAkunPage /> },
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
@@ -108,6 +108,9 @@ const routes = [
 					{ path: 'advika', element: <AdminAdvika /> },
 					{ path: 'advika/detailAdvika/:id', element: <AdminDetailAdvika /> },
 					{ path: 'advika/editAdvika/:id', element: <EditAdvika /> },
+
+					// Profil
+					{ path: 'profil', element: <ProfilePage /> },
 				],
 			},
 		],

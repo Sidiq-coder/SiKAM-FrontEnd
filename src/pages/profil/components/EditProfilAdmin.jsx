@@ -5,16 +5,16 @@ import SubmitButton from '@/components/submit-button';
 import Button from '@/components/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { studentDataSchema } from '../schema';
+import { adminDataSchema } from '../schema';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import useUserStore from '@/stores/useUserStore';
+import useAdminStore from '@/stores/useAdminStore';
 import useProfilStore from '@/stores/useProfilStore';
 
-export const EditProfil = () => {
+export const EditProfilAdmin = () => {
 	const { user } = useAuth();
 	const { setProfilMenu } = useProfilStore();
-	const { updateProfile, error, clearError, isLoading } = useUserStore();
+	const { updateAdmin, error, clearError, isLoading } = useAdminStore();
 	const userStatus = studentStatuses.find((status) => status.value === user?.status);
 
 	const {
@@ -23,16 +23,15 @@ export const EditProfil = () => {
 		reset,
 		formState: { errors, isValid, isSubmitting },
 	} = useForm({
-		resolver: zodResolver(studentDataSchema),
+		resolver: zodResolver(adminDataSchema),
 		mode: 'onChange',
 	});
 
 	const onSubmit = async (data) => {
 		try {
-			data.batch = parseInt(data.batch);
-			const result = await updateProfile(data);
+			const result = await updateAdmin(user.id, data);
 
-			if (result?.data?.success) {
+			if (result?.success) {
 				toast.success(result?.data?.message);
 				clearError();
 				setProfilMenu('profil');
@@ -55,8 +54,7 @@ export const EditProfil = () => {
 			reset(
 				{
 					name: user.name ?? '',
-					program_study: user.program_study ?? '',
-					batch: user.batch?.toString(),
+					email: user.email ?? '',
 				},
 				{
 					keepDefaultValues: true,
@@ -84,16 +82,15 @@ export const EditProfil = () => {
 				<table>
 					<tbody>
 						{[
-							{ label: 'Nama', value: user?.name ?? '-', editable: true, name: 'name' },
-							{ label: 'NPM', value: user?.npm ?? '-', editable: false, name: 'npm' },
-							{ label: 'Email', value: user?.campus_email ?? '-', editable: false, name: 'campus_email' },
-							{ label: 'Prodi', value: user?.program_study ?? '-', editable: true, name: 'program_study' },
-							{ label: 'Angkatan', value: user?.batch ?? '-', editable: true, name: 'batch' },
-						].map(({ label, value, editable, name }) => (
+							{ label: 'Nama', value: user?.name ?? '-', name: 'name' },
+							{ label: 'Email', value: user?.campus_email ?? '-', name: 'email' },
+						].map(({ label, name }) => (
 							<tr key={label}>
 								<td className="text-primary font-semibold py-2">{label}</td>
 								<td className="px-4 sm:px-10 py-2">:</td>
-								<td className="py-2">{editable ? <InputField name={name} placeholder={label} type="text" register={register} error={errors[name]} required={false} isSmall /> : value}</td>
+								<td className="py-2">
+									<InputField name={name} placeholder={label} type="text" register={register} error={errors[name]} required={false} isSmall />
+								</td>
 							</tr>
 						))}
 					</tbody>

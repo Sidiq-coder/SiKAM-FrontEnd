@@ -106,10 +106,10 @@ const LaporanPage = () => {
 				{/* Main Content */}
 				<div className="flex-1">
 					{/* Page Header */}
-					<div className="flex items-center justify-between mb-6">
+					<div className="flex flex-wrap items-center justify-between mb-6 gap-6">
 						<h1 className="text-4xl font-bold text-dark">Daftar Laporan</h1>
 
-						<div className="flex items-center flex-wrap mb-4 lg:hidden gap-4">
+						<div className="flex items-center flex-wrap lg:mb-4 lg:hidden gap-4">
 							<Button variant="warning" label="Filter" icon={<FilterIcon className="w-4 h-4" />} onClick={() => setFilterModal(true)} />
 
 							<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} onClick={handleAjuLaporan} />

@@ -126,6 +126,36 @@ const useReportStore = create((set, get) => ({
 		}
 	},
 
+	updateReportStatus: async (id, data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await reportsAPI.updateReportStatus(id, data);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Update report status failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	createReportResponse: async (id, data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await reportsAPI.createReportResponse(id, data);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Create report response failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
 	clearError: () => set({ error: null }),
 }));
 

@@ -11,8 +11,9 @@ import Button from '@/components/button';
 import Tabs from '@/components/tabs';
 import LaporanCard from '@/components/laporan-card';
 import Pagination from '@/components/pagination';
-import { getUserStatus } from '@/utils/users';
+import { studentStatuses } from '@/utils/users';
 import { EditProfil } from './components/EditProfil';
+import { EditProfilAdmin } from './components/EditProfilAdmin';
 import { setCustomPageTitle } from '@/utils/titleManager';
 import useProfilStore from '@/stores/useProfilStore';
 import { LogoutModal } from './components/Modal';
@@ -53,27 +54,29 @@ const ProfileSection = () => {
 
 						<nav className="space-y-2">
 							{[
-								{ key: 'profil', label: 'Profil' },
-								{ key: 'password', label: 'Password' },
-								{ key: 'notifikasi', label: 'Notifikasi' },
-								{ key: 'laporan', label: 'Laporan' },
-								{ key: 'banding', label: 'Banding UKT' },
-							].map(({ key, label }) => (
-								<div
-									key={key}
-									onClick={() => {
-										setProfilMenu(key);
-										setCustomPageTitle(label);
-									}}
-									className={`py-1.5 cursor-pointer transition ${key === 'profil' && 'border-t-2 border-gray/60 pt-3'} ${key === 'notifikasi' && 'border-b-2 border-gray/60 pb-3'} ${
-										profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-primary' : 'text-dark'
-									}`}
-								>
-									{label}
-								</div>
-							))}
+								{ key: 'profil', label: 'Profil', show: true },
+								{ key: 'password', label: 'Password', show: user?.role !== 'superadmin' },
+								{ key: 'notifikasi', label: 'Notifikasi', show: user?.role !== 'superadmin' },
+								{ key: 'laporan', label: 'Laporan', show: user?.role !== 'superadmin' },
+								{ key: 'banding', label: 'Banding UKT', show: user?.role !== 'superadmin' },
+							]
+								.filter((item) => item.show)
+								.map(({ key, label }) => (
+									<div
+										key={key}
+										onClick={() => {
+											setProfilMenu(key);
+											setCustomPageTitle(label);
+										}}
+										className={`py-1.5 cursor-pointer transition ${key === 'profil' && 'border-t-2 border-gray/60 pt-3'} ${key === 'notifikasi' && 'border-b-2 border-gray/60 pb-3'} ${
+											profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-primary' : 'text-dark'
+										}`}
+									>
+										{label}
+									</div>
+								))}
 
-							<div className="my-8 flex items-center justify-center lg:justify-start text-[#EE4848] hover:opacity-80 cursor-pointer py-2" onClick={() => setLogoutModal(true)}>
+							<div className="my-8 flex items-center justify-center lg:justify-start text-red hover:opacity-80 cursor-pointer py-2" onClick={() => setLogoutModal(true)}>
 								<span className="mr-2">Logout</span>
 								<LogOut className="w-5 h-5" />
 							</div>
@@ -82,9 +85,9 @@ const ProfileSection = () => {
 				</aside>
 
 				{/* Main Content */}
-				<main className="flex-1 p-4 md:p-6 lg:p-8">
+				<main className="flex-1 px-10 py-6">
 					{profilMenu === 'profil' && <Profil />}
-					{profilMenu === 'edit-profil' && <EditProfil />}
+					{profilMenu === 'edit-profil' && <>{user?.role !== 'superadmin' ? <EditProfil /> : <EditProfilAdmin />}</>}
 					{profilMenu === 'password' && <PasswordContent />}
 					{profilMenu === 'notifikasi' && <Notifikasi />}
 					{profilMenu === 'laporan' && <Laporan />}
@@ -101,17 +104,19 @@ const ProfileSection = () => {
 const Profil = () => {
 	const { setProfilMenu } = useProfilStore();
 	const { user } = useAuth();
-	const userStatus = getUserStatus(user?.status ?? '');
+	const userStatus = studentStatuses.find((status) => status.value === (user?.status ?? ''));
 
 	return (
-		<div className="bg-white p-6 sm:p-8 max-w-2xl">
+		<div className="bg-white max-w-2xl">
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex items-center gap-x-8">
 					<h1 className="text-2xl font-bold text-dark">Profil</h1>
-					<div className="flex items-center gap-x-1">
-						{userStatus.icon}
-						<span className={`${userStatus.color} text-sm font-medium`}>{userStatus.label}</span>
-					</div>
+					{userStatus && (
+						<div className="flex items-center gap-x-1">
+							{<userStatus.icon className={`w-4 h-4 ${userStatus.textColor}`} />}
+							<span className={`${userStatus.textColor} text-sm font-medium`}>{userStatus.label}</span>
+						</div>
+					)}
 				</div>
 				<Button
 					variant="outline"
@@ -128,18 +133,21 @@ const Profil = () => {
 				<table>
 					<tbody>
 						{[
-							{ label: 'Nama', value: user?.name ?? '-' },
-							{ label: 'NPM', value: user?.npm ?? '-' },
-							{ label: 'Email', value: user?.campus_email ?? '-' },
-							{ label: 'Prodi', value: user?.program_study ?? '-' },
-							{ label: 'Angkatan', value: user?.batch ?? '-' },
-						].map(({ label, value }) => (
-							<tr key={label}>
-								<td className="text-primary font-semibold py-2">{label}</td>
-								<td className="px-4 sm:px-10 py-2">:</td>
-								<td className="py-2">{value}</td>
-							</tr>
-						))}
+							{ label: 'Username', value: user?.name ?? '-', show: user?.role === 'superadmin' },
+							{ label: 'Nama', value: user?.name ?? '-', show: true },
+							{ label: 'NPM', value: user?.npm ?? '-', show: user?.role !== 'superadmin' },
+							{ label: 'Email', value: (user?.role === 'superadmin' ? user?.email : user?.campus_email) ?? '-', show: true },
+							{ label: 'Prodi', value: user?.program_study ?? '-', show: user?.role !== 'superadmin' },
+							{ label: 'Angkatan', value: user?.batch ?? '-', show: user?.role !== 'superadmin' },
+						]
+							.filter((item) => item.show)
+							.map(({ label, value }) => (
+								<tr key={label}>
+									<td className="text-primary font-semibold py-2">{label}</td>
+									<td className="px-4 sm:px-10 py-2">:</td>
+									<td className="py-2">{value}</td>
+								</tr>
+							))}
 					</tbody>
 				</table>
 			</div>

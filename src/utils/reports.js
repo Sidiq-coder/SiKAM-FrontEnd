@@ -14,34 +14,34 @@ export const getCategoryLabel = (value) => {
 
 export const reportStatuses = [
 	{
-		label: 'Menunggu',
+		label: 'Pending',
 		value: 'pending',
 		icon: Clock,
-		textColor: 'text-yellow-600',
+		textColor: 'text-yellow',
 	},
 	{
-		label: 'Sedang Ditinjau',
+		label: 'Ditinjau',
 		value: 'under_review',
 		icon: Search,
-		textColor: 'text-primary',
+		textColor: 'text-light-yellow',
 	},
 	{
 		label: 'Ditanggapi',
 		value: 'responded',
 		icon: MessageSquare,
-		textColor: 'text-green-600',
+		textColor: 'text-primary',
 	},
 	{
 		label: 'Selesai',
 		value: 'done',
 		icon: CheckSquare,
-		textColor: 'text-emerald-600',
+		textColor: 'text-green',
 	},
 	{
 		label: 'Ditolak',
 		value: 'rejected',
 		icon: X,
-		textColor: 'text-red-600',
+		textColor: 'text-red',
 	},
 ];
 
