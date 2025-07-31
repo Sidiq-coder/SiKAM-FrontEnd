@@ -151,9 +151,9 @@ const FileUploadDropzone = ({
 						<span className="text-center sm:text-left">{inputDescription}</span>
 					</div>
 				) : (
-					<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
+					<div className="flex flex-wrap flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
 						<div className="flex-shrink-0">
-							<FileImageComponent filePath={uploadedFile.preview} fileName={uploadedFile.name} onClick={removeFile} isUploaded />
+							<FileImageComponent filePath={uploadedFile.preview} fileName={uploadedFile.name} onClick={removeFile} isUploaded size="max-w-xs" />
 						</div>
 
 						<div>

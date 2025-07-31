@@ -22,4 +22,22 @@ export const usersAPI = {
 		const response = await apiClient.get(`${baseURL}/admin/${id}`);
 		return response.data;
 	},
+
+	reRegister: async (data) => {
+		const formData = new FormData();
+
+		formData.append('name', data.name);
+
+		if (data.ktm && data.ktm[0]) {
+			formData.append('ktm', data.ktm[0]);
+		}
+
+		const response = await apiClient.put(`${baseURL}/re-register`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
+
+		return response.data;
+	},
 };

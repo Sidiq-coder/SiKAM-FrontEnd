@@ -11,7 +11,7 @@ import Button from '@/components/button';
 import Tabs from '@/components/tabs';
 import LaporanCard from '@/components/laporan-card';
 import Pagination from '@/components/pagination';
-import { studentStatuses } from '@/utils/users';
+import { studentStatuses, studentsStatus } from '@/utils/users';
 import { EditProfil } from './components/EditProfil';
 import { EditProfilAdmin } from './components/EditProfilAdmin';
 import { setCustomPageTitle } from '@/utils/titleManager';
@@ -105,6 +105,7 @@ const Profil = () => {
 	const { setProfilMenu } = useProfilStore();
 	const { user } = useAuth();
 	const userStatus = studentStatuses.find((status) => status.value === (user?.status ?? ''));
+	const isVerified = userStatus.value !== studentsStatus.NOT_VERIFIED;
 
 	return (
 		<div className="bg-white max-w-2xl">
@@ -112,7 +113,14 @@ const Profil = () => {
 				<div className="flex items-center gap-x-8">
 					<h1 className="text-2xl font-bold text-dark">Profil</h1>
 					{userStatus && (
-						<div className="flex items-center gap-x-1">
+						<div
+							className={`flex items-center gap-x-1 ${isVerified ? '' : 'cursor-pointer'}`}
+							onClick={() => {
+								if (!isVerified) {
+									window.location.href = '/registrasi-ulang';
+								}
+							}}
+						>
 							{<userStatus.icon className={`w-4 h-4 ${userStatus.textColor}`} />}
 							<span className={`${userStatus.textColor} text-sm font-medium`}>{userStatus.label}</span>
 						</div>

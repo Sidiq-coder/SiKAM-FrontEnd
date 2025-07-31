@@ -42,6 +42,20 @@ const useUserStore = create((set) => ({
 		}
 	},
 
+	reRegister: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await usersAPI.reRegister(data);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Re-register failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
 	clearError: () => set({ error: null }),
 }));
 

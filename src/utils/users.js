@@ -3,7 +3,7 @@ import { Clock, CheckSquare, XSquare } from 'lucide-react';
 export const studentsStatus = {
 	WAITING: 'waiting',
 	VERIFIED: 'verified',
-	NOT_VERIFIED: 'not verified',
+	NOT_VERIFIED: 'not_verified',
 };
 
 export const studentStatuses = [

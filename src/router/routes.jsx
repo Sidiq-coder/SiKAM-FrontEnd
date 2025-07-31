@@ -41,7 +41,6 @@ const routes = [
 				children: [
 					{ path: 'login', element: <Login /> },
 					{ path: 'register', element: <Register /> },
-					{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
 					{ path: 'lupa-password', element: <LupaPasswordPage /> },
 					{ path: 'reset-password', element: <ResetPassword /> },
 					{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
@@ -65,6 +64,11 @@ const routes = [
 		path: '/',
 		element: <AuthGuard />,
 		children: [
+			{
+				path: '/',
+				element: <AuthLayout />,
+				children: [{ path: 'registrasi-ulang', element: <RegistrasiUlang /> }],
+			},
 			{
 				element: <BaseLayout />,
 				children: [

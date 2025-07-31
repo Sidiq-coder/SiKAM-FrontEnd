@@ -1,6 +1,7 @@
 import * as z from 'zod';
 
 export const schema = z.object({
-	nama: z.string().min(1, 'Nama harus diisi').min(2, 'Nama minimal 2 karakter'),
-	fotoKTM: z.any().refine((file) => file && file.length > 0, 'Foto KTM harus diupload'),
+	name: z.string({ required_error: 'Nama wajib diisi' }).min(3, 'Nama minimal 3 karakter').max(100, 'Nama maksimal 100 karakter').nonempty({ message: 'Nama tidak boleh kosong' }),
+
+	ktm: z.any().refine((file) => file !== null, 'Foto KTM harus diupload'),
 });
