@@ -4,6 +4,8 @@ import { setPageTitle } from '@/utils/titleManager';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import useAuth from '@/hooks/useAuth';
+import useNotificationStore from '@/stores/useNotificationStore';
+import NotificationModal from '@/components/notification-modal';
 
 function ScrollToTop() {
 	const { pathname } = useLocation();
@@ -18,6 +20,7 @@ function ScrollToTop() {
 const BaseLayout = () => {
 	const location = useLocation();
 	const { initializeAuth } = useAuth();
+	const { isOpenModal, setOpenModal } = useNotificationStore();
 
 	const bgPatternPaths = ['/', '/aju-laporan', '/admin/detail-banding-ukt'];
 	const dynamicPatterns = [/^\/laporan\/\d+\/ubah$/];
@@ -61,6 +64,8 @@ const BaseLayout = () => {
 						<p>&copy; 2025 Badan Eksekutif Mahasiswa, Universitas Lampung.</p>
 					</div>
 				</div>
+
+				<NotificationModal isOpen={isOpenModal} closeModal={() => setOpenModal(false)} />
 			</div>
 		</>
 	);

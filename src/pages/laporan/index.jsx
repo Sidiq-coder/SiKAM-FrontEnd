@@ -142,7 +142,7 @@ const LaporanPage = () => {
 			getReports(query);
 			setCurrentPage(newPage);
 		},
-		[selectedFilter, getReports, category, status]
+		[selectedFilter, category, status]
 	);
 
 	const handleCategoryClick = useCallback((categoryValue) => {

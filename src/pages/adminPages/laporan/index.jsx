@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FilterIcon, Search } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import LaporanCard from '@/components/laporan-card';
@@ -18,52 +18,76 @@ const tabOptions = [
 	{ label: 'Selesai', value: 'done' },
 ];
 
+// Constants
+const ITEMS_PER_PAGE = 10;
+
+const FILTER_OPTIONS = {
+	TERBARU: 'Terbaru',
+	TERPOPULER: 'Terpopuler',
+	TERLAMA: 'Terlama',
+};
+
+const SORT_MAP = {
+	[FILTER_OPTIONS.TERBARU]: 'newest',
+	[FILTER_OPTIONS.TERPOPULER]: 'popular',
+	[FILTER_OPTIONS.TERLAMA]: 'oldest',
+};
+
 const AdminLaporanPage = () => {
-	const { getReports, reports } = useReportStore();
+	const { getReports, reports, pagination } = useReportStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
 	const [category, setCategory] = useState(null);
 	const [searchQuery, setSearchQuery] = useState('');
+	const [currentPage, setCurrentPage] = useState(1);
 
 	const [filterModal, setFilterModal] = useState(false);
 
+	const debounceRef = useRef(null);
+
 	const handleSearch = (e) => {
-		setSearchQuery(e.target.value);
+		const value = e.target.value;
+
+		if (debounceRef.current) {
+			clearTimeout(debounceRef.current);
+		}
+
+		debounceRef.current = setTimeout(() => {
+			setSearchQuery(value);
+		}, 500);
 	};
 
-	const filteredReports = useMemo(() => {
-		if (!reports) return [];
+	const handlePageChange = useCallback(
+		(newPage) => {
+			const query = {
+				page: newPage,
+				itemPerPage: ITEMS_PER_PAGE,
+			};
 
-		let result = reports;
+			// Add sort parameter
+			const sortValue = SORT_MAP[selectedFilter];
+			if (sortValue) {
+				query.sort = sortValue;
+			}
 
-		if (activeTab !== 'semua') {
-			result = result.filter((report) => report.status === activeTab);
-		}
+			if (category) query.category = category;
+			if (activeTab !== 'semua') query.status = activeTab;
 
-		if (searchQuery.trim()) {
-			const lowerQuery = searchQuery.toLowerCase();
-			result = result.filter((report) => report.title.toLowerCase().includes(lowerQuery) || report.description.toLowerCase().includes(lowerQuery));
-		}
-
-		return result;
-	}, [reports, searchQuery, activeTab]);
-
-	const filteredAllReports = useMemo(() => {
-		if (!searchQuery.trim()) return reports;
-
-		const lowerQuery = searchQuery?.toLowerCase();
-		return reports.filter((report) => report.title.toLowerCase().includes(lowerQuery) || report.description.toLowerCase().includes(lowerQuery));
-	}, [reports, searchQuery]);
+			getReports(query);
+			setCurrentPage(newPage);
+		},
+		[selectedFilter, category, activeTab]
+	);
 
 	const categorizedReports = useMemo(() => {
-		if (!filteredReports)
+		if (!reports)
 			return reportCategories.map((cat) => ({
 				...cat,
 				quantity: 0,
 			}));
 
-		const categoryMap = filteredReports.reduce((acc, report) => {
+		const categoryMap = reports.reduce((acc, report) => {
 			const key = report.category;
 			if (!key) return acc;
 
@@ -82,20 +106,28 @@ const AdminLaporanPage = () => {
 			...cat,
 			quantity: categoryMap[cat.value]?.quantity || 0,
 		}));
-	}, [filteredReports]);
+	}, [reports]);
 
 	useEffect(() => {
 		const query = {
-			skip: 0,
-			take: 10,
+			page: 1,
+			itemPerPage: ITEMS_PER_PAGE,
 		};
 
-		if (selectedFilter === 'Terpopuler') query.isPopular = true;
-		if (selectedFilter === 'Terbaru') query.isRecent = true;
+		// Add sort parameter
+		const sortValue = SORT_MAP[selectedFilter];
+		if (sortValue) {
+			query.sort = sortValue;
+		}
+
+		// Add filters
 		if (category) query.category = category;
+		if (activeTab !== 'semua') query.status = activeTab;
+		if (searchQuery) query.search = searchQuery;
 
 		getReports(query);
-	}, [activeTab, selectedFilter, category]);
+		setCurrentPage(1); // Reset to first page when filters change
+	}, [activeTab, selectedFilter, category, searchQuery]);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
@@ -116,11 +148,11 @@ const AdminLaporanPage = () => {
 					</div>
 
 					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={filteredAllReports} className="mb-6" />
+					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={reports} className="mb-6" />
 
 					{/* Reports List */}
 					<div className="space-y-6">
-						{filteredReports.map((report) => (
+						{reports.map((report) => (
 							<div key={report.id}>
 								<LaporanCard report={report} isVote={false} />
 							</div>
@@ -128,7 +160,7 @@ const AdminLaporanPage = () => {
 					</div>
 
 					{/* Pagination */}
-					{filteredReports.length === 0 ? null : <Pagination className="mt-8" />}
+					{reports.length === 0 ? null : <Pagination currentPage={currentPage} totalPages={pagination.total_pages} className="mt-8" onPageChange={handlePageChange} />}
 				</div>
 
 				<div className="w-80 space-y-6 hidden lg:block">

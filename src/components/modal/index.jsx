@@ -45,7 +45,7 @@ export const Modal = ({ isOpen, onClose, children, size = 'md', closeOnOverlayCl
         `}
 			>
 				{showCloseButton && (
-					<div className="p-6 md:hidden text-end">
+					<div className={`pt-6 px-6 md:hidden text-end`}>
 						<button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
 							<X size={20} />
 						</button>
@@ -53,7 +53,7 @@ export const Modal = ({ isOpen, onClose, children, size = 'md', closeOnOverlayCl
 				)}
 
 				{/* Content */}
-				<div className="p-6">{children}</div>
+				<div className={`${showCloseButton ? 'pb-6 px-6 md:p-6' : 'p-6'}`}>{children}</div>
 			</div>
 		</div>
 	);

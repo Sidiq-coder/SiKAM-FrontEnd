@@ -50,8 +50,8 @@ const DetailAkunPage = () => {
 									</div>
 								</div>
 								<div className="text-center mb-6">
-									<h2 className="text-2xl font-extrabold text-dark">{role === 'mahasiswa' ? student.name : admin.name}</h2>
-									{role === 'mahasiswa' && <p className="text-[#91575799] text-sm font-medium tracking-wide">{student.npm}</p>}
+									<h2 className="text-2xl font-extrabold text-dark">{role === 'mahasiswa' ? student?.name : admin?.name}</h2>
+									{role === 'mahasiswa' && <p className="text-[#91575799] text-sm font-medium tracking-wide">{student?.npm}</p>}
 								</div>
 								<nav className="space-y-2">
 									{[
@@ -63,7 +63,9 @@ const DetailAkunPage = () => {
 										.map((item) => (
 											<div
 												key={item.key}
-												className={`text-dark font-semibold py-2 px-3 border-t border-gray rounded cursor-pointer ${activeMenu === item.key ? 'text-primary' : ''}`}
+												className={`text-dark font-semibold py-2 px-3 ${['profil', 'laporan'].includes(item.key) ? 'border-t border-gray' : ''} rounded cursor-pointer ${
+													activeMenu === item.key ? 'text-primary' : ''
+												}`}
 												onClick={() => setActiveMenu(item.key)}
 											>
 												{item.label}
