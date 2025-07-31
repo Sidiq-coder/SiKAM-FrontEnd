@@ -13,6 +13,12 @@ const useReportStore = create((set, get) => ({
 		{ label: 'Laporan Saya', value: 'laporan-saya' },
 	],
 	refresh: 0,
+	pagination: {
+		total_items: 0,
+		total_pages: 0,
+		current_page: 0,
+		items_per_page: 0,
+	},
 
 	// Actions
 	setActiveTab: (activeTab) => {
@@ -22,7 +28,7 @@ const useReportStore = create((set, get) => ({
 	getReports: async (filters = {}) => {
 		try {
 			const response = await reportsAPI.getReports(filters);
-			set({ reports: response.data });
+			set({ reports: response.data, pagination: response.pagination });
 		} catch (error) {
 			set({ reports: [] });
 			console.error('Get reports error:', error);

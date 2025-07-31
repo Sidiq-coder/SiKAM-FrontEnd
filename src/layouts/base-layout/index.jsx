@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { setPageTitle } from '@/utils/titleManager';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
+import useAuth from '@/hooks/useAuth';
 
 function ScrollToTop() {
 	const { pathname } = useLocation();
@@ -16,6 +17,7 @@ function ScrollToTop() {
 
 const BaseLayout = () => {
 	const location = useLocation();
+	const { initializeAuth } = useAuth();
 
 	const bgPatternPaths = ['/', '/aju-laporan', '/admin/detail-banding-ukt'];
 	const dynamicPatterns = [/^\/laporan\/\d+\/ubah$/];
@@ -26,6 +28,7 @@ const BaseLayout = () => {
 	const paddingX = 'px-4 md:px-10';
 
 	useEffect(() => {
+		initializeAuth();
 		setPageTitle(location.pathname);
 	}, [location.pathname]);
 

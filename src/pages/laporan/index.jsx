@@ -1,6 +1,9 @@
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FilterIcon } from 'lucide-react';
+
 import Button from '@/components/button';
 import Hashtag from '@/components/hashtag';
 import StatusFilter from '@/components/status-filter';
@@ -8,97 +11,172 @@ import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
+
 import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
-import { reportStatuses, reportCategories } from '@/utils/reports';
+import useFilteredReports from '@/hooks/useFilteredReports';
+
+import { reportStatuses } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
+
 import NotVerifiedModal from './components/not-verified-modal';
-import { useNavigate } from 'react-router-dom';
-import { FilterIcon } from 'lucide-react';
 import FilterModal from './components/filter-modal';
 
+// Constants
+const ITEMS_PER_PAGE = 10;
+
+const FILTER_OPTIONS = {
+	TERBARU: 'Terbaru',
+	TERPOPULER: 'Terpopuler',
+	TERLAMA: 'Terlama',
+};
+
+const SORT_MAP = {
+	[FILTER_OPTIONS.TERBARU]: 'newest',
+	[FILTER_OPTIONS.TERPOPULER]: 'popular',
+	[FILTER_OPTIONS.TERLAMA]: 'oldest',
+};
+
+// Sub-components
+const AjukanLaporanButton = ({ onClick, className = 'w-full' }) => (
+	<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} onClick={onClick} className={className} />
+);
+
+const ReportList = ({ reports }) => {
+	if (!reports?.length) {
+		return <p className="text-center text-gray my-8">Belum ada laporan yang tersedia.</p>;
+	}
+
+	return (
+		<div className="space-y-6">
+			{reports.map((report) => (
+				<LaporanCard key={report.id} report={report} />
+			))}
+		</div>
+	);
+};
+
+const CategorySection = ({ categorizedReports, onCategoryClick }) => (
+	<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+		<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
+		<div className="flex flex-col items-start space-y-4">
+			{categorizedReports.length > 0 ? (
+				categorizedReports.map(({ label, value, quantity }) => <Hashtag key={value} label={`#${label}`} quantity={quantity} onClick={() => onCategoryClick(value)} className="cursor-pointer" />)
+			) : (
+				<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
+			)}
+		</div>
+	</div>
+);
+
+const Sidebar = ({ onAjuLaporan, categorizedReports, onCategoryClick, filteredStatuses, onStatusClick }) => (
+	<div className="w-80 space-y-6 hidden lg:block">
+		<AjukanLaporanButton onClick={onAjuLaporan} />
+
+		<CategorySection categorizedReports={categorizedReports} onCategoryClick={onCategoryClick} />
+
+		<StatusFilter title="Status" statusList={filteredStatuses} onStatusClick={onStatusClick} />
+	</div>
+);
+
+const MobileControls = ({ onFilter, onAjuLaporan }) => (
+	<div className="flex items-center flex-wrap lg:mb-4 lg:hidden gap-4">
+		<Button variant="warning" label="Filter" icon={<FilterIcon className="w-4 h-4" />} onClick={onFilter} />
+		<AjukanLaporanButton onClick={onAjuLaporan} className="" />
+	</div>
+);
+
+// Main component
 const LaporanPage = () => {
 	const navigate = useNavigate();
-
 	const { user } = useAuth();
-	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh } = useReportStore();
+	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination } = useReportStore();
+	const { filteredReports, categorizedReports } = useFilteredReports({
+		reports,
+		user,
+		activeTab,
+	});
 
-	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
+	// State
+	const [selectedFilter, setSelectedFilter] = useState(FILTER_OPTIONS.TERBARU);
 	const [category, setCategory] = useState(null);
 	const [status, setStatus] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [totalPages, _] = useState(1);
-
 	const [verifModal, setVerifModal] = useState(false);
 	const [filterModal, setFilterModal] = useState(false);
 
-	const categorizedReports = useMemo(() => {
-		if (!reports)
-			return reportCategories.map((cat) => ({
-				...cat,
-				quantity: 0,
-			}));
-
-		const categoryMap = reports.reduce((acc, report) => {
-			const key = report.category;
-			if (!key) return acc;
-
-			if (acc[key]) {
-				acc[key].quantity += 1;
-			} else {
-				acc[key] = {
-					value: key,
-					quantity: 1,
-				};
-			}
-			return acc;
-		}, {});
-
-		return reportCategories.map((cat) => ({
-			...cat,
-			quantity: categoryMap[cat.value]?.quantity || 0,
-		}));
-	}, [reports]);
-
+	// Computed values
 	const filteredStatuses = useMemo(() => {
-		return activeTab === 'semua' ? reportStatuses.filter((status) => ['under_review', 'responded', 'done'].includes(status.value)) : reportStatuses;
+		if (activeTab === 'semua') {
+			return reportStatuses.filter((status) => ['under_review', 'responded', 'done'].includes(status.value));
+		}
+		return reportStatuses;
 	}, [activeTab]);
 
-	const handleAjuLaporan = () => {
+	// Event handlers
+	const handleAjuLaporan = useCallback(() => {
 		if (user.status !== studentsStatus.VERIFIED) {
 			setVerifModal(true);
 		} else {
 			navigate('/aju-laporan');
 		}
-	};
+	}, [user.status, navigate]);
 
-	const handlePageChange = (newPage) => {
-		const skip = (newPage - 1) * 10;
+	const handlePageChange = useCallback(
+		(newPage) => {
+			const query = {
+				page: newPage,
+				itemPerPage: ITEMS_PER_PAGE,
+			};
 
-		getReports({
-			skip,
-			take: 10,
-			isRecent: selectedFilter === 'Terbaru',
-			isPopular: selectedFilter === 'Terpopuler',
-		});
+			// Add sort parameter
+			const sortValue = SORT_MAP[selectedFilter];
+			if (sortValue) {
+				query.sort = sortValue;
+			}
 
-		setCurrentPage(newPage);
-	};
+			getReports(query);
+			setCurrentPage(newPage);
+		},
+		[selectedFilter, getReports]
+	);
 
+	const handleCategoryClick = useCallback((categoryValue) => {
+		setCategory(categoryValue);
+	}, []);
+
+	const handleStatusClick = useCallback((statusValue) => {
+		setStatus(statusValue);
+	}, []);
+
+	const handleFilterModalClose = useCallback(() => {
+		setFilterModal(false);
+	}, []);
+
+	const handleVerifModalClose = useCallback(() => {
+		setVerifModal(false);
+	}, []);
+
+	// Effects
 	useEffect(() => {
 		const query = {
-			skip: 0,
-			take: 10,
+			page: 1,
+			itemPerPage: ITEMS_PER_PAGE,
 		};
 
-		if (selectedFilter === 'Terpopuler') query.isPopular = true;
-		if (selectedFilter === 'Terbaru') query.isRecent = true;
-		if (activeTab === 'laporan-saya' && user?.id) query.studentId = user.id;
+		// Add sort parameter
+		const sortValue = SORT_MAP[selectedFilter];
+		if (sortValue) {
+			query.sort = sortValue;
+		}
+
+		// Add filters
 		if (category) query.category = category;
 		if (status) query.status = status;
 
 		getReports(query);
-	}, [activeTab, refresh, selectedFilter, category, status]);
+		setCurrentPage(1); // Reset to first page when filters change
+	}, [refresh, selectedFilter, category, status, getReports]);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
@@ -109,61 +187,31 @@ const LaporanPage = () => {
 					<div className="flex flex-wrap items-center justify-between mb-6 gap-6">
 						<h1 className="text-4xl font-bold text-dark">Daftar Laporan</h1>
 
-						<div className="flex items-center flex-wrap lg:mb-4 lg:hidden gap-4">
-							<Button variant="warning" label="Filter" icon={<FilterIcon className="w-4 h-4" />} onClick={() => setFilterModal(true)} />
+						<MobileControls onFilter={() => setFilterModal(true)} onAjuLaporan={handleAjuLaporan} />
 
-							<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} onClick={handleAjuLaporan} />
-						</div>
-
-						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="hidden lg:block" />
+						<FilterButton options={Object.values(FILTER_OPTIONS)} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="hidden lg:block" />
 					</div>
 
 					{/* Tabs */}
 					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
 
 					{/* Reports List */}
-					<div className="space-y-6">
-						{reports && reports.length > 0 ? (
-							reports.map((report) => (
-								<div key={report.id}>
-									<LaporanCard report={report} />
-								</div>
-							))
-						) : (
-							<div className="text-center text-gray my-8">Belum ada laporan yang tersedia.</div>
-						)}
-					</div>
+					<ReportList reports={filteredReports} />
 
 					{/* Pagination */}
-					{reports?.length === 0 ? null : <Pagination className="mt-8" currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />}
+					{filteredReports?.length > 0 && <Pagination className="mt-8" currentPage={currentPage} totalPages={pagination.total_pages} onPageChange={handlePageChange} />}
 				</div>
 
-				<div className="w-80 space-y-6 hidden lg:block">
-					<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="w-full" onClick={handleAjuLaporan} />
-
-					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
-						<div className="flex flex-col items-start space-y-4">
-							{categorizedReports.length > 0 ? (
-								<>
-									{categorizedReports.map(({ label, value, quantity }) => (
-										<Hashtag key={value} label={`#${label}`} quantity={quantity} onClick={() => setCategory(value)} className="cursor-pointer" />
-									))}
-								</>
-							) : (
-								<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
-							)}
-						</div>
-					</div>
-
-					<StatusFilter title="Status" statusList={filteredStatuses} onStatusClick={(status) => setStatus(status)} />
-				</div>
+				{/* Sidebar */}
+				<Sidebar onAjuLaporan={handleAjuLaporan} categorizedReports={categorizedReports} onCategoryClick={handleCategoryClick} filteredStatuses={filteredStatuses} onStatusClick={handleStatusClick} />
 			</div>
 
-			<NotVerifiedModal openModal={verifModal} closeModal={() => setVerifModal(false)} />
+			{/* Modals */}
+			<NotVerifiedModal openModal={verifModal} closeModal={handleVerifModalClose} />
+
 			<FilterModal
 				openModal={filterModal}
-				closeModal={() => setFilterModal(false)}
+				closeModal={handleFilterModalClose}
 				selectedFilter={selectedFilter}
 				setSelectedFilter={setSelectedFilter}
 				categorizedReports={categorizedReports}

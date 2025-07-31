@@ -1,4 +1,4 @@
-import { CheckSquare, Clock, MessageSquare, Search, X } from 'lucide-react';
+import { CheckSquare, Clock, Globe, MessageSquare, Search, X } from 'lucide-react';
 
 export const reportCategories = [
 	{ label: 'Umum', value: 'general' },
@@ -56,6 +56,15 @@ export const getReportStatuses = (status) => {
 };
 
 export const reportLevels = [
-	{ label: 'Fakultas', value: 'faculty' },
-	{ label: 'Universitas', value: 'university' },
+	{ label: 'Fakultas', value: 'faculty', icon: Globe },
+	{ label: 'Universitas', value: 'university', icon: Globe },
 ];
+
+export const getReportLevels = (level) => {
+	return (
+		reportLevels.find((s) => s.value === level?.toLowerCase()) ?? {
+			icon: Globe,
+			label: level ?? 'Tidak Diketahui',
+		}
+	);
+};

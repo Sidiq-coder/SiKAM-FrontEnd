@@ -10,7 +10,9 @@ const NotVerifiedModal = ({ openModal, closeModal }) => {
 				<p className="text-[#6C757D] mt-2">Silakan tunggu proses verifikasi dari admin untuk dapat membuat laporan.</p>
 			</div>
 			<div className="flex justify-center items-center gap-4 text-[#6C757D] pt-10 md:pt-0">
-				<Instagram className="w-7 h-7" />
+				<a href="https://www.instagram.com/gradienunila/" target="_blank">
+					<Instagram className="w-7 h-7" />
+				</a>
 				<AtSign className="w-7 h-7" />
 			</div>
 		</Modal>

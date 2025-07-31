@@ -9,7 +9,7 @@ import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo } from '@/utils/date';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
 import useAuthStore from '@/stores/useAuthStore';
-import { getReportStatuses, getCategoryLabel } from '@/utils/reports';
+import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/reports';
 import useReportStore from '@/stores/useReportStore';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
@@ -164,9 +164,15 @@ const LaporanBody = ({ report, isDetail }) => {
 };
 
 const LaporanFooter = ({ report, isDetail }) => {
+	const reportLevel = getReportLevels(report?.report_level ?? '');
+
 	return (
-		<div className="flex justify-between">
-			<Hashtag label={`#${getCategoryLabel(report?.category ?? '')}`} />
+		<div className="flex flex-wrap gap-4 justify-between">
+			<div className="flex flex-wrap gap-4 items-center">
+				<Hashtag label={`#${getCategoryLabel(report?.category ?? '')}`} />
+				<Hashtag label={reportLevel.label} icon={<reportLevel.icon className="w-4 h-4" />} />
+			</div>
+
 			{report?.file_url && !isDetail ? (
 				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark px-2 rounded-xl">
 					<Plus className="w-4 h-4" />
