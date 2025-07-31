@@ -105,7 +105,7 @@ const Profil = () => {
 	const { setProfilMenu } = useProfilStore();
 	const { user } = useAuth();
 	const userStatus = studentStatuses.find((status) => status.value === (user?.status ?? ''));
-	const isVerified = userStatus.value !== studentsStatus.NOT_VERIFIED;
+	const isVerified = userStatus?.value !== studentsStatus.NOT_VERIFIED;
 
 	return (
 		<div className="bg-white max-w-2xl">

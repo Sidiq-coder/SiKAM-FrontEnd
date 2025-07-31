@@ -21,6 +21,7 @@ import { studentsStatus } from '@/utils/users';
 
 import NotVerifiedModal from './components/not-verified-modal';
 import FilterModal from './components/filter-modal';
+import { toast } from 'react-toastify';
 
 // Constants
 const ITEMS_PER_PAGE = 10;
@@ -90,7 +91,7 @@ const MobileControls = ({ onFilter, onAjuLaporan }) => (
 const LaporanPage = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination } = useReportStore();
+	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination, error, clearError } = useReportStore();
 	const { filteredReports, categorizedReports } = useFilteredReports({
 		reports,
 		user,
@@ -180,6 +181,13 @@ const LaporanPage = () => {
 		getReports(query);
 		setCurrentPage(1); // Reset to first page when filters change
 	}, [refresh, selectedFilter, category, status, getReports]);
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
+	}, [error]);
 
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-12 pb-[120px]">
