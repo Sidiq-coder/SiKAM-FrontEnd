@@ -237,16 +237,22 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 					)}
 					{status?.value !== 'pending' && (
 						<div className={`px-7 pt-4 pb-14 rounded-lg ${status?.bgColor}`}>
-							<div className="flex flex-wrap justify-between items-center gap-4">
-								<div className="flex flex-wrap items-center gap-4">
-									<div className="bg-primary inline-flex items-center justify-center p-2 rounded-full">
-										<User className="w-8 h-8 text-white" />
+							{report?.response ? (
+								<>
+									<div className="flex flex-wrap justify-between items-center gap-4">
+										<div className="flex flex-wrap items-center gap-4">
+											<div className="bg-primary inline-flex items-center justify-center p-2 rounded-full">
+												<User className="w-8 h-8 text-white" />
+											</div>
+											<h2 className={`text-xl text-primary font-semibold`}>{report?.admins?.name}</h2>
+										</div>
+										<p className="text-[#0B4D9B99]">{report?.submitted_at && formatDateToShortIndonesian(report?.submitted_at)}</p>
 									</div>
-									<h2 className="text-xl text-primary font-semibold">{report?.admins?.name}</h2>
-								</div>
-								<p className="text-[#0B4D9B99]">{report?.submitted_at && formatDateToShortIndonesian(report?.submitted_at)}</p>
-							</div>
-							<p className="mt-5">{report?.response}</p>
+									<p className="text-dark mt-5">{report?.response}</p>
+								</>
+							) : (
+								<h2 className={`text-xl text-primary text-center font-semibold`}>Belum ada tanggapan</h2>
+							)}
 						</div>
 					)}
 				</>
