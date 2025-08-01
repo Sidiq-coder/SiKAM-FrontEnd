@@ -45,9 +45,9 @@ const useReportStore = create((set, get) => ({
 		}
 	},
 
-	getMyReports: async () => {
+	getMyReports: async (filters = {}) => {
 		try {
-			const response = await reportsAPI.getMyReports();
+			const response = await reportsAPI.getMyReports(filters);
 			set({ reports: response.data });
 		} catch (error) {
 			set({ reports: [] });

@@ -1,22 +1,17 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { LogOut, Edit3 } from 'lucide-react';
-import { daftarLaporan } from '@/mocks/laporanMock';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BandingUkt } from './components/BandingUkt';
-import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { Notifikasi } from './components/Notifikasi';
 import { PasswordContent } from './components/PasswordContent';
 import useAuth from '@/hooks/useAuth';
 import Button from '@/components/button';
-import Tabs from '@/components/tabs';
-import LaporanCard from '@/components/laporan-card';
-import Pagination from '@/components/pagination';
 import { studentStatuses, studentsStatus } from '@/utils/users';
 import { EditProfil } from './components/EditProfil';
 import { EditProfilAdmin } from './components/EditProfilAdmin';
 import { setCustomPageTitle } from '@/utils/titleManager';
 import useProfilStore from '@/stores/useProfilStore';
 import { LogoutModal } from './components/Modal';
+import Laporan from './components/Laporan';
 
 export default function ProfilePage() {
 	return (
@@ -159,43 +154,6 @@ const Profil = () => {
 					</tbody>
 				</table>
 			</div>
-		</div>
-	);
-};
-
-const Laporan = () => {
-	const [activeTab, setActiveTab] = useState('laporan-saya');
-	const [reports, setReports] = useState([]);
-
-	const tabOptions = [
-		{ label: 'Semua', value: 'semua' },
-		{ label: 'Pending', value: 'pending' },
-		{ label: 'Proses', value: 'proses' },
-		{ label: 'Selesai', value: 'selesai' },
-	];
-
-	const filteredReports = useMemo(() => {
-		return activeTab === 'laporan-saya' ? daftarLaporan.filter((r) => r.isMy) : daftarLaporan;
-	}, [activeTab]);
-
-	useEffect(() => {
-		setReports(filteredReports);
-	}, [filteredReports]);
-
-	return (
-		<div className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow">
-			<div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
-				<h1 className="text-xl md:text-2xl font-bold text-dark">Laporan Saya</h1>
-				<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} />} href="/aju-laporan" />
-			</div>
-
-			<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} />
-
-			<div className="mt-6 space-y-4">
-				{reports.length > 0 ? reports.map((report) => <LaporanCard key={report.id} report={report} />) : <p className="text-gray-500 text-center mt-10">Belum ada laporan.</p>}
-			</div>
-
-			{reports.length > 0 && <Pagination className="mt-8" />}
 		</div>
 	);
 };

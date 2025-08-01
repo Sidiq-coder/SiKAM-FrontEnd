@@ -46,7 +46,7 @@ export const PasswordContent = () => {
 	}, [error]);
 
 	return (
-		<div className="p-8 bg-white h-full">
+		<div className="bg-white h-full">
 			<h1 className="font-bold text-2xl capitalize">Password</h1>
 
 			<div>

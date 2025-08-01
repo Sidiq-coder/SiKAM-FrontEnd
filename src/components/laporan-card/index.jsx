@@ -273,9 +273,10 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const isAdmin = location.pathname.includes('admin');
 	const isMy = user?.id === report?.student_id;
 	const isVote = user?.id !== report?.student_id;
+	const isPending = report?.status === 'pending';
 
-	const showActions = isMy && !isAdmin;
-	const isVoteable = isVote && !isMy && !isAdmin;
+	const showActions = isMy && !isAdmin && isPending;
+	const isVoteable = isVote && !isMy && !isAdmin && isPending;
 	const detailPath = isAdmin ? `/admin/laporan/${report?.id}` : `/laporan/${report?.id}`;
 
 	return (
