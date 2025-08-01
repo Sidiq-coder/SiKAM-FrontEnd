@@ -18,30 +18,35 @@ export const reportStatuses = [
 		value: 'pending',
 		icon: Clock,
 		textColor: 'text-yellow',
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
 		label: 'Ditinjau',
 		value: 'under_review',
 		icon: Search,
 		textColor: 'text-light-yellow',
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
 		label: 'Ditanggapi',
 		value: 'responded',
 		icon: MessageSquare,
 		textColor: 'text-primary',
+		bgColor: 'bg-[#007BFF80]',
 	},
 	{
 		label: 'Selesai',
 		value: 'done',
 		icon: CheckSquare,
 		textColor: 'text-green',
+		bgColor: 'bg-[#2FCB7180]',
 	},
 	{
 		label: 'Ditolak',
 		value: 'rejected',
 		icon: X,
 		textColor: 'text-red',
+		bgColor: 'bg-[#EE484880]',
 	},
 ];
 

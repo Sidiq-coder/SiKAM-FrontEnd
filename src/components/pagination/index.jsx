@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useEffect } from 'react';
 
 const Pagination = ({ className = '', currentPage = 1, totalPages = 1, onPageChange, maxVisiblePages = 3 }) => {
 	const handlePrev = () => {
@@ -39,6 +40,10 @@ const Pagination = ({ className = '', currentPage = 1, totalPages = 1, onPageCha
 	const visiblePages = getVisiblePages();
 	const showStartEllipsis = visiblePages[0] > 1;
 	const showEndEllipsis = visiblePages[visiblePages.length - 1] < totalPages;
+
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}, [currentPage]);
 
 	return (
 		<div className={`flex ${className}`}>

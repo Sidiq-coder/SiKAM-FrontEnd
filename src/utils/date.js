@@ -23,3 +23,12 @@ export function timeAgo(dateString) {
 	if (diffHours < 24) return `${diffHours} jam lalu`;
 	return `${diffDays} hari lalu`;
 }
+
+export function formatDateToShortIndonesian(isoString) {
+	const date = new Date(isoString);
+	const options = { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: false };
+	const formatted = new Intl.DateTimeFormat('id-ID', options).format(date);
+
+	const [day, month, time] = formatted.replace('.', ':').split(' ');
+	return `${day} ${month} ${time}`;
+}

@@ -32,6 +32,9 @@ const BaseLayout = () => {
 
 	useEffect(() => {
 		initializeAuth();
+	}, [location.pathname, localStorage.getItem('token')]);
+
+	useEffect(() => {
 		setPageTitle(location.pathname);
 	}, [location.pathname]);
 

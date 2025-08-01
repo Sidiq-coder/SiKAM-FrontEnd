@@ -13,6 +13,7 @@ import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/re
 import useReportStore from '@/stores/useReportStore';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { formatDateToShortIndonesian } from '../../utils/date';
 
 const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 	const navigate = useNavigate();
@@ -184,7 +185,7 @@ const LaporanFooter = ({ report, isDetail }) => {
 };
 
 const LaporanDetailSection = ({ report, isAdmin }) => {
-	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
+	const status = getReportStatuses(report?.status ?? '');
 
 	const filePath = report?.file_url?.startsWith('https') ? report.file_url : `${import.meta.env.VITE_API_BASE_URL}/${report.file_url}`;
 
@@ -227,10 +228,28 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 			</div>
 
 			{!isAdmin ? (
-				<div className={`flex items-center justify-center gap-x-2 ${textColor}`}>
-					<StatusIcon className="w-5 h-5" />
-					<p className="font-semibold text-lg">{label}</p>
-				</div>
+				<>
+					{status?.value === 'pending' && (
+						<div className={`flex items-center justify-center gap-x-2 ${status?.textColor}`}>
+							{status?.icon && <status.icon className="w-5 h-5" />}
+							<p className="font-semibold text-lg">{status?.label}</p>
+						</div>
+					)}
+					{status?.value !== 'pending' && (
+						<div className={`px-7 pt-4 pb-14 rounded-lg ${status?.bgColor}`}>
+							<div className="flex flex-wrap justify-between items-center gap-4">
+								<div className="flex flex-wrap items-center gap-4">
+									<div className="bg-primary inline-flex items-center justify-center p-2 rounded-full">
+										<User className="w-8 h-8 text-white" />
+									</div>
+									<h2 className="text-xl text-primary font-semibold">{report?.admins?.name}</h2>
+								</div>
+								<p className="text-[#0B4D9B99]">{report?.submitted_at && formatDateToShortIndonesian(report?.submitted_at)}</p>
+							</div>
+							<p className="mt-5">{report?.response}</p>
+						</div>
+					)}
+				</>
 			) : (
 				<UpdateStatusForm />
 			)}

@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Clock, Users, User, Search, Trash, CheckSquare, XSquare } from 'lucide-react';
+import { Clock, Users, User, Search, Trash, CheckSquare, XSquare, Plus } from 'lucide-react';
 import StatCard from '@/components/stat-card';
 import DataTable from '@/components/data-table';
 import Tabs from '@/components/tabs';
 import InputField from '@/components/input-field';
 import StatusFilter from '@/components/status-filter';
 import Pagination from '@/components/pagination';
+import Button from '@/components/button';
 import { useNavigate } from 'react-router-dom';
 import useAdminStore from '@/stores/useAdminStore';
 import { studentStatuses } from '@/utils/users';
 import { useDetailAkunStore } from './detail-akun/stores/useDetailAkunStore';
+import { TambahAdminModal } from './components/Modal';
+import { toast } from 'react-toastify';
 
 const stats = [
 	{
@@ -87,11 +90,12 @@ const tabOptions = [
 const KelolaAkunPage = () => {
 	const navigate = useNavigate();
 
-	const { admins, getAdmins } = useAdminStore();
+	const { admins, getAdmins, error, clearError } = useAdminStore();
 	const { setActiveMenu } = useDetailAkunStore();
 
 	const [activeTab, setActiveTab] = useState('mahasiswa');
 	const [searchQuery, setSearchQuery] = useState('');
+	const [isOpenModal, setOpenModal] = useState(false);
 
 	const handleSearch = (e) => {
 		setSearchQuery(e.target.value);
@@ -114,6 +118,13 @@ const KelolaAkunPage = () => {
 		getAdmins();
 	}, []);
 
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
+	}, [error]);
+
 	return (
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
 			<div className="container mx-auto">
@@ -129,9 +140,9 @@ const KelolaAkunPage = () => {
 					))}
 				</div>
 
-				<div className="flex flex-col lg:flex-row justify-between gap-8">
+				<div className="flex flex-col md:flex-row justify-between gap-8">
 					<div className="flex-1">
-						<div className="flex flex-wrap flex-col md:flex-row md:items-center justify-between gap-x-10 gap-y-4 mb-6">
+						<div className="flex flex-wrap flex-col md:flex-row md:items-center md:justify-between gap-x-10 gap-y-4 mb-6">
 							{/* Tabs */}
 							<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} gap={12} textSize="xl" />
 
@@ -139,6 +150,12 @@ const KelolaAkunPage = () => {
 							<div className="flex-1">
 								<InputField placeholder="Cari mahasiswa" type="text" icon={Search} onChange={handleSearch} />
 							</div>
+
+							{activeTab === 'admin' && (
+								<div className="md:hidden">
+									<Button variant="primary" label="Tambah Admin" size="md" icon={<Plus className="w-4 h-4" />} iconPosition="right" onClick={() => setOpenModal(true)} />
+								</div>
+							)}
 						</div>
 
 						{/* Account verification info */}
@@ -163,12 +180,16 @@ const KelolaAkunPage = () => {
 						{filteredUsers.length === 0 ? null : <Pagination className="mt-8" />}
 					</div>
 
-					{/* Status Filter */}
-					<div className="w-50">
-						<StatusFilter statusList={studentStatuses} />
+					<div className="w-full max-w-50 hidden md:block">
+						{activeTab === 'mahasiswa' && <StatusFilter statusList={studentStatuses} />}
+						{activeTab === 'admin' && (
+							<Button variant="primary" label="Tambah Admin" size="md" className="w-full" icon={<Plus className="w-4 h-4" />} iconPosition="right" onClick={() => setOpenModal(true)} />
+						)}
 					</div>
 				</div>
 			</div>
+
+			<TambahAdminModal isOpen={isOpenModal} closeModal={() => setOpenModal(false)} />
 		</div>
 	);
 };
