@@ -8,8 +8,8 @@ export const adminAPI = {
 		return response.data;
 	},
 
-	createAdmin: async (data) => {
-		const response = await apiClient.post(baseURL, data);
+	createAdmin: async ({ name, email, password, role }) => {
+		const response = await apiClient.post(baseURL, { name, email, password, role });
 		return response.data;
 	},
 
@@ -18,8 +18,8 @@ export const adminAPI = {
 		return response.data;
 	},
 
-	updateAdmin: async (id, data) => {
-		const response = await apiClient.put(`${baseURL}/${id}`, data);
+	updateAdmin: async (id, { name, email, role, password }) => {
+		const response = await apiClient.put(`${baseURL}/${id}`, { name, email, role, password });
 		return response.data;
 	},
 

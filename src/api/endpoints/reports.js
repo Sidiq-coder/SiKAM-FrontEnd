@@ -68,9 +68,9 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	updateReportStatus: async (data) => {
-		const response = await apiClient.patch(`${adminURL}/status`, data);
-		return response.data;
+	updateReportStatus: async ({ id, status, response }) => {
+		const res = await apiClient.patch(`${adminURL}/status`, { id, status, response });
+		return res.data;
 	},
 
 	deleteReportResponse: async (id) => {
@@ -88,8 +88,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	voteReport: async (id, data) => {
-		const response = await apiClient.post(`${baseURL}/${id}/vote`, data);
+	voteReport: async (id, { type }) => {
+		const response = await apiClient.post(`${baseURL}/${id}/vote`, { type });
 		return response.data;
 	},
 };

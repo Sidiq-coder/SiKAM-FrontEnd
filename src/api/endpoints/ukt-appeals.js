@@ -101,8 +101,8 @@ export const uktAppealsAPI = {
 		return response.data;
 	},
 
-	updateAppealStatus: async (data) => {
-		const response = await apiClient.patch(`${adminUktURL}/appeals/status`, data);
+	updateAppealStatus: async ({ id, status, admin_note }) => {
+		const response = await apiClient.patch(`${adminUktURL}/appeals/status`, { id, status, admin_note });
 		return response.data;
 	},
 

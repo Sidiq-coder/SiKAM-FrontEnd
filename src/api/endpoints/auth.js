@@ -23,8 +23,8 @@ export const authAPI = {
 		return response.data;
 	},
 
-	verifyEmail: async (data) => {
-		const response = await apiClient.post(`${baseURL}/verify-email`, data);
+	verifyEmail: async ({ email, otp_code }) => {
+		const response = await apiClient.post(`${baseURL}/verify-email`, { email, otp_code });
 		return response.data;
 	},
 
@@ -33,8 +33,8 @@ export const authAPI = {
 		return response.data;
 	},
 
-	login: async (data) => {
-		const response = await apiClient.post(`${baseURL}/login`, data);
+	login: async ({ identifier, password }) => {
+		const response = await apiClient.post(`${baseURL}/login`, { identifier, password });
 		return response.data;
 	},
 
@@ -43,18 +43,18 @@ export const authAPI = {
 		return response.data;
 	},
 
-	resetPassword: async (data) => {
-		const response = await apiClient.patch(`${baseURL}/reset-password`, data);
+	resetPassword: async ({ old_password, new_password, confirm_new_password }) => {
+		const response = await apiClient.patch(`${baseURL}/reset-password`, { old_password, new_password, confirm_new_password });
 		return response.data;
 	},
 
-	requestPasswordReset: async (data) => {
-		const response = await apiClient.post(`${baseURL}/request-password-reset`, data);
+	requestPasswordReset: async ({ email }) => {
+		const response = await apiClient.post(`${baseURL}/request-password-reset`, { email });
 		return response.data;
 	},
 
-	verifyPasswordReset: async (data) => {
-		const response = await apiClient.post(`${baseURL}/verify-password-reset`, data);
+	verifyPasswordReset: async ({ email, otp, new_password }) => {
+		const response = await apiClient.post(`${baseURL}/verify-password-reset`, { email, otp, new_password });
 		return response.data;
 	},
 };
