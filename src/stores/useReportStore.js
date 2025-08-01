@@ -35,6 +35,16 @@ const useReportStore = create((set, get) => ({
 		}
 	},
 
+	getAdminReports: async (filters = {}) => {
+		try {
+			const response = await reportsAPI.getAdminReports(filters);
+			set({ reports: response.data, pagination: response.pagination });
+		} catch (error) {
+			set({ reports: [] });
+			console.error('Get reports error:', error);
+		}
+	},
+
 	getReport: async (id) => {
 		try {
 			const response = await reportsAPI.getReport(id);
@@ -139,22 +149,7 @@ const useReportStore = create((set, get) => ({
 			set({ refresh: get().refresh + 1 });
 			return { success: true, data: response };
 		} catch (error) {
-			const errorMessage = error.response?.data?.message || 'Update report status failed';
-			set({ error: errorMessage, isLoading: false });
-			return { success: false, error: errorMessage };
-		} finally {
-			set({ isLoading: false });
-		}
-	},
-
-	createReportResponse: async (id, data) => {
-		set({ isLoading: true, error: null });
-		try {
-			const response = await reportsAPI.createReportResponse(id, data);
-			set({ refresh: get().refresh + 1 });
-			return { success: true, data: response };
-		} catch (error) {
-			const errorMessage = error.response?.data?.message || 'Create report response failed';
+			const errorMessage = error.response?.data?.message || 'Update report response failed';
 			set({ error: errorMessage, isLoading: false });
 			return { success: false, error: errorMessage };
 		} finally {

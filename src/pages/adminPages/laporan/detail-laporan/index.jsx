@@ -3,10 +3,11 @@ import BackLink from '@/components/back-link';
 import { useParams } from 'react-router-dom';
 import useReportStore from '@/stores/useReportStore';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const AdminDetailLaporanPage = () => {
 	const { id } = useParams();
-	const { getReport, report, refresh } = useReportStore();
+	const { getReport, report, refresh, error, clearError } = useReportStore();
 
 	useEffect(() => {
 		const fetch = async () => {
@@ -14,6 +15,13 @@ const AdminDetailLaporanPage = () => {
 		};
 		fetch();
 	}, [id, refresh]);
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
+	}, [error]);
 
 	return (
 		<div className="bg-[url('/images/bg-pattern.png')] bg-cover bg-center bg-no-repeat md:px-10 lg:px-20 px-4 py-8 pb-[120px]">

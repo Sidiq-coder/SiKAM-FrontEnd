@@ -1,15 +1,18 @@
 import { z } from 'zod';
+import { reportStatuses } from '@/utils/reports';
 
 export const schema = z.object({
-	status: z.enum(['responded', 'rejected'], {
-		required_error: 'Status wajib dipilih',
-	}),
+	status: z.enum(
+		reportStatuses.map((status) => status.value),
+		{
+			required_error: 'Status wajib diisi',
+			invalid_type_error: 'Status harus berupa string',
+		}
+	),
 	response: z
-		.string()
-		.min(1, {
-			message: 'Tanggapan wajib diisi',
+		.string({
+			invalid_type_error: 'Response harus berupa string',
 		})
-		.max(1000, {
-			message: 'Tanggapan maksimal 1000 karakter',
-		}),
+		.min(5, { message: 'Response minimal terdiri dari 5 karakter' })
+		.optional(),
 });

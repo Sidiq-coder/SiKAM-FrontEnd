@@ -34,7 +34,7 @@ const SORT_MAP = {
 };
 
 const AdminLaporanPage = () => {
-	const { getReports, reports, pagination } = useReportStore();
+	const { getAdminReports, reports, pagination } = useReportStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
@@ -74,7 +74,7 @@ const AdminLaporanPage = () => {
 			if (category) query.category = category;
 			if (activeTab !== 'semua') query.status = activeTab;
 
-			getReports(query);
+			getAdminReports(query);
 			setCurrentPage(newPage);
 		},
 		[selectedFilter, category, activeTab]
@@ -125,7 +125,7 @@ const AdminLaporanPage = () => {
 		if (activeTab !== 'semua') query.status = activeTab;
 		if (searchQuery) query.search = searchQuery;
 
-		getReports(query);
+		getAdminReports(query);
 		setCurrentPage(1); // Reset to first page when filters change
 	}, [activeTab, selectedFilter, category, searchQuery]);
 

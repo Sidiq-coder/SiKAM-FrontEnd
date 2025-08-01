@@ -10,7 +10,7 @@ import useReportStore from '@/stores/useReportStore';
 import { toast } from 'react-toastify';
 
 const UpdateStatusForm = () => {
-	const { createReportResponse, report, clearError, isLoading } = useReportStore();
+	const { updateReportStatus, report, clearError, isLoading } = useReportStore();
 
 	const currentOption = useMemo(() => {
 		return reportStatuses.find((opt) => opt.value === report.status);
@@ -28,7 +28,8 @@ const UpdateStatusForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const result = await createReportResponse(report.id, data);
+			data.id = report.id;
+			const result = await updateReportStatus(data);
 
 			if (result?.data?.success) {
 				toast.success('Perubahan status berhasil disimpan');
@@ -44,7 +45,7 @@ const UpdateStatusForm = () => {
 		if (report) {
 			reset(
 				{
-					status: report?.status ?? '',
+					status: report?.status ?? 'pending',
 					response: report?.response ?? '',
 				},
 				{
@@ -75,13 +76,11 @@ const UpdateStatusForm = () => {
 
 					{/* Dropdown */}
 					<select className="px-5 py-3 shadow-md rounded-md text-sm focus:outline-none pr-7" {...register('status')}>
-						{reportStatuses
-							.filter((opt) => ['responded', 'rejected'].includes(opt.value))
-							.map((opt) => (
-								<option key={opt.value} value={opt.value}>
-									{opt.label}
-								</option>
-							))}
+						{reportStatuses.map((opt) => (
+							<option key={opt.value} value={opt.value}>
+								{opt.label}
+							</option>
+						))}
 					</select>
 
 					{/* Info Tooltip */}

@@ -1,10 +1,16 @@
 import apiClient from '@/api/client';
 
 const baseURL = '/reports';
+const adminURL = '/admin/reports';
 
 export const reportsAPI = {
 	getReports: async ({ search, page, itemPerPage, sort, status, category }) => {
-		const response = await apiClient.get('/reports', { params: { search, page, itemPerPage, sort, status, category } });
+		const response = await apiClient.get(baseURL, { params: { search, page, itemPerPage, sort, status, category } });
+		return response.data;
+	},
+
+	getAdminReports: async ({ search, page, itemPerPage, sort, status, category }) => {
+		const response = await apiClient.get(adminURL, { params: { search, page, itemPerPage, sort, status, category } });
 		return response.data;
 	},
 
@@ -62,13 +68,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	updateReportStatus: async (id, data) => {
-		const response = await apiClient.patch(`${baseURL}/${id}/status`, data);
-		return response.data;
-	},
-
-	createReportResponse: async (id, data) => {
-		const response = await apiClient.post(`${baseURL}/${id}/response`, data);
+	updateReportStatus: async (data) => {
+		const response = await apiClient.patch(`${adminURL}/status`, data);
 		return response.data;
 	},
 
