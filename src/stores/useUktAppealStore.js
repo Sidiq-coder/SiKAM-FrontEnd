@@ -4,6 +4,7 @@ import { uktAppealsAPI } from '../api/endpoints/ukt-appeals';
 const useUktAppealStore = create((set, get) => ({
 	// State
 	uktAppeals: [],
+	uktAppeal: null,
 	isLoading: false,
 	error: null,
 	refresh: 0,
@@ -44,6 +45,45 @@ const useUktAppealStore = create((set, get) => ({
 			return { success: true, data: response };
 		} catch (error) {
 			const errorMessage = error.response?.data?.message || 'Toggle status ukt appeal failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	getAdminUktAppeal: async (id) => {
+		try {
+			const response = await uktAppealsAPI.getAdminUktAppeal(id);
+			set({ uktAppeal: response.data });
+		} catch (error) {
+			set({ uktAppeal: null });
+			console.error('Get ukt appeal error:', error);
+		}
+	},
+
+	updateAppealStatus: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await uktAppealsAPI.updateAppealStatus(data);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Update ukt appeal status failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	deleteAdminUktAppeal: async (id) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await uktAppealsAPI.deleteAdminUktAppeal(id);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Delete ukt appeal failed';
 			set({ error: errorMessage, isLoading: false });
 			return { success: false, error: errorMessage };
 		} finally {

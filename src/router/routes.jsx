@@ -121,6 +121,7 @@ const routes = [
 	},
 
 	// Not Found Route
+	{ path: '/not-found', element: <NotFoundPage /> },
 	{ path: '*', element: <NotFoundPage /> },
 ];
 

@@ -95,4 +95,19 @@ export const uktAppealsAPI = {
 		const response = await apiClient.post(`${adminUktURL}/status`);
 		return response.data;
 	},
+
+	getAdminUktAppeal: async (id) => {
+		const response = await apiClient.get(`${adminUktURL}/appeals/${id}`);
+		return response.data;
+	},
+
+	updateAppealStatus: async (data) => {
+		const response = await apiClient.patch(`${adminUktURL}/appeals/status`, data);
+		return response.data;
+	},
+
+	deleteAdminUktAppeal: async (id) => {
+		const response = await apiClient.delete(`${adminUktURL}/appeals/${id}`);
+		return response.data;
+	},
 };

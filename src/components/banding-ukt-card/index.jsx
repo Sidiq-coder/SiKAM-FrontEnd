@@ -15,11 +15,11 @@ const BandingUKTCard = ({ data }) => {
 			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 				<div className="flex items-center gap-3">
 					<div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white text-lg font-semibold overflow-hidden">
-						<img src="/images/Artboard 3 copy 1.png" alt="artboard" className="" />
+						<img src="/images/Artboard 3 copy 1.png" alt="artboard" />
 					</div>
 					<div>
 						<p className="font-medium text-dark">{data?.students?.name}</p>
-						<p className="text-sm text-gray-500">NPM: {data?.students?.npm ?? '-'}</p>
+						<p className="text-sm text-gray-500">NPM: {data?.students?.campus_email?.split('@')[0]}</p>
 					</div>
 				</div>
 			</div>
