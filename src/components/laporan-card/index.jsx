@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Calendar, Edit, FileImage, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
+import { Calendar, Edit, FileImage, Hourglass, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import Triangle from '@/components/triangle';
 import Button from '@/components/button';
@@ -231,8 +231,8 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 				<>
 					{status?.value === 'pending' && (
 						<div className={`flex items-center justify-center gap-x-2 ${status?.textColor}`}>
-							{status?.icon && <status.icon className="w-5 h-5" />}
-							<p className="font-semibold text-lg">{status?.label}</p>
+							<Hourglass className="w-5 h-5" />
+							<p className="font-semibold text-lg">Menunggu Verifikasi</p>
 						</div>
 					)}
 					{status?.value !== 'pending' && (
