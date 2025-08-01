@@ -32,4 +32,9 @@ export const notificationsAPI = {
 		const response = await apiClient.patch(`${baseURL}/read-all`);
 		return response.data;
 	},
+
+	readNotification: async (id) => {
+		const response = await apiClient.patch(`${baseURL}/${id}/read`);
+		return response.data;
+	},
 };

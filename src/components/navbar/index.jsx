@@ -82,6 +82,7 @@ const NavbarActions = () => {
 			<IconButton
 				bgColor="bg-primary lg:bg-white"
 				onClick={() => {
+					if (user?.role === 'superadmin') return;
 					setMenuOpen(false);
 					setOpenModal(true);
 				}}
