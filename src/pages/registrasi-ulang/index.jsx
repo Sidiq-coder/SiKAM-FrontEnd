@@ -38,7 +38,7 @@ const RegistrasiUlang = () => {
 
 			if (result?.data?.success) {
 				clearError();
-				toast.success(result?.data?.meesage);
+				toast.success('Berhasil registrasi ulang');
 				navigate('/profil');
 			}
 		} catch (error) {
