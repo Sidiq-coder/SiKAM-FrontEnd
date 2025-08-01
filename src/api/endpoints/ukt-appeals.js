@@ -1,6 +1,7 @@
 import apiClient from '@/api/client';
 
 const baseURL = '/ukt-appeals';
+const adminUktURL = '/admin/ukt';
 
 export const uktAppealsAPI = {
 	getUktAppeals: async () => {
@@ -82,6 +83,16 @@ export const uktAppealsAPI = {
 
 	deleteUktAppeal: async (id) => {
 		const response = await apiClient.delete(`${baseURL}/${id}`);
+		return response.data;
+	},
+
+	getAdminUktAppeals: async ({ page, itemPerPage, sort, status, problem }) => {
+		const response = await apiClient.get(`${adminUktURL}/appeals`, { params: { page, itemPerPage, sort, status, problem } });
+		return response.data;
+	},
+
+	toggleStatusUktAppeal: async () => {
+		const response = await apiClient.post(`${adminUktURL}/status`);
 		return response.data;
 	},
 };

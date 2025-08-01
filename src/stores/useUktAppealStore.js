@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { uktAppealsAPI } from '../api/endpoints/ukt-appeals';
 
-const useUktAppealStore = create((set) => ({
+const useUktAppealStore = create((set, get) => ({
 	// State
 	uktAppeals: [],
 	isLoading: false,
@@ -13,6 +13,7 @@ const useUktAppealStore = create((set) => ({
 		current_page: 0,
 		items_per_page: 0,
 	},
+	isPeriodOpen: false,
 
 	// Actions
 	getMyUktAppeals: async (filters = {}) => {
@@ -22,6 +23,31 @@ const useUktAppealStore = create((set) => ({
 		} catch (error) {
 			set({ uktAppeals: [] });
 			console.error('Get ukt appeals error:', error);
+		}
+	},
+
+	getAdminUktAppeals: async (filters = {}) => {
+		try {
+			const response = await uktAppealsAPI.getAdminUktAppeals(filters);
+			set({ uktAppeals: response.data, pagination: response.pagination });
+		} catch (error) {
+			set({ uktAppeals: [] });
+			console.error('Get ukt appeals error:', error);
+		}
+	},
+
+	toggleStatusUktAppeal: async () => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await uktAppealsAPI.toggleStatusUktAppeal();
+			set({ isPeriodOpen: !get().isPeriodOpen });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Toggle status ukt appeal failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 

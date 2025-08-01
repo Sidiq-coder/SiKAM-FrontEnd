@@ -106,7 +106,7 @@ const routes = [
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
-					{ path: 'detail-banding-ukt', element: <DetailBandingUKT /> },
+					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
 
 					// Advika
 					{ path: 'advika', element: <AdminAdvika /> },
