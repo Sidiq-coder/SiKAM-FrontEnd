@@ -39,8 +39,8 @@ export const uktAppealsAPI = {
 		return response.data;
 	},
 
-	getMyUktAppeals: async () => {
-		const response = await apiClient.get(`${baseURL}/me`);
+	getMyUktAppeals: async ({ page, itemPerPage }) => {
+		const response = await apiClient.get(`${baseURL}/me`, { params: { page, itemPerPage } });
 		return response.data;
 	},
 
