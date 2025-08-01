@@ -1,7 +1,8 @@
 import useAuthStore from '@/stores/useAuthStore';
 
 const useAuth = () => {
-	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset, resetPassword, updateProfile } = useAuthStore();
+	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset, resetPassword, updateProfile, updateAdmin } =
+		useAuthStore();
 
 	return {
 		user,
@@ -18,6 +19,7 @@ const useAuth = () => {
 		verifyPasswordReset,
 		resetPassword,
 		updateProfile,
+		updateAdmin,
 	};
 };
 

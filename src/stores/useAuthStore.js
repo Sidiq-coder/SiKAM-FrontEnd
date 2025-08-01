@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { authAPI } from '@/api/endpoints/auth';
 import { usersAPI } from '@/api/endpoints/users';
+import { adminAPI } from '@/api/endpoints/admin';
 
 const useAuthStore = create(
 	persist(
@@ -123,6 +124,21 @@ const useAuthStore = create(
 					return { success: true, data: response };
 				} catch (error) {
 					const errorMessage = error.response?.data?.message || 'Update profile failed';
+					set({ error: errorMessage, isLoading: false });
+					return { success: false, error: errorMessage };
+				} finally {
+					set({ isLoading: false });
+				}
+			},
+
+			updateAdmin: async (id, data) => {
+				set({ isLoading: true, error: null });
+				try {
+					const response = await adminAPI.updateAdmin(id, data);
+					get().getProfile();
+					return { success: true, data: response };
+				} catch (error) {
+					const errorMessage = error.response?.data?.message || 'Update admin failed';
 					set({ error: errorMessage, isLoading: false });
 					return { success: false, error: errorMessage };
 				} finally {

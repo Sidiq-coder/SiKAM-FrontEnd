@@ -8,13 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { adminDataSchema } from '../schema';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import useAdminStore from '@/stores/useAdminStore';
 import useProfilStore from '@/stores/useProfilStore';
 
 export const EditProfilAdmin = () => {
-	const { user } = useAuth();
+	const { user, updateAdmin, error, clearError, isLoading } = useAuth();
 	const { setProfilMenu } = useProfilStore();
-	const { updateAdmin, error, clearError, isLoading } = useAdminStore();
 	const userStatus = studentStatuses.find((status) => status.value === user?.status);
 
 	const {
