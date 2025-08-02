@@ -73,3 +73,36 @@ export const TambahAdminModal = ({ isOpen, closeModal }) => {
 		</Modal>
 	);
 };
+
+export const DeleteAdminModal = ({ id, isOpen, closeModal }) => {
+	const { deleteAdmin, clearError } = useAdminStore();
+
+	const handleDeleteAdmin = async () => {
+		try {
+			const result = await deleteAdmin(id);
+
+			if (result?.data?.success) {
+				closeModal();
+				clearError();
+				toast.success(result?.data?.message);
+			}
+		} catch (error) {
+			toast.error('Terjadi kesalahan!');
+			console.error('Error:', error);
+		}
+	};
+
+	return (
+		<Modal isOpen={isOpen} onClose={closeModal} size="md">
+			<div className="flex flex-col items-center text-center md:pt-10">
+				<img src="/images/trash.png" alt="trash.png" className="w-30" />
+				<h2 className="text-2xl text-dark font-semibold mt-10">Hapus Akun Admin ini?</h2>
+				<p className="text-[#6C757D] mt-2">Tindakan ini akan menghapus Akun Admin secara permanen dari sistem. Anda tidak dapat mengembalikannya.</p>
+			</div>
+			<div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-10 pb-4">
+				<Button variant="secondary" label="Batal" size="large" onClick={closeModal} />
+				<Button variant="danger" label="Hapus" size="large" onClick={handleDeleteAdmin} />
+			</div>
+		</Modal>
+	);
+};

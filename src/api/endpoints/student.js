@@ -9,7 +9,7 @@ export const studentAPI = {
 	},
 
 	verifyStudent: async ({ campus_email, status }) => {
-		const response = await apiClient.patch(baseURL, { campus_email, status });
+		const response = await apiClient.patch(`${baseURL}/verify`, { campus_email, status });
 		return response.data;
 	},
 };

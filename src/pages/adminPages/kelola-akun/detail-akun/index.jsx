@@ -7,8 +7,8 @@ import ProfilAdmin from './components/ProfilAdmin';
 import ProfilUser from './components/ProfilUser';
 import EditProfilAdmin from './components/EditProfilAdmin';
 import Laporan from './components/Laporan';
-import BandingUKT from './components/BandingUKT';
 import { useDetailAkunStore } from './stores/useDetailAkunStore';
+import { BandingUkt } from './components/BandingUkt';
 
 const DetailAkunPage = () => {
 	const { id, role } = useParams();
@@ -21,7 +21,7 @@ const DetailAkunPage = () => {
 			await getAdmin(id);
 		};
 		const fetchStudent = async () => {
-			await getStudent(6);
+			await getStudent(id);
 		};
 
 		if (role === 'admin') fetchAdmin();
@@ -64,7 +64,7 @@ const DetailAkunPage = () => {
 											<div
 												key={item.key}
 												className={`text-dark font-semibold py-2 px-3 ${['profil', 'laporan'].includes(item.key) ? 'border-t border-gray' : ''} rounded cursor-pointer ${
-													activeMenu === item.key ? 'text-primary' : ''
+													activeMenu.includes(item.key) ? 'text-primary' : ''
 												}`}
 												onClick={() => setActiveMenu(item.key)}
 											>
@@ -91,7 +91,7 @@ const DetailAkunPage = () => {
 										return <Laporan />;
 
 									case 'banding-ukt':
-										return <BandingUKT />;
+										return <BandingUkt />;
 
 									default:
 										return null;

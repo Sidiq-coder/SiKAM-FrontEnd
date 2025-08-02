@@ -66,15 +66,15 @@ const ProfilAdmin = () => {
 		<>
 			<h2 className="text-2xl text-dark font-extrabold">Edit Profil</h2>
 
-			<table className="mt-2">
+			<table className="w-full max-w-2xl mt-2">
 				<tbody>
 					{[
 						{ label: 'Nama', name: 'name' },
 						{ label: 'Email', name: 'email' },
 					].map(({ label, name }) => (
 						<tr key={`edit-${label}`}>
-							<td className="text-primary font-semibold py-2">{label}</td>
-							<td className="px-4 sm:px-10 py-2">:</td>
+							<td className="text-primary font-semibold py-2 w-2">{label}</td>
+							<td className="px-4 py-2 w-2">:</td>
 							<td className="py-2">
 								<InputField name={name} placeholder={label} type="text" register={register} error={errors[name]} required={false} isSmall />
 							</td>

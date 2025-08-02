@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { usersAPI } from '../api/endpoints/users';
+import { studentAPI } from '../api/endpoints/student';
 
-const useUserStore = create((set) => ({
+const useUserStore = create((set, get) => ({
 	// State
 	user: null,
 	student: null,
@@ -49,6 +50,21 @@ const useUserStore = create((set) => ({
 			return { success: true, data: response };
 		} catch (error) {
 			const errorMessage = error.response?.data?.message || 'Re-register failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	verifyStudent: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await studentAPI.verifyStudent(data);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Verify student failed';
 			set({ error: errorMessage, isLoading: false });
 			return { success: false, error: errorMessage };
 		} finally {

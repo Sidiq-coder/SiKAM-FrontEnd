@@ -18,13 +18,13 @@ const BandingUktItem = ({ data }) => {
 			<div className="mb-2 flex">
 				<div className="w-40 font-semibold">ID pengajuan</div>
 				<div>
-					: <span className="text-[#A3A3A3]">{data.id}</span>
+					: <span className="text-dark">{data.id}</span>
 				</div>
 			</div>
 			<div className="mb-2 flex">
 				<div className="w-40 font-semibold">Tanggal pengajuan</div>
 				<div>
-					: <span className="text-[#A3A3A3]">{dayjs(data.submitted_at).format('D MMMM YYYY')}</span>
+					: <span className="text-dark">{dayjs(data.submitted_at).format('D MMMM YYYY')}</span>
 				</div>
 			</div>
 			<div className="mb-2 flex">
@@ -40,7 +40,7 @@ const BandingUktItem = ({ data }) => {
 			<div className="mb-4 flex">
 				<div className="w-40 font-semibold">Tipe bencana</div>
 				<div>
-					: <span className="text-[#A3A3A3]">{problem.label}</span>
+					: <span className="text-dark">{problem.label}</span>
 				</div>
 			</div>
 			<div className="text-center font-medium text-sm">

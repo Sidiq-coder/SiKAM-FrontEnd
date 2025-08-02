@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FilterIcon, Search } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import LaporanCard from '@/components/laporan-card';
@@ -10,6 +10,7 @@ import Button from '@/components/button';
 import useReportStore from '@/stores/useReportStore';
 import { reportCategories } from '@/utils/reports';
 import FilterModal from './components/filter-modal';
+import useSearchHandler from '@/hooks/useSearchHandler';
 
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
@@ -44,19 +45,7 @@ const AdminLaporanPage = () => {
 
 	const [filterModal, setFilterModal] = useState(false);
 
-	const debounceRef = useRef(null);
-
-	const handleSearch = (e) => {
-		const value = e.target.value;
-
-		if (debounceRef.current) {
-			clearTimeout(debounceRef.current);
-		}
-
-		debounceRef.current = setTimeout(() => {
-			setSearchQuery(value);
-		}, 500);
-	};
+	const handleSearch = useSearchHandler(setSearchQuery);
 
 	const handlePageChange = useCallback(
 		(newPage) => {
