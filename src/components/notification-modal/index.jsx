@@ -69,7 +69,10 @@ const NotificationList = () => {
 			}
 		}
 
-		return { todayNotifications: today, previousNotifications: previous };
+		return {
+			todayNotifications: today.slice(0, 2),
+			previousNotifications: previous.slice(0, 2),
+		};
 	}, [notifications]);
 
 	useEffect(() => {
