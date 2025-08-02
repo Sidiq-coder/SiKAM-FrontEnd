@@ -1,21 +1,15 @@
-import { useEffect } from 'react';
 import useAuthStore from '@/stores/useAuthStore';
 
 const useAuth = () => {
-	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset, resetPassword } = useAuthStore();
-
-	useEffect(() => {
-		initializeAuth();
-	}, [initializeAuth]);
-
-	const isAuthenticated = !!token && !!user;
+	const { user, token, isLoading, error, register, login, logout, clearError, initializeAuth, verifyEmail, requestPasswordReset, verifyPasswordReset, resetPassword, updateProfile, updateAdmin } =
+		useAuthStore();
 
 	return {
 		user,
 		token,
 		isLoading,
 		error,
-		isAuthenticated,
+		initializeAuth,
 		register,
 		login,
 		logout,
@@ -24,6 +18,8 @@ const useAuth = () => {
 		requestPasswordReset,
 		verifyPasswordReset,
 		resetPassword,
+		updateProfile,
+		updateAdmin,
 	};
 };
 

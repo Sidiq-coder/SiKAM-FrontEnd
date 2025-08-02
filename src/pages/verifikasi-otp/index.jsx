@@ -40,10 +40,8 @@ export default function VerifikasiOTP() {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					navigate('/login');
-				}, 2000);
+				clearError();
+				navigate('/login');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');
@@ -52,7 +50,10 @@ export default function VerifikasiOTP() {
 	};
 
 	useEffect(() => {
-		if (error) toast.error(error);
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
 	}, [error]);
 
 	return (

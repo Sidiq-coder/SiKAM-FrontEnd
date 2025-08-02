@@ -170,8 +170,8 @@ const SelectField = ({
 						) : !multiple && selectedValues ? (
 							<>
 								<span className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-dark font-medium">
-									{name === 'kategoriLaporan' && <span>#</span>}
-									{name === 'tingkatLaporan' && <Globe className="w-4 h-4 mr-1" />}
+									{name === 'category' && <span>#</span>}
+									{name === 'report_level' && <Globe className="w-4 h-4 mr-1" />}
 									{getSelectedLabel(selectedValues)}
 								</span>
 								<button

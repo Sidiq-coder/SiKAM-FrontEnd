@@ -49,10 +49,8 @@ const Register = () => {
 			if (result?.data?.success) {
 				setEmail(data.campus_email);
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					navigate('/verifikasi-otp');
-				}, 2000);
+				clearError();
+				navigate('/verifikasi-otp');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat registrasi');
@@ -61,7 +59,10 @@ const Register = () => {
 	};
 
 	useEffect(() => {
-		if (error) toast.error(error);
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
 	}, [error]);
 
 	return (

@@ -1,9 +1,15 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { setPageTitle } from '@/utils/titleManager';
+import useAuth from '@/hooks/useAuth';
 
 const AuthLayout = () => {
 	const location = useLocation();
+	const { initializeAuth } = useAuth();
+
+	useEffect(() => {
+		initializeAuth();
+	}, [location.pathname, localStorage.getItem('token')]);
 
 	useEffect(() => {
 		setPageTitle(location.pathname);

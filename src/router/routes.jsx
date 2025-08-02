@@ -28,6 +28,7 @@ import BandingUkt from '@/pages/bandingUkt';
 import AuthGuard from './auth-guard';
 import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
+import NotFoundPage from '@/pages/not-found';
 
 const routes = [
 	// Auth Routes
@@ -40,7 +41,6 @@ const routes = [
 				children: [
 					{ path: 'login', element: <Login /> },
 					{ path: 'register', element: <Register /> },
-					{ path: 'registrasi-ulang', element: <RegistrasiUlang /> },
 					{ path: 'lupa-password', element: <LupaPasswordPage /> },
 					{ path: 'reset-password', element: <ResetPassword /> },
 					{ path: 'verifikasi-otp', element: <VerifikasiOTP /> },
@@ -52,13 +52,26 @@ const routes = [
 	// Main Routes
 	{
 		path: '/',
+		element: <BaseLayout />,
+		children: [
+			{ index: true, element: <Home /> },
+			{ path: '/advika', element: <Advika /> },
+			{ path: '/advika/detailAdvika/:id', element: <DetailAdvika /> },
+			{ path: '/tentang', element: <TentangSikam /> },
+		],
+	},
+	{
+		path: '/',
 		element: <AuthGuard />,
 		children: [
 			{
+				path: '/',
+				element: <AuthLayout />,
+				children: [{ path: 'registrasi-ulang', element: <RegistrasiUlang /> }],
+			},
+			{
 				element: <BaseLayout />,
 				children: [
-					{ index: true, element: <Home /> },
-
 					// Laporan
 					{ path: 'laporan', element: <LaporanPage /> },
 					{ path: 'laporan/:id', element: <DetailLaporan /> },
@@ -68,12 +81,7 @@ const routes = [
 					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },
 
-					// Advika
-					{ path: 'advika', element: <Advika /> },
-					{ path: 'advika/detailAdvika/:id', element: <DetailAdvika /> },
-
-					{ path: 'tentang', element: <TentangSikam /> },
-
+					// Profil
 					{ path: 'profil', element: <ProfilePage /> },
 				],
 			},
@@ -90,24 +98,31 @@ const routes = [
 				children: [
 					// Laporan
 					{ path: 'laporan', element: <AdminLaporanPage /> },
-					{ path: 'detail-laporan', element: <AdminDetailLaporanPage /> },
+					{ path: 'laporan/:id', element: <AdminDetailLaporanPage /> },
 
 					// Kelola Akun
 					{ path: 'kelola-akun', element: <KelolaAkunPage /> },
-					{ path: 'detail-akun', element: <DetailAkunPage /> },
+					{ path: 'detail-akun/:id/:role', element: <DetailAkunPage /> },
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
-					{ path: 'detail-banding-ukt', element: <DetailBandingUKT /> },
+					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
 
 					// Advika
 					{ path: 'advika', element: <AdminAdvika /> },
 					{ path: 'advika/detailAdvika/:id', element: <AdminDetailAdvika /> },
 					{ path: 'advika/editAdvika/:id', element: <EditAdvika /> },
+
+					// Profil
+					{ path: 'profil', element: <ProfilePage /> },
 				],
 			},
 		],
 	},
+
+	// Not Found Route
+	{ path: '/not-found', element: <NotFoundPage /> },
+	{ path: '*', element: <NotFoundPage /> },
 ];
 
 export default routes;

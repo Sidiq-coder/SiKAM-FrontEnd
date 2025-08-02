@@ -1,54 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import LaporanCard from '@/components/laporan-card';
+import Tabs from '@/components/tabs';
+import Pagination from '@/components/pagination';
+import useReportStore from '@/stores/useReportStore';
 
-export const Laporan = () => {
-	const [activeTab, setActiveTab] = useState('laporan-saya');
-	const [reports, setReports] = useState([]);
+const tabOptions = [
+	{ label: 'Semua', value: 'semua' },
+	{ label: 'Pending', value: 'pending' },
+	{ label: 'Proses', value: 'responded' },
+	{ label: 'Selesai', value: 'done' },
+];
 
-	const tabOptions = [
-		{ label: 'Semua', value: 'semua' },
-		{ label: 'Pending', value: 'pending' },
-		{ label: 'Proses', value: 'proses' },
-		{ label: 'selesai', value: 'selesai' },
-	];
+// Constants
+const ITEMS_PER_PAGE = 10;
 
-	const filteredReports = useMemo(() => {
-		return activeTab === 'laporan-saya' ? daftarLaporan.filter((report) => report.isMy) : daftarLaporan;
-	}, [activeTab]);
+const Laporan = () => {
+	const { getMyReports, reports, pagination } = useReportStore();
+
+	const [activeTab, setActiveTab] = useState('semua');
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const handlePageChange = useCallback(
+		(newPage) => {
+			const query = {
+				page: newPage,
+				itemPerPage: ITEMS_PER_PAGE,
+			};
+
+			if (activeTab !== 'semua') query.status = activeTab;
+
+			getMyReports(query);
+			setCurrentPage(newPage);
+		},
+		[activeTab]
+	);
 
 	useEffect(() => {
-		setReports(filteredReports);
-	}, [filteredReports]);
+		const query = {
+			page: 1,
+			itemPerPage: ITEMS_PER_PAGE,
+		};
+
+		// Add filters
+		if (activeTab !== 'semua') query.status = activeTab;
+
+		getMyReports(query);
+		setCurrentPage(1); // Reset to first page when filters change
+	}, [activeTab]);
 
 	return (
-		<div className="bg-white px-4 py-8 pb-[120px]">
-			<div className="container mx-auto flex flex-col lg:flex-row gap-8">
-				{/* Main Content */}
-				<div className="flex-1">
-					{/* Page Header */}
-					<div className="flex items-center justify-between mb-6">
-						<h1 className="text-2xl font-bold text-dark">Laporan Saya</h1>
-					</div>
+		<div className="bg-white flex flex-col lg:flex-row gap-8">
+			{/* Main Content */}
+			<div className="flex-1">
+				{/* Page Header */}
+				<h1 className="text-2xl font-bold text-dark mb-6">Laporan Saya</h1>
 
-					<div className="flex justify-end mb-4">
-						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />
-					</div>
+				{/* Tabs */}
+				<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={reports} className="mb-6" />
 
-					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} />
-
-					{/* Reports List */}
-					<div className="space-y-6">
-						{reports.map((report) => (
-							<div key={report.id}>
-								<LaporanCard report={report} />
-							</div>
-						))}
-					</div>
-
-					{/* Pagination */}
-					{reports.length === 0 ? null : <Pagination className="mt-8" />}
+				{/* Reports List */}
+				<div className="space-y-6">
+					{reports.map((report) => (
+						<div key={report.id}>
+							<LaporanCard report={report} isVote={false} />
+						</div>
+					))}
 				</div>
+
+				{/* Pagination */}
+				{reports.length === 0 ? null : <Pagination currentPage={currentPage} totalPages={pagination.total_pages} className="mt-8" onPageChange={handlePageChange} />}
 			</div>
 		</div>
 	);
 };
+
+export default Laporan;

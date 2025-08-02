@@ -9,11 +9,14 @@ import { useEffect } from 'react';
 
 const DetailLaporan = () => {
 	const { id } = useParams();
-	const { getReport, report } = useReportStore();
+	const { getReport, report, refresh } = useReportStore();
 
 	useEffect(() => {
-		getReport(id);
-	}, [id]);
+		const fetch = async () => {
+			await getReport(id);
+		};
+		fetch();
+	}, [id, refresh]);
 
 	return (
 		<div className="bg-[url('/images/bg-pattern.png')] bg-cover bg-center bg-no-repeat md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
@@ -27,7 +30,7 @@ const DetailLaporan = () => {
 						<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} className="lg:hidden" href="/aju-laporan" />
 					</div>
 
-					<LaporanCard report={report} isDetail />
+					{report && <LaporanCard report={report} isDetail />}
 				</div>
 			</div>
 		</div>

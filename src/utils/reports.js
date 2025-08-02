@@ -1,4 +1,4 @@
-import { CheckSquare, Clock, MessageSquare, Search, X } from 'lucide-react';
+import { CheckSquare, Clock, Globe, MessageSquare, Search, X } from 'lucide-react';
 
 export const reportCategories = [
 	{ label: 'Umum', value: 'general' },
@@ -14,34 +14,39 @@ export const getCategoryLabel = (value) => {
 
 export const reportStatuses = [
 	{
-		label: 'Menunggu',
+		label: 'Pending',
 		value: 'pending',
 		icon: Clock,
-		textColor: 'text-yellow-600',
+		textColor: 'text-yellow',
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
-		label: 'Sedang Ditinjau',
+		label: 'Ditinjau',
 		value: 'under_review',
 		icon: Search,
-		textColor: 'text-primary',
+		textColor: 'text-light-yellow',
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
 		label: 'Ditanggapi',
 		value: 'responded',
 		icon: MessageSquare,
-		textColor: 'text-green-600',
+		textColor: 'text-primary',
+		bgColor: 'bg-[#007BFF80]',
 	},
 	{
 		label: 'Selesai',
 		value: 'done',
 		icon: CheckSquare,
-		textColor: 'text-emerald-600',
+		textColor: 'text-green',
+		bgColor: 'bg-[#2FCB7180]',
 	},
 	{
 		label: 'Ditolak',
 		value: 'rejected',
 		icon: X,
-		textColor: 'text-red-600',
+		textColor: 'text-red',
+		bgColor: 'bg-[#EE484880]',
 	},
 ];
 
@@ -56,6 +61,15 @@ export const getReportStatuses = (status) => {
 };
 
 export const reportLevels = [
-	{ label: 'Fakultas', value: 'faculty' },
-	{ label: 'Universitas', value: 'university' },
+	{ label: 'Fakultas', value: 'faculty', icon: Globe },
+	{ label: 'Universitas', value: 'university', icon: Globe },
 ];
+
+export const getReportLevels = (level) => {
+	return (
+		reportLevels.find((s) => s.value === level?.toLowerCase()) ?? {
+			icon: Globe,
+			label: level ?? 'Tidak Diketahui',
+		}
+	);
+};

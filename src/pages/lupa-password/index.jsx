@@ -34,10 +34,8 @@ const LupaPasswordPage = () => {
 			if (result?.data?.success) {
 				setEmail(data.email);
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					navigate('/reset-password');
-				}, 2000);
+				clearError();
+				navigate('/reset-password');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');
@@ -46,7 +44,10 @@ const LupaPasswordPage = () => {
 	};
 
 	useEffect(() => {
-		if (error) toast.error(error);
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
 	}, [error]);
 
 	return (

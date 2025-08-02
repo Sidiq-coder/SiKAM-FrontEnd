@@ -1,10 +1,16 @@
 import apiClient from '@/api/client';
 
 const baseURL = '/reports';
+const adminURL = '/admin/reports';
 
 export const reportsAPI = {
-	getReports: async () => {
-		const response = await apiClient.get(baseURL);
+	getReports: async ({ search, page, itemPerPage, sort, status, category }) => {
+		const response = await apiClient.get(baseURL, { params: { search, page, itemPerPage, sort, status, category } });
+		return response.data;
+	},
+
+	getAdminReports: async ({ search, page, itemPerPage, sort, status, category }) => {
+		const response = await apiClient.get(adminURL, { params: { search, page, itemPerPage, sort, status, category } });
 		return response.data;
 	},
 
@@ -36,7 +42,24 @@ export const reportsAPI = {
 	},
 
 	updateReport: async (id, data) => {
-		const response = await apiClient.patch(`${baseURL}/${id}`, data);
+		const formData = new FormData();
+
+		formData.append('title', data.title);
+		formData.append('description', data.description);
+		formData.append('category', data.category);
+		formData.append('report_level', data.report_level);
+		formData.append('isAnonymous', data.isAnonymous);
+
+		if (data.file && data.file[0]) {
+			formData.append('file', data.file[0]);
+		}
+
+		const response = await apiClient.patch(`${baseURL}/${id}`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+		});
+
 		return response.data;
 	},
 
@@ -45,14 +68,9 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	updateReportStatus: async (id, data) => {
-		const response = await apiClient.patch(`${baseURL}/${id}/status`, data);
-		return response.data;
-	},
-
-	createReportResponse: async (id, data) => {
-		const response = await apiClient.post(`${baseURL}/${id}/response`, data);
-		return response.data;
+	updateReportStatus: async ({ id, status, response }) => {
+		const res = await apiClient.patch(`${adminURL}/status`, { id, status, response });
+		return res.data;
 	},
 
 	deleteReportResponse: async (id) => {
@@ -60,8 +78,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	getMyReports: async () => {
-		const response = await apiClient.get(`${baseURL}/me`);
+	getMyReports: async ({ page, itemPerPage, status }) => {
+		const response = await apiClient.get(`${baseURL}/me`, { params: { page, itemPerPage, status } });
 		return response.data;
 	},
 
@@ -70,8 +88,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	voteReport: async (id) => {
-		const response = await apiClient.post(`${baseURL}/${id}/vote`);
+	voteReport: async (id, { type }) => {
+		const response = await apiClient.post(`${baseURL}/${id}/vote`, { type });
 		return response.data;
 	},
 };

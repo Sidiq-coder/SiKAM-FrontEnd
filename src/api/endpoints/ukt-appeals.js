@@ -1,6 +1,7 @@
 import apiClient from '@/api/client';
 
 const baseURL = '/ukt-appeals';
+const adminUktURL = '/admin/ukt';
 
 export const uktAppealsAPI = {
 	getUktAppeals: async () => {
@@ -39,8 +40,8 @@ export const uktAppealsAPI = {
 		return response.data;
 	},
 
-	getMyUktAppeals: async () => {
-		const response = await apiClient.get(`${baseURL}/me`);
+	getMyUktAppeals: async ({ page, itemPerPage }) => {
+		const response = await apiClient.get(`${baseURL}/me`, { params: { page, itemPerPage } });
 		return response.data;
 	},
 
@@ -82,6 +83,31 @@ export const uktAppealsAPI = {
 
 	deleteUktAppeal: async (id) => {
 		const response = await apiClient.delete(`${baseURL}/${id}`);
+		return response.data;
+	},
+
+	getAdminUktAppeals: async ({ page, itemPerPage, sort, status, problem }) => {
+		const response = await apiClient.get(`${adminUktURL}/appeals`, { params: { page, itemPerPage, sort, status, problem } });
+		return response.data;
+	},
+
+	toggleStatusUktAppeal: async () => {
+		const response = await apiClient.post(`${adminUktURL}/status`);
+		return response.data;
+	},
+
+	getAdminUktAppeal: async (id) => {
+		const response = await apiClient.get(`${adminUktURL}/appeals/${id}`);
+		return response.data;
+	},
+
+	updateAppealStatus: async ({ id, status, admin_note }) => {
+		const response = await apiClient.patch(`${adminUktURL}/appeals/status`, { id, status, admin_note });
+		return response.data;
+	},
+
+	deleteAdminUktAppeal: async (id) => {
+		const response = await apiClient.delete(`${adminUktURL}/appeals/${id}`);
 		return response.data;
 	},
 };

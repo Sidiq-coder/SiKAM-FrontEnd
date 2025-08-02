@@ -1,138 +1,94 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import useUktAppealStore from '@/stores/useUktAppealStore';
+import Pagination from '@/components/pagination';
+import { getUktAppealsProblem, getUktAppealsStatus } from '@/utils/ukt-appeals';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
+
+dayjs.locale('id');
+
+const ITEMS_PER_PAGE = 10;
+
+const BandingUktItem = ({ data }) => {
+	const status = getUktAppealsStatus(data.status);
+	const problem = getUktAppealsProblem(data.problem);
+
+	return (
+		<div className="bg-white shadow-md rounded-md p-4 text-sm text-dark">
+			<div className="mb-2 flex">
+				<div className="w-40 font-semibold">ID pengajuan</div>
+				<div>
+					: <span className="text-dark">{data.id}</span>
+				</div>
+			</div>
+			<div className="mb-2 flex">
+				<div className="w-40 font-semibold">Tanggal pengajuan</div>
+				<div>
+					: <span className="text-dark">{dayjs(data.submitted_at).format('D MMMM YYYY')}</span>
+				</div>
+			</div>
+			<div className="mb-2 flex">
+				<div className="w-40 font-semibold">Status</div>
+				<div className="flex items-center gap-1">
+					<span>: </span>
+					<div className={`${status.textColor} font-medium flex items-center gap-1`}>
+						<status.icon className="w-4 h-4" />
+						<span>{status.label}</span>
+					</div>
+				</div>
+			</div>
+			<div className="mb-4 flex">
+				<div className="w-40 font-semibold">Tipe bencana</div>
+				<div>
+					: <span className="text-dark">{problem.label}</span>
+				</div>
+			</div>
+			<div className="text-center font-medium text-sm">
+				[ <span className="underline cursor-pointer hover:text-primary transition">Lihat Detail</span> ]
+			</div>
+		</div>
+	);
+};
+
 export const BandingUkt = () => {
-	const dataBandingUkt = [
-		{
-			id: '#BDG-2025-001',
-			tanggal: '12 Juli 2025',
-			status: 'Ditolak',
-			tipe: 'Bencana Alam',
-			icon: '❌',
-			color: 'text-red-500',
-		},
-		{
-			id: '#BDG-2025-002',
-			tanggal: '18 Juli 2025',
-			status: 'Ditinjau',
-			tipe: 'Bencana non-Alam',
-			icon: '🗂️',
-			color: 'text-blue-500',
-		},
-		{
-			id: '#BDG-2025-008',
-			tanggal: '29 Juli 2025',
-			status: 'Diterima',
-			tipe: 'Bencana non-Alam',
-			icon: '✔️',
-			color: 'text-green-500',
-		},
-		{
-			id: '#BDG-2025-004',
-			tanggal: '1 Agustus 2025',
-			status: 'Pending',
-			tipe: 'Bencana Alam',
-			icon: '⌛',
-			color: 'text-gray-500',
-		},
-		{
-			id: '#BDG-2025-005',
-			tanggal: '2 Agustus 2025',
-			status: 'Ditolak',
-			tipe: 'Bencana Alam',
-			icon: '❌',
-			color: 'text-red-500',
-		},
-		{
-			id: '#BDG-2025-006',
-			tanggal: '3 Agustus 2025',
-			status: 'Ditinjau',
-			tipe: 'Bencana non-Alam',
-			icon: '🗂️',
-			color: 'text-blue-500',
-		},
-	];
+	const { uktAppeals, getMyUktAppeals, pagination } = useUktAppealStore();
 
-	const [page, setPage] = useState(1);
-	const perPage = 3;
-	const totalPages = Math.ceil(dataBandingUkt.length / perPage);
-	const pagedData = dataBandingUkt.slice((page - 1) * perPage, page * perPage);
+	const [currentPage, setCurrentPage] = useState(1);
 
-	const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-		const getPages = () => {
-			const pages = [];
-			if (totalPages <= 5) {
-				for (let i = 1; i <= totalPages; i++) pages.push(i);
-			} else {
-				if (currentPage <= 3) {
-					pages.push(1, 2, 3, 4, '...', totalPages);
-				} else if (currentPage >= totalPages - 2) {
-					pages.push(1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
-				} else {
-					pages.push(1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages);
-				}
-			}
-			return pages;
+	const handlePageChange = useCallback((newPage) => {
+		const query = {
+			page: newPage,
+			itemPerPage: ITEMS_PER_PAGE,
 		};
 
-		return (
-			<div className="flex justify-center gap-2 mt-6 text-sm">
-				<button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">
-					&laquo;
-				</button>
-				{getPages().map((pageNum, index) =>
-					pageNum === '...' ? (
-						<span key={index} className="px-2">
-							...
-						</span>
-					) : (
-						<button key={index} onClick={() => onPageChange(pageNum)} className={`px-3 py-1 rounded ${currentPage === pageNum ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
-							{pageNum}
-						</button>
-					)
-				)}
-				<button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50">
-					&raquo;
-				</button>
-			</div>
-		);
-	};
+		getMyUktAppeals(query);
+		setCurrentPage(newPage);
+	}, []);
+
+	useEffect(() => {
+		const query = {
+			page: 1,
+			itemPerPage: ITEMS_PER_PAGE,
+		};
+
+		getMyUktAppeals(query);
+		setCurrentPage(1);
+	}, []);
 
 	return (
 		<div className="space-y-6 p-4">
-			{pagedData.map((data, index) => (
-				<div key={index} className="bg-white shadow-md rounded-md p-4 text-sm text-dark">
-					<div className="mb-2 flex">
-						<div className="w-40 font-semibold">ID pengajuan</div>
-						<div>
-							: <span className="text-[#A3A3A3]">{data.id}</span>
-						</div>
-					</div>
-					<div className="mb-2 flex">
-						<div className="w-40 font-semibold">Tanggal pengajuan</div>
-						<div>
-							: <span className="text-[#A3A3A3]">{data.tanggal}</span>
-						</div>
-					</div>
-					<div className="mb-2 flex">
-						<div className="w-40 font-semibold">Status</div>
-						<div>
-							:{' '}
-							<span className={`${data.color} font-medium`}>
-								{data.icon} {data.status}
-							</span>
-						</div>
-					</div>
-					<div className="mb-4 flex">
-						<div className="w-40 font-semibold">Tipe bencana</div>
-						<div>
-							: <span className="text-[#A3A3A3]">{data.tipe}</span>
-						</div>
-					</div>
-					<div className="text-center font-medium text-sm">
-						[ <span className="underline cursor-pointer hover:text-blue-600 transition">Lihat Detail</span> ]
-					</div>
-				</div>
-			))}
-			<Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+			{!uktAppeals?.length ? (
+				<p className="text-center text-gray my-8">Belum ada data banding ukt.</p>
+			) : (
+				<>
+					{uktAppeals.map((data) => (
+						<BandingUktItem key={data.id} data={data} />
+					))}
+				</>
+			)}
+
+			{/* Pagination */}
+			{uktAppeals?.length > 0 && <Pagination className="mt-8" currentPage={currentPage} totalPages={pagination.total_pages} onPageChange={handlePageChange} />}
 		</div>
 	);
 };

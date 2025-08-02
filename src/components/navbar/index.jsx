@@ -6,6 +6,7 @@ import IconButton from '../icon-button';
 import useAuth from '@/hooks/useAuth';
 import { create } from 'zustand';
 import useProfilStore from '@/stores/useProfilStore';
+import useNotificationStore from '@/stores/useNotificationStore';
 
 const navLinks = {
 	student: [
@@ -61,6 +62,8 @@ const NavbarActions = () => {
 	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
 	const { setMenuOpen } = useNavbarStore();
 	const { setProfilMenu } = useProfilStore();
+	const { setOpenModal } = useNotificationStore();
+	const { user } = useAuth();
 
 	return (
 		<>
@@ -76,7 +79,14 @@ const NavbarActions = () => {
 			>
 				<HelpCircle className={iconStyle} />
 			</IconButton>
-			<IconButton bgColor="bg-primary lg:bg-white">
+			<IconButton
+				bgColor="bg-primary lg:bg-white"
+				onClick={() => {
+					if (user?.role === 'superadmin') return;
+					setMenuOpen(false);
+					setOpenModal(true);
+				}}
+			>
 				<Bell className={iconStyle} />
 			</IconButton>
 			<IconButton
@@ -85,7 +95,11 @@ const NavbarActions = () => {
 				onClick={() => {
 					setMenuOpen(false);
 					setProfilMenu('profil');
-					navigate('/profil');
+					if (user?.role !== 'superadmin') {
+						navigate('/profil');
+					} else {
+						navigate('/admin/profil');
+					}
 				}}
 			>
 				<User className={iconStyle} />

@@ -1,81 +1,55 @@
-import { CalendarDays, FileText, MoreHorizontal, MessageSquare, Check, X } from 'lucide-react';
+import { CalendarDays, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getUktAppealsStatus, getAvailableDocuments } from '@/utils/ukt-appeals';
+import dayjs from 'dayjs';
+import 'dayjs/locale/id';
 
-const StatusBadge = ({ status }) => {
-	let icon, color, text;
+dayjs.locale('id');
 
-	switch (status.toLowerCase()) {
-		case 'pending':
-			icon = <MoreHorizontal size={16} />;
-			color = 'text-yellow-500';
-			text = 'Pending';
-			break;
-		case 'ditinjau':
-			icon = <MessageSquare size={16} />;
-			color = 'text-blue-500';
-			text = 'Ditinjau';
-			break;
-		case 'diterima':
-			icon = <Check size={16} />;
-			color = 'text-green-500';
-			text = 'Diterima';
-			break;
-		case 'ditolak':
-			icon = <X size={16} />;
-			color = 'text-red-500';
-			text = 'Ditolak';
-			break;
-		default:
-			icon = <MoreHorizontal size={16} />;
-			color = 'text-gray-500';
-			text = status;
-	}
+const BandingUKTCard = ({ data }) => {
+	const status = getUktAppealsStatus(data?.status);
 
 	return (
-		<div className={`flex items-center gap-1 ${color}`}>
-			{icon}
-			<span>{text}</span>
-		</div>
-	);
-};
-
-const BandingUKTCard = ({ name, npm, date, status, files }) => {
-	return (
-		<div className="bg-white rounded-lg drop-shadow-lg p-2 flex flex-col space-y-3 w-full max-w-md">
+		<div className="w-full max-w-lg bg-white rounded-2xl shadow-md p-5 space-y-5">
 			{/* Header */}
-			<div className="grid grid-cols-1 sm:grid-cols-2 items-center gap-3">
-				{/* Avatar */}
+			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 				<div className="flex items-center gap-3">
-					<div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white text-xl font-bold">👤</div>
-					<p className="text-dark">{name}</p>
+					<div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white text-lg font-semibold overflow-hidden">
+						<img src="/images/Artboard 3 copy 1.png" alt="artboard" />
+					</div>
+					<div>
+						<p className="font-medium text-dark">{data?.students?.name}</p>
+						<p className="text-sm text-gray-500">NPM: {data?.students?.campus_email?.split('@')[0]}</p>
+					</div>
 				</div>
-				<p className="text-dark">NPM: {npm}</p>
 			</div>
 
-			<div className="space-y-2 px-4">
-				{/* Info */}
-				<div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-					<div className="flex items-center space-x-2">
-						<CalendarDays size={16} className="text-dark" />
-						<span className="text-dark">Dikirim : {date}</span>
-					</div>
-					<div className="flex items-center text-dark gap-1">
-						Status : <StatusBadge status={status} />
+			{/* Info Grid */}
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-dark">
+				<div className="flex items-center gap-2">
+					<CalendarDays size={16} className="text-dark" />
+					<span className="text-gray-700">Dikirim: {dayjs(data?.submitted_at).format('D MMMM YYYY')}</span>
+				</div>
+				<div className="flex items-center gap-2">
+					<span>Status:</span>
+					<div className={`${status.textColor} font-medium flex items-center gap-1`}>
+						<status.icon className="w-4 h-4" />
+						<span>{status.label}</span>
 					</div>
 				</div>
+			</div>
 
-				{/* Files */}
-				<div className="flex items-center space-x-2 mt-0.5">
-					<FileText size={16} className="text-dark" />
-					<span className="text-dark">File: {files.join(', ')}</span>
-				</div>
+			{/* Files */}
+			<div className="flex items-center gap-2 text-sm text-dark">
+				<FileText size={16} className="text-dark" />
+				<span>File: {getAvailableDocuments(data)}</span>
 			</div>
 
 			{/* Footer */}
-			<div className="text-center mt-5">
-				<Link to="/admin/detail-banding-ukt" className="text-dark px-3 py-1 rounded hover:bg-gray-100">
+			<div className="text-center pt-3">
+				<a href={`/admin/banding-ukt/${data.id}`} className="inline-block text-sm text-primary font-medium px-4 py-2 rounded hover:bg-primary/10 transition">
 					[ Lihat Detail ]
-				</Link>
+				</a>
 			</div>
 		</div>
 	);

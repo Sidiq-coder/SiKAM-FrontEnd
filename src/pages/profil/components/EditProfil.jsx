@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/useAuth';
-import { getUserStatus } from '@/utils/users';
+import { studentStatuses } from '@/utils/users';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
 import Button from '@/components/button';
@@ -8,14 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { studentDataSchema } from '../schema';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
-import useUserStore from '@/stores/useUserStore';
 import useProfilStore from '@/stores/useProfilStore';
 
 export const EditProfil = () => {
-	const { user } = useAuth();
+	const { user, updateProfile, error, clearError, isLoading } = useAuth();
 	const { setProfilMenu } = useProfilStore();
-	const { updateProfile, error, clearError, isLoading } = useUserStore();
-	const userStatus = getUserStatus(user?.status ?? '');
+	const userStatus = studentStatuses.find((status) => status.value === user?.status);
 
 	const {
 		register,
@@ -34,10 +32,8 @@ export const EditProfil = () => {
 
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
-				setTimeout(() => {
-					clearError();
-					setProfilMenu('profil');
-				}, 2000);
+				clearError();
+				setProfilMenu('profil');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan');
@@ -46,7 +42,10 @@ export const EditProfil = () => {
 	};
 
 	useEffect(() => {
-		if (error) toast.error(error);
+		if (error) {
+			toast.error(error);
+			clearError();
+		}
 	}, [error]);
 
 	useEffect(() => {
@@ -66,14 +65,16 @@ export const EditProfil = () => {
 	}, [user, reset]);
 
 	return (
-		<div className="bg-white p-6 sm:p-8">
+		<div className="bg-white">
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex items-center gap-x-8">
 					<h1 className="text-2xl font-bold text-dark">Edit Profil</h1>
-					<div className="flex items-center gap-x-1">
-						{userStatus.icon}
-						<span className={`${userStatus.color} text-sm font-medium`}>{userStatus.label}</span>
-					</div>
+					{userStatus && (
+						<div className="flex items-center gap-x-1">
+							{<userStatus.icon className="w-4 h-4" />}
+							<span className={`${userStatus.color} text-sm font-medium`}>{userStatus.label}</span>
+						</div>
+					)}
 				</div>
 			</div>
 
