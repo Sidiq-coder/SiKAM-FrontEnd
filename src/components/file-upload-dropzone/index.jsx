@@ -163,7 +163,7 @@ const FileUploadDropzone = ({
 								<span className="text-sm">({uploadedFile.size})</span>
 							</div>
 							<div className="flex flex-wrap gap-2 opacity-70">
-								<button onClick={replaceFile} className="text-sm text-primary hover:text-dark-primary transition cursor-pointer">
+								<button onClick={replaceFile} className="text-sm text-main-primary hover:text-dark-primary transition cursor-pointer">
 									[Ganti]
 								</button>
 								<button onClick={removeFile} className="text-sm text-red-600 hover:text-red-800 transition cursor-pointer">

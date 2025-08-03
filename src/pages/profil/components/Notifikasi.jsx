@@ -24,7 +24,7 @@ const NotificationOption = ({ item, onMarkAsRead, onDelete }) => {
 	return (
 		<div className="relative" ref={menuRef}>
 			<button onClick={toggleMenu}>
-				<MoreVertical className="w-4 h-4 text-primary cursor-pointer" />
+				<MoreVertical className="w-4 h-4 text-main-primary cursor-pointer" />
 			</button>
 
 			{isMenuOpen && (
@@ -94,7 +94,7 @@ const NotificationItem = ({ data }) => {
 				<div key={item.id} className="flex flex-col sm:flex-row sm:items-center justify-between py-4 gap-3">
 					{/* Kiri: Ikon + Teks */}
 					<div className="flex flex-1 items-start gap-4">
-						<div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white shrink-0">
+						<div className="w-10 h-10 bg-main-primary rounded-full flex items-center justify-center text-white shrink-0">
 							<svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="white">
 								<path d="M12 12c2.67 0 8 1.34 8 4v2H4v-2c0-2.66 5.33-4 8-4zm0-2a4 4 0 100-8 4 4 0 000 8z" />
 							</svg>
@@ -169,7 +169,7 @@ export const Notifikasi = () => {
 		<div className="bg-white max-h-screen overflow-y-auto w-full pr-4 pb-20">
 			<div className="flex flex-wrap items-center justify-between mb-8 gap-2">
 				<h2 className="text-2xl font-bold text-dark">Notifikasi</h2>
-				<button className="text-sm text-primary cursor-pointer flex items-center gap-x-1" onClick={handleReadAll}>
+				<button className="text-sm text-main-primary cursor-pointer flex items-center gap-x-1" onClick={handleReadAll}>
 					<CheckCheck className="w-4 h-4" />
 					<span>Tandai semua telah dibaca</span>
 				</button>

@@ -124,11 +124,11 @@ const AdminBandingUKTPage = () => {
 						<div className="flex items-center space-x-3">
 							<button
 								onClick={handlToggleStatusUktAppeal}
-								className={`w-12 h-6 rounded-full p-1 flex items-center transition-all cursor-pointer ${isPeriodOpen ? 'bg-primary justify-end' : 'bg-gray-300 justify-start'}`}
+								className={`w-12 h-6 rounded-full p-1 flex items-center transition-all cursor-pointer ${isPeriodOpen ? 'bg-main-primary justify-end' : 'bg-gray-300 justify-start'}`}
 							>
 								<span className="w-4 h-4 bg-white rounded-full shadow-md" />
 							</button>
-							<span className={`font-medium ${isPeriodOpen ? 'text-primary' : 'text-gray-500'}`}>Status {isPeriodOpen ? 'Aktif' : 'Nonaktif'}</span>
+							<span className={`font-medium ${isPeriodOpen ? 'text-main-primary' : 'text-gray-500'}`}>Status {isPeriodOpen ? 'Aktif' : 'Nonaktif'}</span>
 						</div>
 					</div>
 

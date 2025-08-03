@@ -1,5 +1,4 @@
 import { CalendarDays, FileText } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { getUktAppealsStatus, getAvailableDocuments } from '@/utils/ukt-appeals';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
@@ -14,7 +13,7 @@ const BandingUKTCard = ({ data }) => {
 			{/* Header */}
 			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 				<div className="flex items-center gap-3">
-					<div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white text-lg font-semibold overflow-hidden">
+					<div className="w-12 h-12 rounded-full bg-main-primary flex items-center justify-center text-white text-lg font-semibold overflow-hidden">
 						<img src="/images/Artboard 3 copy 1.png" alt="artboard" />
 					</div>
 					<div>
@@ -47,7 +46,7 @@ const BandingUKTCard = ({ data }) => {
 
 			{/* Footer */}
 			<div className="text-center pt-3">
-				<a href={`/admin/banding-ukt/${data.id}`} className="inline-block text-sm text-primary font-medium px-4 py-2 rounded hover:bg-primary/10 transition">
+				<a href={`/admin/banding-ukt/${data.id}`} className="inline-block text-sm text-main-primary font-medium px-4 py-2 rounded hover:bg-main-primary/10 transition">
 					[ Lihat Detail ]
 				</a>
 			</div>

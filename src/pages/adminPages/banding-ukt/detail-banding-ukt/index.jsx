@@ -137,7 +137,7 @@ export default function DetailBandingUKT() {
 
 				{/* Profile Info */}
 				<div className="flex items-center space-x-4 mb-4">
-					<img src="/images/Artboard 3 copy 1.png" alt="avatar" className="w-16 h-16 rounded-full bg-primary" />
+					<img src="/images/Artboard 3 copy 1.png" alt="avatar" className="w-16 h-16 rounded-full bg-main-primary" />
 					<h2 className="text-dark font-medium">{uktAppeal?.students?.name}</h2>
 					<p className="text-dark ml-8">NPM: {uktAppeal?.students?.campus_email?.split('@')[0]}</p>
 				</div>
@@ -207,7 +207,7 @@ export default function DetailBandingUKT() {
 						</label>
 						<p className="text-sm text-gray mb-2">Upload file dalam bentuk pdf</p>
 						<a href={`${import.meta.env.VITE_API_BASE_URL}/${item.url}`} target="_blank" rel="noopener noreferrer">
-							<button className="flex items-center text-dark bg-white border border-black/50 px-3 py-2 rounded-md cursor-pointer hover:bg-primary hover:text-white transition-colors">
+							<button className="flex items-center text-dark bg-white border border-black/50 px-3 py-2 rounded-md cursor-pointer hover:bg-main-primary hover:text-white transition-colors">
 								<FileText className="mr-2 w-4 h-4" /> Lihat File
 							</button>
 						</a>
@@ -225,7 +225,7 @@ export default function DetailBandingUKT() {
 								type="radio"
 								name="bencana"
 								checked={uktAppeal?.problem === 'natural'}
-								className="appearance-none w-5 h-5 rounded-full border-2 border-gray bg-white checked:bg-primary checked:border-primary transition-colors"
+								className="appearance-none w-5 h-5 rounded-full border-2 border-gray bg-white checked:bg-primary checked:border-main-primary transition-colors"
 								readOnly
 							/>
 							<span>Bencana Alam</span>
@@ -235,7 +235,7 @@ export default function DetailBandingUKT() {
 								type="radio"
 								name="bencana"
 								checked={uktAppeal?.problem === 'non_natural'}
-								className="appearance-none w-5 h-5 rounded-full border-2 border-gray bg-white checked:bg-primary checked:border-primary transition-colors"
+								className="appearance-none w-5 h-5 rounded-full border-2 border-gray bg-white checked:bg-primary checked:border-main-primary transition-colors"
 								readOnly
 							/>
 							<span>Bencana non-Alam</span>

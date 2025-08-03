@@ -55,8 +55,13 @@ const routes = [
 		element: <BaseLayout />,
 		children: [
 			{ index: true, element: <Home /> },
+
+			{ path: 'laporan', element: <LaporanPage /> },
+			{ path: 'laporan/:id', element: <DetailLaporan /> },
+
 			{ path: '/advika', element: <Advika /> },
 			{ path: '/advika/detailAdvika/:id', element: <DetailAdvika /> },
+
 			{ path: '/tentang', element: <TentangSikam /> },
 		],
 	},
@@ -73,8 +78,6 @@ const routes = [
 				element: <BaseLayout />,
 				children: [
 					// Laporan
-					{ path: 'laporan', element: <LaporanPage /> },
-					{ path: 'laporan/:id', element: <DetailLaporan /> },
 					{ path: 'aju-laporan', element: <AjuLaporan /> },
 					{ path: 'laporan/:id/ubah', element: <UbahLaporan /> },
 

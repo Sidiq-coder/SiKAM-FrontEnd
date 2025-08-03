@@ -3,8 +3,8 @@ import { reportCategories } from '@/utils/reports';
 
 const useFilteredReports = ({ reports, user, activeTab }) => {
 	const filteredReports = useMemo(() => {
-		return activeTab === 'laporan-saya' ? reports.filter((r) => r.student_id === user.id) : reports;
-	}, [activeTab, reports, user.id]);
+		return activeTab === 'laporan-saya' ? reports.filter((r) => r.student_id === user?.id) : reports;
+	}, [activeTab, reports, user?.id]);
 
 	const categorizedReports = useMemo(() => {
 		if (!filteredReports) return reportCategories.map((cat) => ({ ...cat, quantity: 0 }));

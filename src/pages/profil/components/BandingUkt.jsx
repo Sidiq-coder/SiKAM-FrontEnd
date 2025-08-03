@@ -44,7 +44,7 @@ const BandingUktItem = ({ data }) => {
 				</div>
 			</div>
 			<div className="text-center font-medium text-sm">
-				[ <span className="underline cursor-pointer hover:text-primary transition">Lihat Detail</span> ]
+				[ <span className="underline cursor-pointer hover:text-main-primary transition">Lihat Detail</span> ]
 			</div>
 		</div>
 	);

@@ -10,7 +10,7 @@ export const uktAppealsStatusOptions = [
 	{
 		value: 'under_review',
 		label: 'Ditinjau',
-		textColor: 'text-primary',
+		textColor: 'text-main-primary',
 		icon: MessageSquare,
 	},
 	{

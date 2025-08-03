@@ -45,7 +45,7 @@ const DetailAkunPage = () => {
 						<div className="w-full md:w-64 bg-white shadow-sm pt-13 relative">
 							<div className="p-6">
 								<div className="absolute left-1/2 -top-18 -translate-x-1/2">
-									<div className="w-34 h-34 bg-primary rounded-full flex items-center justify-center border-4 border-white">
+									<div className="w-34 h-34 bg-main-primary rounded-full flex items-center justify-center border-4 border-white">
 										<span className="text-6xl">👤</span>
 									</div>
 								</div>
@@ -64,7 +64,7 @@ const DetailAkunPage = () => {
 											<div
 												key={item.key}
 												className={`text-dark font-semibold py-2 px-3 ${['profil', 'laporan'].includes(item.key) ? 'border-t border-gray' : ''} rounded cursor-pointer ${
-													activeMenu.includes(item.key) ? 'text-primary' : ''
+													activeMenu.includes(item.key) ? 'text-main-primary' : ''
 												}`}
 												onClick={() => setActiveMenu(item.key)}
 											>

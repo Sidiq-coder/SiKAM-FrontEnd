@@ -84,7 +84,7 @@ export const EditProfilAdmin = () => {
 							{ label: 'Email', value: user?.campus_email ?? '-', name: 'email' },
 						].map(({ label, name }) => (
 							<tr key={label}>
-								<td className="text-primary font-semibold py-2">{label}</td>
+								<td className="text-main-primary font-semibold py-2">{label}</td>
 								<td className="px-4 sm:px-10 py-2">:</td>
 								<td className="py-2">
 									<InputField name={name} placeholder={label} type="text" register={register} error={errors[name]} required={false} isSmall />

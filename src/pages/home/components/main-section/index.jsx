@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProcessSteps from '@/components/process-steps';
 import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
@@ -6,36 +6,45 @@ import Hashtag from '@/components/hashtag';
 import Button from '@/components/button';
 import InfoCard from '../info-card';
 import useReportStore from '@/stores/useReportStore';
-import { getCategoryLabel } from '@/utils/reports';
+import { reportCategories } from '@/utils/reports';
+
+const ITEMS_PER_PAGE = 3;
+
+const FILTER_OPTIONS = {
+	TERBARU: 'Terbaru',
+	TERPOPULER: 'Terpopuler',
+	TERLAMA: 'Terlama',
+};
+
+const SORT_MAP = {
+	[FILTER_OPTIONS.TERBARU]: 'newest',
+	[FILTER_OPTIONS.TERPOPULER]: 'popular',
+	[FILTER_OPTIONS.TERLAMA]: 'oldest',
+};
 
 const MainSection = () => {
-	const { getReports, reports } = useReportStore();
+	const { getReports, reports, totalPerCategory } = useReportStore();
+
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
-
-	const categorizedReports = useMemo(() => {
-		if (!reports) return [];
-
-		const categoryMap = reports.reduce((acc, report) => {
-			const key = report.category;
-			if (!key) return acc;
-
-			if (acc[key]) {
-				acc[key].quantity += 1;
-			} else {
-				acc[key] = {
-					value: key,
-					quantity: 1,
-				};
-			}
-			return acc;
-		}, {});
-
-		return Object.values(categoryMap);
-	}, [reports]);
+	const [activeCategory, setActiveCategory] = useState(null);
 
 	useEffect(() => {
-		getReports();
-	}, []);
+		const query = {
+			page: 1,
+			itemPerPage: ITEMS_PER_PAGE,
+		};
+
+		// Add sort parameter
+		const sortValue = SORT_MAP[selectedFilter];
+		if (sortValue) {
+			query.sort = sortValue;
+		}
+
+		// Add filters
+		if (activeCategory) query.category = activeCategory;
+
+		getReports(query);
+	}, [selectedFilter, activeCategory]);
 
 	return (
 		<div className={`bg-[url('/images/bg-pattern.png')] bg-cover bg-center bg-no-repeat px-10 md:px-20 lg:px-32 pb-1`}>
@@ -65,12 +74,12 @@ const MainSection = () => {
 				<div className="flex-1">
 					<div className="flex items-center justify-between mb-12">
 						<h1 className="text-4xl font-bold text-dark">Laporan Terkini</h1>
-						<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="lg:hidden" />
+						<FilterButton options={Object.values(FILTER_OPTIONS)} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="lg:hidden text-dark" />
 					</div>
 
 					<div className="space-y-6">
 						{reports.length > 0 ? (
-							reports.slice(0, 3).map((report) => (
+							reports.map((report) => (
 								<div key={report.id}>
 									<LaporanCard report={report} className="border-none shadow-md rounded" />
 								</div>
@@ -80,19 +89,19 @@ const MainSection = () => {
 						)}
 					</div>
 				</div>
-				<div>
-					<FilterButton options={['Terbaru', 'Terpopuler', 'Terlama']} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="hidden lg:block" />
+				<div className="hidden lg:block">
+					<FilterButton options={Object.values(FILTER_OPTIONS)} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="text-dark" />
 
 					<h3 className="text-2xl font-bold text-dark mb-4 mt-12">Kategori Terkait</h3>
 
 					<div className="flex flex-col items-start space-y-4 w-60">
-						{categorizedReports.length > 0 ? (
-							<>
-								{categorizedReports.map(({ value, quantity }) => (
-									<Hashtag key={value} label={`#${getCategoryLabel(value)}`} quantity={quantity} />
-								))}
-								{/* <p className="text-sm text-primary italic">Muat Lebih banyak Kategori</p> */}
-							</>
+						{Object.values(totalPerCategory).some((qty) => qty > 0) ? (
+							Object.entries(totalPerCategory).map(([key, quantity]) => {
+								const category = reportCategories.find((c) => c.value === key);
+								if (!category) return null; // kategori tidak dikenal
+
+								return <Hashtag key={key} label={`#${category.label}`} quantity={quantity} onClick={() => setActiveCategory(key)} active={activeCategory === key} className="cursor-pointer" />;
+							})
 						) : (
 							<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
 						)}
