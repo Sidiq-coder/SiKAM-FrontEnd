@@ -15,7 +15,7 @@ const StatusFilter = ({ title = 'Status', statusList = [], onStatusClick = null,
 	return (
 		<div className={className}>
 			<h3 className="text-2xl font-bold text-gray-800 mb-4">{title}</h3>
-			<div className={`flex ${direction} flex-wrap gap-4`}>
+			<div className={`flex ${direction} flex-wrap gap-2`}>
 				{statusList.length > 0 ? (
 					statusList.map((status, index) => {
 						return <StatusFilterItem key={index} status={status} isActive={status.value === activeStatus} onClick={onStatusClick} />;
