@@ -16,11 +16,12 @@ import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
 import useFilteredReports from '@/hooks/useFilteredReports';
 
-import { reportStatuses } from '@/utils/reports';
+import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
 
 import NotVerifiedModal from './components/not-verified-modal';
 import FilterModal from './components/filter-modal';
+import AuthModal from '@/components/auth-modal';
 import { toast } from 'react-toastify';
 
 // Constants
@@ -57,12 +58,17 @@ const ReportList = ({ reports }) => {
 	);
 };
 
-const CategorySection = ({ categorizedReports, onCategoryClick }) => (
+const CategorySection = ({ totalPerCategory, onCategoryClick, activeCategory }) => (
 	<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 		<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
 		<div className="flex flex-col items-start space-y-4">
-			{categorizedReports.length > 0 ? (
-				categorizedReports.map(({ label, value, quantity }) => <Hashtag key={value} label={`#${label}`} quantity={quantity} onClick={() => onCategoryClick(value)} className="cursor-pointer" />)
+			{Object.values(totalPerCategory).some((qty) => qty > 0) ? (
+				Object.entries(totalPerCategory).map(([key, quantity]) => {
+					const category = reportCategories.find((c) => c.value === key);
+					if (!category) return null; // kategori tidak dikenal
+
+					return <Hashtag key={key} label={`#${category.label}`} quantity={quantity} onClick={() => onCategoryClick(key)} active={activeCategory === key} className="cursor-pointer" />;
+				})
 			) : (
 				<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
 			)}
@@ -70,13 +76,13 @@ const CategorySection = ({ categorizedReports, onCategoryClick }) => (
 	</div>
 );
 
-const Sidebar = ({ onAjuLaporan, categorizedReports, onCategoryClick, filteredStatuses, onStatusClick }) => (
+const Sidebar = ({ onAjuLaporan, totalPerCategory, onCategoryClick, filteredStatuses, onStatusClick, activeCategory, activeStatus }) => (
 	<div className="w-80 space-y-6 hidden lg:block">
 		<AjukanLaporanButton onClick={onAjuLaporan} />
 
-		<CategorySection categorizedReports={categorizedReports} onCategoryClick={onCategoryClick} />
+		<CategorySection totalPerCategory={totalPerCategory} onCategoryClick={onCategoryClick} activeCategory={activeCategory} />
 
-		<StatusFilter title="Status" statusList={filteredStatuses} onStatusClick={onStatusClick} />
+		<StatusFilter title="Status" statusList={filteredStatuses} onStatusClick={onStatusClick} activeStatus={activeStatus} />
 	</div>
 );
 
@@ -91,8 +97,8 @@ const MobileControls = ({ onFilter, onAjuLaporan }) => (
 const LaporanPage = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination, error, clearError } = useReportStore();
-	const { filteredReports, categorizedReports } = useFilteredReports({
+	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination, totalPerCategory, error, clearError } = useReportStore();
+	const { filteredReports } = useFilteredReports({
 		reports,
 		user,
 		activeTab,
@@ -104,6 +110,7 @@ const LaporanPage = () => {
 	const [status, setStatus] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [verifModal, setVerifModal] = useState(false);
+	const [authModal, setAuthModal] = useState(false);
 	const [filterModal, setFilterModal] = useState(false);
 
 	// Computed values
@@ -116,12 +123,18 @@ const LaporanPage = () => {
 
 	// Event handlers
 	const handleAjuLaporan = useCallback(() => {
+		if (!user) {
+			setAuthModal(true);
+			return;
+		}
+
 		if (user.status !== studentsStatus.VERIFIED) {
 			setVerifModal(true);
-		} else {
-			navigate('/aju-laporan');
+			return;
 		}
-	}, [user.status, navigate]);
+
+		navigate('/aju-laporan');
+	}, [user, navigate]);
 
 	const handlePageChange = useCallback(
 		(newPage) => {
@@ -146,11 +159,11 @@ const LaporanPage = () => {
 	);
 
 	const handleCategoryClick = useCallback((categoryValue) => {
-		setCategory(categoryValue);
+		setCategory((prev) => (prev === categoryValue ? null : categoryValue));
 	}, []);
 
 	const handleStatusClick = useCallback((statusValue) => {
-		setStatus(statusValue);
+		setStatus((prev) => (prev === statusValue ? null : statusValue));
 	}, []);
 
 	const handleFilterModalClose = useCallback(() => {
@@ -214,7 +227,15 @@ const LaporanPage = () => {
 				</div>
 
 				{/* Sidebar */}
-				<Sidebar onAjuLaporan={handleAjuLaporan} categorizedReports={categorizedReports} onCategoryClick={handleCategoryClick} filteredStatuses={filteredStatuses} onStatusClick={handleStatusClick} />
+				<Sidebar
+					onAjuLaporan={handleAjuLaporan}
+					totalPerCategory={totalPerCategory}
+					onCategoryClick={handleCategoryClick}
+					filteredStatuses={filteredStatuses}
+					onStatusClick={handleStatusClick}
+					activeCategory={category}
+					activeStatus={status}
+				/>
 			</div>
 
 			{/* Modals */}
@@ -225,11 +246,15 @@ const LaporanPage = () => {
 				closeModal={handleFilterModalClose}
 				selectedFilter={selectedFilter}
 				setSelectedFilter={setSelectedFilter}
-				categorizedReports={categorizedReports}
+				totalPerCategory={totalPerCategory}
+				activeCategory={category}
 				setCategory={setCategory}
 				filteredStatuses={filteredStatuses}
+				activeStatus={status}
 				setStatus={setStatus}
 			/>
+
+			<AuthModal isOpen={authModal} onClose={() => setAuthModal(false)} />
 		</div>
 	);
 };

@@ -19,6 +19,15 @@ const useReportStore = create((set, get) => ({
 		current_page: 0,
 		items_per_page: 0,
 	},
+	totalPerCategory: {
+		general: 0,
+		administration: 0,
+		bureaucracy: 0,
+		facilities: 0,
+		academic: 0,
+		ukt_appeal: 0,
+		financial: 0,
+	},
 
 	// Actions
 	setActiveTab: (activeTab) => {
@@ -28,7 +37,7 @@ const useReportStore = create((set, get) => ({
 	getReports: async (filters = {}) => {
 		try {
 			const response = await reportsAPI.getReports(filters);
-			set({ reports: response.data, pagination: response.pagination });
+			set({ reports: response.data, pagination: response.pagination, totalPerCategory: response.total_per_category });
 		} catch (error) {
 			set({ reports: [] });
 			console.error('Get reports error:', error);

@@ -1,4 +1,4 @@
-import { CheckSquare, Clock, Globe, MessageSquare, Search, X } from 'lucide-react';
+import { CheckSquare, Clock, Globe, School, Building2, GraduationCap, Users, MessageSquare, Search, X } from 'lucide-react';
 
 export const reportCategories = [
 	{ label: 'Umum', value: 'general' },
@@ -6,6 +6,8 @@ export const reportCategories = [
 	{ label: 'Birokrasi', value: 'bureaucracy' },
 	{ label: 'Fasilitas', value: 'facilities' },
 	{ label: 'Akademik', value: 'academic' },
+	{ label: 'Banding UKT', value: 'ukt_appeal' },
+	{ label: 'Keuangan', value: 'financial' },
 ];
 
 export const getCategoryLabel = (value) => {
@@ -61,8 +63,11 @@ export const getReportStatuses = (status) => {
 };
 
 export const reportLevels = [
-	{ label: 'Fakultas', value: 'faculty', icon: Globe },
 	{ label: 'Universitas', value: 'university', icon: Globe },
+	{ label: 'Fakultas', value: 'faculty', icon: Building2 },
+	{ label: 'Departemen', value: 'department', icon: School },
+	{ label: 'Program Studi', value: 'program_study', icon: GraduationCap },
+	{ label: 'Organisasi Mahasiswa', value: 'student_organization', icon: Users },
 ];
 
 export const getReportLevels = (level) => {
