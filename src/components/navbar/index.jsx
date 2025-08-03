@@ -36,20 +36,20 @@ const NavbarAuthButtons = () => {
 		<>
 			{/* Desktop View */}
 			<div className="hidden lg:flex items-center space-x-4">
-				<Link to="/login" className="bg-white text-primary px-6 py-3 rounded-lg">
+				<Link to="/login" className="bg-white text-main-primary px-6 py-3 rounded-lg">
 					Masuk
 				</Link>
-				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-primary transition-colors">
+				<Link to="/register" className="bg-transparent border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-main-primary transition-colors">
 					Daftar
 				</Link>
 			</div>
 
 			{/* Mobile View */}
 			<div className="flex flex-col lg:hidden space-y-1">
-				<Link to="/login" className="bg-white text-primary px-2 py-1 rounded text-center">
+				<Link to="/login" className="bg-white text-main-primary px-2 py-1 rounded text-center">
 					Masuk
 				</Link>
-				<Link to="/register" className="bg-primary text-white px-2 py-1 rounded text-center hover:bg-dark-primary transition-colors">
+				<Link to="/register" className="bg-main-primary text-white px-2 py-1 rounded text-center hover:bg-dark-primary transition-colors">
 					Daftar
 				</Link>
 			</div>
@@ -59,7 +59,7 @@ const NavbarAuthButtons = () => {
 
 const NavbarActions = () => {
 	const navigate = useNavigate();
-	const iconStyle = 'w-6 h-6 text-white lg:text-primary';
+	const iconStyle = 'w-6 h-6 text-white lg:text-main-primary';
 	const { setMenuOpen } = useNavbarStore();
 	const { setProfilMenu } = useProfilStore();
 	const { setOpenModal } = useNotificationStore();
@@ -68,7 +68,7 @@ const NavbarActions = () => {
 	return (
 		<>
 			<IconButton
-				bgColor="bg-primary lg:bg-white"
+				bgColor="bg-main-primary lg:bg-white"
 				onClick={() => {
 					setMenuOpen(false);
 					navigate('/');
@@ -80,7 +80,7 @@ const NavbarActions = () => {
 				<HelpCircle className={iconStyle} />
 			</IconButton>
 			<IconButton
-				bgColor="bg-primary lg:bg-white"
+				bgColor="bg-main-primary lg:bg-white"
 				onClick={() => {
 					if (user?.role === 'superadmin') return;
 					setMenuOpen(false);
@@ -90,7 +90,7 @@ const NavbarActions = () => {
 				<Bell className={iconStyle} />
 			</IconButton>
 			<IconButton
-				bgColor="bg-primary lg:bg-white"
+				bgColor="bg-main-primary lg:bg-white"
 				rounded="rounded-full"
 				onClick={() => {
 					setMenuOpen(false);
@@ -147,14 +147,14 @@ const Navbar = () => {
 						<NavLogo textColorAdmin="text-yellow" textColor="text-yellow" />
 
 						{/* Close Button */}
-						<button className="self-end text-primary text-5xl cursor-pointer" onClick={() => setMenuOpen(false)}>
+						<button className="self-end text-main-primary text-5xl cursor-pointer" onClick={() => setMenuOpen(false)}>
 							&times;
 						</button>
 					</div>
 
 					{/* Nav Links */}
 					{links.map((link) => (
-						<Link key={link.href} to={link.href} className="text-primary text-lg font-medium hover:text-yellow transition-colors" onClick={() => setMenuOpen(false)}>
+						<Link key={link.href} to={link.href} className="text-main-primary text-lg font-medium hover:text-yellow transition-colors" onClick={() => setMenuOpen(false)}>
 							{link.label}
 						</Link>
 					))}

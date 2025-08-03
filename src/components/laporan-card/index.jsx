@@ -98,7 +98,7 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 	if (!isVoteable)
 		return (
 			<div className="flex flex-col items-center space-y-2">
-				<span className="text-primary text font-medium">Vote</span>
+				<span className="text-main-primary text font-medium">Vote</span>
 				<div className="flex flex-col items-center">
 					<span className="text-4xl font-bold text-dark">{report?.vote_total}</span>
 				</div>
@@ -217,8 +217,8 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 			)}
 
 			<div className="flex border-b border-gray mb-8">
-				<div className="flex items-center px-2 py-3 text-primary border-b-2 border-primary font-medium">
-					<MessageSquare className="w-4 h-4 text-primary mr-2" />
+				<div className="flex items-center px-2 py-3 text-main-primary border-b-2 border-main-primary font-medium">
+					<MessageSquare className="w-4 h-4 text-main-primary mr-2" />
 					Tindak Lanjut
 				</div>
 				<button className="flex items-center px-2 py-3 text-dark font-medium ml-6 cursor-pointer" onClick={handleCopyUrl}>
@@ -241,17 +241,17 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 								<>
 									<div className="flex flex-wrap justify-between items-center gap-4">
 										<div className="flex flex-wrap items-center gap-4">
-											<div className="bg-primary inline-flex items-center justify-center p-2 rounded-full">
+											<div className="bg-main-primary inline-flex items-center justify-center p-2 rounded-full">
 												<User className="w-8 h-8 text-white" />
 											</div>
-											<h2 className={`text-xl text-primary font-semibold`}>{report?.admins?.name}</h2>
+											<h2 className={`text-xl text-main-primary font-semibold`}>{report?.admins?.name}</h2>
 										</div>
 										<p className="text-[#0B4D9B99]">{report?.submitted_at && formatDateToShortIndonesian(report?.submitted_at)}</p>
 									</div>
 									<p className="text-dark mt-5">{report?.response}</p>
 								</>
 							) : (
-								<h2 className={`text-xl text-primary text-center font-semibold`}>Belum ada tanggapan</h2>
+								<h2 className={`text-xl text-main-primary text-center font-semibold`}>Belum ada tanggapan</h2>
 							)}
 						</div>
 					)}
@@ -296,7 +296,7 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 						{showActions && (
 							<div className="flex items-center space-x-2">
-								<button onClick={() => setEditModal(true)} className="p-1 text-primary hover:text-dark-primary transition-colors cursor-pointer">
+								<button onClick={() => setEditModal(true)} className="p-1 text-main-primary hover:text-dark-primary transition-colors cursor-pointer">
 									<Edit className="w-5 h-5 md:w-6 md:h-6" />
 								</button>
 								<button onClick={() => setDeleteModal(true)} className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">

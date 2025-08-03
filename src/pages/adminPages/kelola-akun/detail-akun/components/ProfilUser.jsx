@@ -55,7 +55,7 @@ const ProfilUser = () => {
 							</div>
 						)}
 					</div>
-					<ArrowRight className="w-7 h-7 text-primary" />
+					<ArrowRight className="w-7 h-7 text-main-primary" />
 					<select className="px-5 py-2 shadow-md rounded-md text-sm focus:outline-none pr-7 cursor-pointer" value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
 						<option value="">ubah status</option>
 						{studentStatuses
@@ -92,7 +92,7 @@ const ProfilUser = () => {
 						},
 					].map(({ label, value }) => (
 						<tr key={label}>
-							<td className="text-primary font-semibold py-2 align-top">{label}</td>
+							<td className="text-main-primary font-semibold py-2 align-top">{label}</td>
 							<td className="px-4 sm:px-10 py-2 align-top">:</td>
 							<td className="py-2 align-top">{value}</td>
 						</tr>

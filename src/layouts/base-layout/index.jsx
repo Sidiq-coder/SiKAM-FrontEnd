@@ -44,7 +44,7 @@ const BaseLayout = () => {
 
 			<div className={`min-h-screen w-full ${isBgPattern ? "bg-[url('/images/top-blue-bg.png')] bg-cover bg-center bg-no-repeat text-white" : 'bg-white'}`}>
 				{/* Navbar */}
-				<div className={isBgPattern ? 'bg-transparent' : 'bg-primary'}>
+				<div className={isBgPattern ? 'bg-transparent' : 'bg-main-primary'}>
 					<div className={`${containerClass} ${paddingX}`}>
 						<Navbar />
 					</div>
@@ -56,7 +56,7 @@ const BaseLayout = () => {
 				</section>
 
 				{/* Footer */}
-				<div className={`${isBgPattern ? 'bg-transparent' : 'bg-primary'} text-white pt-12 pb-[140px]`}>
+				<div className={`${isBgPattern ? 'bg-transparent' : 'bg-main-primary'} text-white pt-12 pb-[140px]`}>
 					<div className={`${containerClass} lg:px-20 ${paddingX}`}>
 						<Footer />
 					</div>

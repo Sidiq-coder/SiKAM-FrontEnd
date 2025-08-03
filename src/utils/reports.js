@@ -31,7 +31,7 @@ export const reportStatuses = [
 		label: 'Ditanggapi',
 		value: 'responded',
 		icon: MessageSquare,
-		textColor: 'text-primary',
+		textColor: 'text-main-primary',
 		bgColor: 'bg-[#007BFF80]',
 	},
 	{

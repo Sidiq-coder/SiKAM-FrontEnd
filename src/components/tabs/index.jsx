@@ -9,12 +9,14 @@ const Tabs = ({ tabs, activeTab, onTabChange, data = null, className = '', gap =
 				return (
 					<div key={tab.value} className="flex gap-x-2">
 						<button
-							className={`pb-3 px-1 text-${textSize} font-medium transition-colors ${isActive ? 'text-primary border-b-2 border-primary' : 'text-gray-500 hover:text-gray-700'} cursor-pointer`}
+							className={`pb-3 px-1 text-${textSize} font-medium transition-colors ${
+								isActive ? 'text-main-primary border-b-2 border-main-primary' : 'text-gray-500 hover:text-gray-700'
+							} cursor-pointer`}
 							onClick={() => onTabChange(tab.value)}
 						>
 							<span>{tab.label}</span>
 						</button>
-						{!data ? null : <span className={`w-6 h-6 flex items-center justify-center rounded-full bg-[#C9CEFF] text-white text-sm ${isActive ? 'bg-primary' : ''}`}>{count}</span>}
+						{!data ? null : <span className={`w-6 h-6 flex items-center justify-center rounded-full bg-[#C9CEFF] text-white text-sm ${isActive ? 'bg-main-primary' : ''}`}>{count}</span>}
 					</div>
 				);
 			})}

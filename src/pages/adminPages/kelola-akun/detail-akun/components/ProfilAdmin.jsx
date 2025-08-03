@@ -15,7 +15,7 @@ const AccountProfileDetail = () => {
 					{ label: 'Email', value: admin?.email ?? '-' },
 				].map(({ label, value }) => (
 					<tr key={label}>
-						<td className="text-primary font-semibold py-2">{label}</td>
+						<td className="text-main-primary font-semibold py-2">{label}</td>
 						<td className="px-4 sm:px-10 py-2">:</td>
 						<td className="py-2">{value}</td>
 					</tr>

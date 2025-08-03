@@ -30,14 +30,14 @@ const ProfileSection = () => {
 	return (
 		<div className="bg-white rounded-2xl shadow overflow-hidden">
 			{/* Header Banner */}
-			<div className="bg-primary h-32 relative rounded-t-2xl"></div>
+			<div className="bg-main-primary h-32 relative rounded-t-2xl"></div>
 
 			<div className="flex flex-col lg:flex-row">
 				{/* Sidebar */}
 				<aside className="lg:w-80 w-full bg-white shadow-md relative rounded-b-2xl lg:rounded-bl-2xl font-semibold">
 					{/* Profile Picture */}
 					<div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
-						<div className="w-28 h-28 lg:w-32 lg:h-32 bg-primary p-2 rounded-full border-4 border-white mx-auto flex items-center justify-center">
+						<div className="w-28 h-28 lg:w-32 lg:h-32 bg-main-primary p-2 rounded-full border-4 border-white mx-auto flex items-center justify-center">
 							<img src="/images/Artboard 3 copy 1.png" alt="User" className="object-cover rounded-full w-full h-full" />
 						</div>
 					</div>
@@ -64,7 +64,7 @@ const ProfileSection = () => {
 											setCustomPageTitle(label);
 										}}
 										className={`py-1.5 cursor-pointer transition ${key === 'profil' && 'border-t-2 border-gray/60 pt-3'} ${key === 'notifikasi' && 'border-b-2 border-gray/60 pb-3'} ${
-											profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-primary' : 'text-dark'
+											profilMenu === key || (profilMenu === 'edit-profil' && key === 'profil') ? 'text-main-primary' : 'text-dark'
 										}`}
 									>
 										{label}
@@ -146,7 +146,7 @@ const Profil = () => {
 							.filter((item) => item.show)
 							.map(({ label, value }) => (
 								<tr key={label}>
-									<td className="text-primary font-semibold py-2">{label}</td>
+									<td className="text-main-primary font-semibold py-2">{label}</td>
 									<td className="px-4 sm:px-10 py-2">:</td>
 									<td className="py-2">{value}</td>
 								</tr>
