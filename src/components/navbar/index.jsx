@@ -154,7 +154,12 @@ const Navbar = () => {
 
 					{/* Nav Links */}
 					{links.map((link) => (
-						<Link key={link.href} to={link.href} className="text-main-primary text-lg font-medium hover:text-yellow transition-colors" onClick={() => setMenuOpen(false)}>
+						<Link
+							key={link.href}
+							to={link.href}
+							className={`text-main-primary text-lg font-medium hover:text-yellow transition-colors ${location.pathname.includes(link.href) ? 'text-yellow' : ''}`}
+							onClick={() => setMenuOpen(false)}
+						>
 							{link.label}
 						</Link>
 					))}
