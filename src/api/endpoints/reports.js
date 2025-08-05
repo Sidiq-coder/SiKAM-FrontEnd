@@ -78,8 +78,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	getMyReports: async ({ page, itemPerPage, status }) => {
-		const response = await apiClient.get(`${baseURL}/me`, { params: { page, itemPerPage, status } });
+	getMyReports: async ({ search, page, itemPerPage, status, sort, category }) => {
+		const response = await apiClient.get(`${baseURL}/me`, { params: { search, page, itemPerPage, status, sort, category } });
 		return response.data;
 	},
 

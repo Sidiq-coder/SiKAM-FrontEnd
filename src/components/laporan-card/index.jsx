@@ -175,7 +175,7 @@ const LaporanFooter = ({ report, isDetail }) => {
 			</div>
 
 			{report?.file_url && !isDetail ? (
-				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark px-2 rounded-xl">
+				<div className="flex justify-center items-center bg-[#C9CEFF] text-dark p-2 rounded-xl">
 					<Plus className="w-4 h-4" />
 					<FileImage className="w-4 h-4" />
 				</div>
