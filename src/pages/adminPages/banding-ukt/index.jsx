@@ -57,7 +57,7 @@ const AdminBandingUKTPage = () => {
 	const handlToggleStatusUktAppeal = async () => {
 		try {
 			const result = await toggleStatusUktAppeal();
-			if (result?.data?.success) {
+			if (result?.data?.status) {
 				toast.success(result?.data?.message);
 				clearError();
 			}

@@ -6,24 +6,28 @@ export const uktAppealsStatusOptions = [
 		label: 'Pending',
 		textColor: 'text-yellow',
 		icon: MoreHorizontal,
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
 		value: 'under_review',
 		label: 'Ditinjau',
 		textColor: 'text-main-primary',
 		icon: MessageSquare,
+		bgColor: 'bg-[#EDC83180]',
 	},
 	{
 		value: 'approved',
 		label: 'Diterima',
 		textColor: 'text-green',
 		icon: Check,
+		bgColor: 'bg-[#007BFF80]',
 	},
 	{
 		value: 'rejected',
 		label: 'Ditolak',
 		textColor: 'text-red',
 		icon: X,
+		bgColor: 'bg-[#EE484880]',
 	},
 ];
 

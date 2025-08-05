@@ -20,15 +20,16 @@ import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
 import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
 import DetailAkunPage from '@/pages/adminPages/kelola-akun/detail-akun';
 import AdminBandingUKTPage from '@/pages/adminPages/banding-ukt';
-import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
+import AdminDetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
-import BandingUkt from '@/pages/bandingUkt';
+import BandingUkt from '@/pages/banding-ukt';
 import AuthGuard from './auth-guard';
 import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
 import NotFoundPage from '@/pages/not-found';
+import DetailBandingUKT from '@/pages/banding-ukt/detail-banding-ukt';
 
 const routes = [
 	// Auth Routes
@@ -83,6 +84,7 @@ const routes = [
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },
+					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
 
 					// Profil
 					{ path: 'profil', element: <ProfilePage /> },
@@ -109,7 +111,7 @@ const routes = [
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
-					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
+					{ path: 'banding-ukt/:id', element: <AdminDetailBandingUKT /> },
 
 					// Advika
 					{ path: 'advika', element: <AdminAdvika /> },

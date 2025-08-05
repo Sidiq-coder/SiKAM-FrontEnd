@@ -10,6 +10,7 @@ export const uktAppealsAPI = {
 	},
 
 	createUktAppeal: async (data) => {
+		console.log(data);
 		const formData = new FormData();
 
 		formData.append('semester', data.semester);
