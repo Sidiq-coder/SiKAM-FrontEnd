@@ -1,10 +1,16 @@
 import apiClient from '@/api/client';
 
 const baseURL = '/news';
+const adminURL = '/admin/news';
 
 export const newsAPI = {
 	getNews: async ({ page, itemPerPage, sort, search, status }) => {
 		const response = await apiClient.get(baseURL, { params: { page, itemPerPage, sort, search, status } });
+		return response.data;
+	},
+
+	getAdminNews: async ({ page, itemPerPage, sort, search, status }) => {
+		const response = await apiClient.get(adminURL, { params: { page, itemPerPage, sort, search, status } });
 		return response.data;
 	},
 
@@ -15,15 +21,15 @@ export const newsAPI = {
 		formData.append('description', data.description);
 		formData.append('status', data.status);
 
-		if (data.cover && data.cover[0]) {
-			formData.append('cover', data.cover[0]);
+		if (data.cover) {
+			formData.append('cover', data.cover);
 		}
 
-		if (data.attachment && data.attachment[0]) {
-			formData.append('attachment', data.attachment[0]);
+		if (data.attachment) {
+			formData.append('attachment', data.attachment);
 		}
 
-		const response = await apiClient.post(baseURL, formData, {
+		const response = await apiClient.post(adminURL, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},

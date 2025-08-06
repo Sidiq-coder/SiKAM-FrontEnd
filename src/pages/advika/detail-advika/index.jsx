@@ -49,7 +49,7 @@ const ArticleContent = () => {
 		<article className="mb-12">
 			<h2 className="text-3xl text-dark font-bold mb-4">{newsItem.title}</h2>
 			<p className="text-dark opacity-80 mb-6">
-				<span className="text-primary">{newsItem.admin_name}</span> - {new Date(newsItem.published_at).toLocaleDateString()}
+				<span className="text-main-primary">{newsItem.admin_name}</span> - {new Date(newsItem.published_at).toLocaleDateString()}
 			</p>
 			<img src="/images/img-placeholder.png" alt={newsItem.title} className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md" loading="lazy" />
 			<p className="text-dark whitespace-pre-line">{newsItem.description}</p>

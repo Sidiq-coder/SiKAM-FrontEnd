@@ -259,7 +259,7 @@ const EditableArticleCard = ({ article, isEditing, editedData, onInputChange, on
 	);
 };
 
-const PDFDownloadButton = ({ pdfPath, onPdfUpdate }) => (
+const PDFDownloadButton = ({ pdfPath }) => (
 	<div className="space-y-4 mb-12 mt-8">
 		<div className="p-2 bg-[#EE4848] rounded-lg w-fit hover:opacity-80 transition-all duration-300 ease-in-out">
 			<a href={pdfPath} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" download title="Download PDF">

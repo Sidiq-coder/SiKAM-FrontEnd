@@ -87,8 +87,8 @@ export const uktAppealsAPI = {
 		return response.data;
 	},
 
-	getAdminUktAppeals: async ({ page, itemPerPage, sort, status, problem }) => {
-		const response = await apiClient.get(`${adminUktURL}/appeals`, { params: { page, itemPerPage, sort, status, problem } });
+	getAdminUktAppeals: async ({ page, itemPerPage, sort, status, problem, search, studentId }) => {
+		const response = await apiClient.get(`${adminUktURL}/appeals`, { params: { page, itemPerPage, sort, status, problem, search, studentId } });
 		return response.data;
 	},
 

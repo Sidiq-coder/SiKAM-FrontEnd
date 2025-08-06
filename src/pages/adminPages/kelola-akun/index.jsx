@@ -381,7 +381,7 @@ const KelolaAkunPage = () => {
 					{/* Right Sidebar */}
 					<aside className="w-full max-w-50 hidden lg:block">
 						{activeTab === 'mahasiswa' ? (
-							<StatusFilter statusList={studentStatuses} onStatusClick={(status) => setStatus(status)} />
+							<StatusFilter statusList={studentStatuses} onStatusClick={(status) => setStatus((prev) => (prev === status ? null : status))} activeStatus={status} />
 						) : (
 							<Button variant="primary" label="Tambah Admin" size="md" className="w-full" icon={<Plus className="w-4 h-4" />} iconPosition="right" onClick={handleOpenTambahModal} />
 						)}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FilterIcon, Search } from 'lucide-react';
 import Hashtag from '@/components/hashtag';
 import LaporanCard from '@/components/laporan-card';
@@ -15,8 +15,8 @@ import useSearchHandler from '@/hooks/useSearchHandler';
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
 	{ label: 'Pending', value: 'pending' },
-	{ label: 'Proses', value: 'responded' },
-	{ label: 'Selesai', value: 'done' },
+	{ label: 'Proses', value: 'under_review' },
+	{ label: 'Selesai', value: 'responded' },
 ];
 
 // Constants
@@ -35,7 +35,7 @@ const SORT_MAP = {
 };
 
 const AdminLaporanPage = () => {
-	const { getAdminReports, reports, pagination } = useReportStore();
+	const { getAdminReports, reports, pagination, totalPerStatus, totalPerCategory } = useReportStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
@@ -62,40 +62,13 @@ const AdminLaporanPage = () => {
 
 			if (category) query.category = category;
 			if (activeTab !== 'semua') query.status = activeTab;
+			if (searchQuery) query.search = searchQuery;
 
 			getAdminReports(query);
 			setCurrentPage(newPage);
 		},
-		[selectedFilter, category, activeTab]
+		[selectedFilter, category, activeTab, searchQuery]
 	);
-
-	const categorizedReports = useMemo(() => {
-		if (!reports)
-			return reportCategories.map((cat) => ({
-				...cat,
-				quantity: 0,
-			}));
-
-		const categoryMap = reports.reduce((acc, report) => {
-			const key = report.category;
-			if (!key) return acc;
-
-			if (acc[key]) {
-				acc[key].quantity += 1;
-			} else {
-				acc[key] = {
-					value: key,
-					quantity: 1,
-				};
-			}
-			return acc;
-		}, {});
-
-		return reportCategories.map((cat) => ({
-			...cat,
-			quantity: categoryMap[cat.value]?.quantity || 0,
-		}));
-	}, [reports]);
 
 	useEffect(() => {
 		const query = {
@@ -137,7 +110,7 @@ const AdminLaporanPage = () => {
 					</div>
 
 					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={reports} className="mb-6" />
+					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={totalPerStatus} className="mb-6" />
 
 					{/* Reports List */}
 					<div className="space-y-6">
@@ -158,12 +131,22 @@ const AdminLaporanPage = () => {
 					<div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
 						<h3 className="text-2xl font-bold text-dark mb-4">Kategori Terkait</h3>
 						<div className="flex flex-col items-start space-y-4">
-							{categorizedReports.length > 0 ? (
-								<>
-									{categorizedReports.map(({ label, value, quantity }) => (
-										<Hashtag key={value} label={`#${label}`} quantity={quantity} onClick={() => setCategory(value)} className="cursor-pointer" />
-									))}
-								</>
+							{Object.values(totalPerCategory).some((qty) => qty > 0) ? (
+								Object.entries(totalPerCategory).map(([key, quantity]) => {
+									const reportCategory = reportCategories.find((c) => c.value === key);
+									if (!reportCategory) return null; // kategori tidak dikenal
+
+									return (
+										<Hashtag
+											key={key}
+											label={`#${reportCategory.label}`}
+											quantity={quantity}
+											onClick={() => setCategory((prev) => (prev === key ? null : key))}
+											active={category === key}
+											className="cursor-pointer"
+										/>
+									);
+								})
 							) : (
 								<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>
 							)}
@@ -176,7 +159,8 @@ const AdminLaporanPage = () => {
 					closeModal={() => setFilterModal(false)}
 					selectedFilter={selectedFilter}
 					setSelectedFilter={setSelectedFilter}
-					categorizedReports={categorizedReports}
+					totalPerCategory={totalPerCategory}
+					activeCategory={category}
 					setCategory={setCategory}
 				/>
 			</div>

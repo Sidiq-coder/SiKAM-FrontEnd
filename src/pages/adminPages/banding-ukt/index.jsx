@@ -7,6 +7,7 @@ import BandingUKTCard from '@/components/banding-ukt-card';
 // import { usePeriodStore } from '@/components/zustand/period-banding-ukt/usePeriodStore';
 import useUktAppealStore from '@/stores/useUktAppealStore';
 import { toast } from 'react-toastify';
+import useSearchHandler from '@/hooks/useSearchHandler';
 
 const logs = [
 	{ no: 1, date: '12 Jul 2025, 10:32', admin: 'admin1', action: 'Mengaktifkan fitur' },
@@ -19,14 +20,14 @@ const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
 	{ label: 'Pending', value: 'pending' },
 	{ label: 'Ditinjau', value: 'under_review' },
-	{ label: 'Diterima', value: 'approved' },
+	{ label: 'Diterima', value: 'responded' },
 	{ label: 'Ditolak', value: 'rejected' },
 ];
 
 const ITEMS_PER_PAGE = 10;
 
 const AdminBandingUKTPage = () => {
-	const { uktAppeals, getAdminUktAppeals, error, clearError, pagination, toggleStatusUktAppeal, isPeriodOpen } = useUktAppealStore();
+	const { uktAppeals, getAdminUktAppeals, error, clearError, pagination, toggleStatusUktAppeal, isPeriodOpen, totalPerStatus } = useUktAppealStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [searchQuery, setSearchQuery] = useState('');
@@ -42,16 +43,19 @@ const AdminBandingUKTPage = () => {
 		return uktAppeals.filter((a) => a?.students?.name?.toLowerCase().includes(lowerQuery));
 	}, [searchQuery, uktAppeals]);
 
-	const handleSearch = (e) => setSearchQuery(e.target.value);
+	const handleSearch = useSearchHandler(setSearchQuery);
 
 	const handlePageChange = useCallback(
 		(newPage) => {
 			const query = { page: newPage, itemPerPage: ITEMS_PER_PAGE };
+
 			if (activeTab !== 'semua') query.status = activeTab;
+			if (searchQuery) query.search = searchQuery;
+
 			getAdminUktAppeals(query);
 			setCurrentPage(newPage);
 		},
-		[activeTab]
+		[activeTab, searchQuery]
 	);
 
 	const handlToggleStatusUktAppeal = async () => {
@@ -69,10 +73,13 @@ const AdminBandingUKTPage = () => {
 
 	useEffect(() => {
 		const query = { page: 1, itemPerPage: ITEMS_PER_PAGE };
+
 		if (activeTab !== 'semua') query.status = activeTab;
+		if (searchQuery) query.search = searchQuery;
+
 		getAdminUktAppeals(query);
 		setCurrentPage(1);
-	}, [activeTab]);
+	}, [activeTab, searchQuery]);
 
 	useEffect(() => {
 		if (error) {
@@ -82,7 +89,7 @@ const AdminBandingUKTPage = () => {
 	}, [error]);
 
 	return (
-		<div className="bg-white px-4 md:px-8 lg:px-16 py-10 min-h-screen">
+		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
 			<h1 className="text-3xl md:text-4xl font-bold text-dark mb-8">Daftar Banding UKT</h1>
 
 			<div className="flex flex-col lg:flex-row gap-8">
@@ -94,7 +101,7 @@ const AdminBandingUKTPage = () => {
 					</div>
 
 					{/* Tabs */}
-					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={filteredUktAppeals} />
+					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={totalPerStatus} />
 
 					{/* Card List */}
 					{filteredUktAppeals.length > 0 ? (

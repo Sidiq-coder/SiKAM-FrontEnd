@@ -11,8 +11,8 @@ import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
 import DetailAdvika from '@/pages/advika/detail-advika';
 import AdminAdvika from '@/pages/adminPages/advika';
-import EditAdvika from '@/pages/adminPages/advika/EditAdvika';
-import { default as AdminDetailAdvika } from '@/pages/adminPages/advika/DetailAdvika';
+import AdminEditAdvika from '@/pages/adminPages/advika/edit-advika';
+import AdminDetailAdvika from '@/pages/adminPages/advika/detail-advika';
 import ProfilePage from '@/pages/profil';
 import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
@@ -30,6 +30,7 @@ import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
 import NotFoundPage from '@/pages/not-found';
 import DetailBandingUKT from '@/pages/banding-ukt/detail-banding-ukt';
+import BuatAdvika from '@/pages/adminPages/buat-advika';
 
 const routes = [
 	// Auth Routes
@@ -115,8 +116,9 @@ const routes = [
 
 					// Advika
 					{ path: 'advika', element: <AdminAdvika /> },
+					{ path: 'buat-advika', element: <BuatAdvika /> },
 					{ path: 'advika/:id', element: <AdminDetailAdvika /> },
-					{ path: 'advika/:id/edit', element: <EditAdvika /> },
+					{ path: 'advika/:id/edit', element: <AdminEditAdvika /> },
 
 					// Profil
 					{ path: 'profil', element: <ProfilePage /> },

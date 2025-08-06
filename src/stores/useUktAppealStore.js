@@ -14,6 +14,12 @@ const useUktAppealStore = create((set, get) => ({
 		current_page: 0,
 		items_per_page: 0,
 	},
+	totalPerStatus: {
+		pending: 0,
+		under_review: 0,
+		responded: 0,
+		rejected: 0,
+	},
 	isPeriodOpen: false,
 
 	// Actions
@@ -30,7 +36,7 @@ const useUktAppealStore = create((set, get) => ({
 	getAdminUktAppeals: async (filters = {}) => {
 		try {
 			const response = await uktAppealsAPI.getAdminUktAppeals(filters);
-			set({ uktAppeals: response.data, pagination: response.pagination });
+			set({ uktAppeals: response.data, pagination: response.pagination, totalPerStatus: response.total_per_status });
 		} catch (error) {
 			set({ uktAppeals: [] });
 			console.error('Get ukt appeals error:', error);

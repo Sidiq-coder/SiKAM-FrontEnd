@@ -26,6 +26,16 @@ const useNewsStore = create((set) => ({
 		}
 	},
 
+	getAdminNews: async (filters = {}) => {
+		try {
+			const response = await newsAPI.getAdminNews(filters);
+			set({ news: response.data, pagination: response.pagination });
+		} catch (error) {
+			set({ news: [] });
+			console.error('Get news error:', error);
+		}
+	},
+
 	getNewsById: async (id) => {
 		try {
 			const response = await newsAPI.getNewsById(id);
@@ -33,6 +43,20 @@ const useNewsStore = create((set) => ({
 		} catch (error) {
 			set({ newsItem: null });
 			console.error('Get news error:', error);
+		}
+	},
+
+	createNews: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await newsAPI.createNews(data);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Create news failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 
