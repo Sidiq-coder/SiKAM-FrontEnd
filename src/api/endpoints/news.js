@@ -3,8 +3,8 @@ import apiClient from '@/api/client';
 const baseURL = '/news';
 
 export const newsAPI = {
-	getNews: async () => {
-		const response = await apiClient.get(baseURL);
+	getNews: async ({ page, itemPerPage, sort, search, status }) => {
+		const response = await apiClient.get(baseURL, { params: { page, itemPerPage, sort, search, status } });
 		return response.data;
 	},
 
