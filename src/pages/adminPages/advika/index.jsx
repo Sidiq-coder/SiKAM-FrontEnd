@@ -154,10 +154,10 @@ const News = () => {
 	return (
 		<>
 			{news.map((item, index) => (
-				<div key={`${item.id}-${index}`} className="flex flex-col lg:flex-row items-start gap-4 p-4 rounded-xl cursor-pointer mb-3">
+				<a key={`${item.id}-${index}`} href={`/admin/advika/${item.id}`} className="flex flex-col lg:flex-row items-start gap-4 p-4 rounded-xl cursor-pointer mb-3">
 					{/* Image Section */}
 					<div className="w-full lg:w-[260px] h-[180px] rounded-lg overflow-hidden flex-shrink-0 block">
-						<img src="/images/img-placeholder.png" alt={item.title} className="w-full h-full object-cover" />
+						<img src={`${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}`} alt={item.title} className="w-full h-full object-cover" />
 					</div>
 
 					{/* Text Content Section */}
@@ -174,7 +174,7 @@ const News = () => {
 							<span className="capitalize">{item.status}</span>
 						</div>
 					</div>
-				</div>
+				</a>
 			))}
 		</>
 	);

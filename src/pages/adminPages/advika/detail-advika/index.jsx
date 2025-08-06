@@ -1,38 +1,29 @@
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faFile, faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { mainAdvika } from '@/mocks/advikaMock';
-import Button from '@/components/button';
-
-const COLORS = {
-	primary: '#2A2A2A',
-	secondary: '#0B4D9B',
-	accent: '#EE4848',
-	text: '#000000',
-	muted: '#6B7280',
-};
+import { faChevronLeft, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import useNewsStore from '@/stores/useNewsStore';
+import { useEffect } from 'react';
 
 export default function DetailAdvika() {
-	const params = useParams();
+	const { id } = useParams();
 
-	const article = mainAdvika.find((item) => item.id === Number(params.id));
+	const { getNewsById, newsItem } = useNewsStore();
+
+	useEffect(() => {
+		const fetch = async () => {
+			await getNewsById(id);
+		};
+		fetch();
+	}, [id]);
 
 	return (
-		<div className="px-10 md:px-20 lg:px-32 pb-1 min-h-screen mb-48">
-			<div className="flex items-center justify-between pt-4">
-				<BackButton />
-				<Button
-					label={`Edit Berita`}
-					href={`/admin/advika/editAdvika/${params.id}`}
-					icon={<FontAwesomeIcon icon={faFile} />}
-					className={`bg-yellow text-white text-xs hover:opacity-80 transition-all transition-duration-500 cursor-pointer`}
-				/>
-			</div>
-			{article ? (
+		<div className="bg-white px-10 md:px-20 lg:px-32 pb-1 min-h-screen">
+			<BackButton />
+
+			{newsItem ? (
 				<>
-					<ArticleContent article={article} />
+					<ArticleContent />
 					<PDFDownloadButton />
-					<hr className="my-6" />
 				</>
 			) : (
 				<NotFound />
@@ -42,39 +33,43 @@ export default function DetailAdvika() {
 }
 
 const BackButton = () => (
-	<NavLink to="/admin/advika" className="flex items-center gap-4 mb-8 pt-8 cursor-pointer hover:brightness-150 transition-all duration-300">
+	<Link to="/admin/advika" className="flex items-center gap-4 mb-8 pt-12 cursor-pointer hover:brightness-150 transition-all duration-300">
 		<FontAwesomeIcon icon={faChevronLeft} className="opacity-60" />
 		<h1 className="capitalize text-black opacity-60 text-xl">advika</h1>
-	</NavLink>
+	</Link>
 );
 
-const ArticleContent = ({ article }) => (
-	<article className="mb-12">
-		<h2 className="text-3xl font-bold mb-4" style={{ color: COLORS.primary }}>
-			{article.title}
-		</h2>
-		<p className="opacity-80 mb-6" style={{ color: COLORS.primary }}>
-			<span style={{ color: COLORS.secondary }}>{article.author}</span> - {article.date}
-		</p>
-		<img src={article.imagePath} alt={article.title} className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md" loading="lazy" />
-		<p className="whitespace-pre-line" style={{ color: COLORS.primary }}>
-			{article.description}
-		</p>
-	</article>
-);
+const ArticleContent = () => {
+	const { newsItem } = useNewsStore();
 
-const PDFDownloadButton = () => (
-	<div className="p-2 bg-[#EE4848] rounded-lg w-fit hover:opacity-80 transition-all duration-300 ease-in-out mb-12">
-		<a href="/images/Example.pdf" target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" download title="Download PDF">
-			<FontAwesomeIcon icon={faFilePdf} />
-			rsptn.pdf
-		</a>
-	</div>
-);
+	return (
+		<article className="mb-12">
+			<h2 className="text-3xl text-dark font-bold mb-4">{newsItem.title}</h2>
+			<p className="text-dark opacity-80 mb-6">
+				<span className="text-main-primary">{newsItem.admin_name}</span> - {new Date(newsItem.published_at).toLocaleDateString()}
+			</p>
+			<img src={`${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}`} alt={newsItem.title} className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md" loading="lazy" />
+			<p className="text-dark whitespace-pre-line">{newsItem.description}</p>
+		</article>
+	);
+};
+
+const PDFDownloadButton = () => {
+	const { newsItem } = useNewsStore();
+
+	return (
+		<div className="p-2 bg-red rounded-lg w-fit hover:opacity-80 transition-all duration-300 ease-in-out mb-12">
+			<a href={newsItem.attachment_url} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" download title="Download PDF">
+				<FontAwesomeIcon icon={faFilePdf} />
+				Attachment
+			</a>
+		</div>
+	);
+};
 
 const NotFound = () => (
 	<div className="text-center py-12">
-		<h2 className="text-2xl font-bold text-gray-600 mb-4">Article not found</h2>
-		<p className="text-gray-500">The requested article could not be found.</p>
+		<h2 className="text-2xl font-bold text-gray-600 mb-4">Artikel tidak ditemukan</h2>
+		<p className="text-gray-500">Artikel yang dicari tidak dapat ditemukan.</p>
 	</div>
 );
