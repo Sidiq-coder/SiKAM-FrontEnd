@@ -4,7 +4,7 @@ import { ChevronLeft, CircleQuestionMark, Edit } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import InputField from '@/components/input-field';
 import SubmitButton from '@/components/submit-button';
 import SelectField from '@/components/select-field';

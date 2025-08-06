@@ -1,19 +1,18 @@
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Calendar, Edit, FileImage, Hourglass, MessageSquare, Plus, Share2, Trash, User } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { Modal } from '@/components/modal';
 import Hashtag from '@/components/hashtag';
 import Triangle from '@/components/triangle';
 import Button from '@/components/button';
-import { Modal } from '@/components/modal';
 import FileImageComponent from '@/components/file-image';
 import { truncateText } from '@/utils/truncateText';
-import { formatDate, timeAgo } from '@/utils/date';
+import { formatDate, timeAgo, formatDateToShortIndonesian } from '@/utils/date';
+import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/reports';
 import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
 import useAuthStore from '@/stores/useAuthStore';
-import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/reports';
 import useReportStore from '@/stores/useReportStore';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
-import { formatDateToShortIndonesian } from '../../utils/date';
 
 const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
 	const navigate = useNavigate();
@@ -296,10 +295,10 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 						{showActions && (
 							<div className="flex items-center space-x-2">
-								<button onClick={() => setEditModal(true)} className="p-1 text-main-primary hover:text-dark-primary transition-colors cursor-pointer">
+								<button onClick={() => setEditModal(true)} className="p-1 text-main-primary cursor-pointer">
 									<Edit className="w-5 h-5 md:w-6 md:h-6" />
 								</button>
-								<button onClick={() => setDeleteModal(true)} className="p-1 text-[#EE4848] hover:text-red-600 transition-colors cursor-pointer">
+								<button onClick={() => setDeleteModal(true)} className="p-1 text-red cursor-pointer">
 									<Trash className="w-5 h-5 md:w-6 md:h-6" />
 								</button>
 							</div>

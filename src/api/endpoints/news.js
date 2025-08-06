@@ -50,15 +50,15 @@ export const newsAPI = {
 		formData.append('description', data.description);
 		formData.append('status', data.status);
 
-		if (data.cover && data.cover[0]) {
-			formData.append('cover', data.cover[0]);
+		if (data.cover) {
+			formData.append('cover', data.cover);
 		}
 
-		if (data.attachment && data.attachment[0]) {
-			formData.append('attachment', data.attachment[0]);
+		if (data.attachment) {
+			formData.append('attachment', data.attachment);
 		}
 
-		const response = await apiClient.patch(`${baseURL}/${id}`, formData, {
+		const response = await apiClient.patch(`${adminURL}/${id}`, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
 			},
@@ -68,7 +68,7 @@ export const newsAPI = {
 	},
 
 	deleteNews: async (id) => {
-		const response = await apiClient.delete(`${baseURL}/${id}`);
+		const response = await apiClient.delete(`${adminURL}/${id}`);
 		return response.data;
 	},
 };

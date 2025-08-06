@@ -60,6 +60,34 @@ const useNewsStore = create((set) => ({
 		}
 	},
 
+	updateNews: async (id, data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await newsAPI.updateNews(id, data);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Update news failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
+	deleteNews: async (id) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await newsAPI.deleteNews(id);
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Delete news failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
 	clearError: () => set({ error: null }),
 }));
 

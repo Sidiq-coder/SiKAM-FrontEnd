@@ -91,8 +91,8 @@ export default function BuatAdvika() {
 		<div className="bg-white md:px-10 lg:px-20 px-4 py-18 pb-[120px]">
 			<div className="container mx-auto">
 				{/* Header */}
-				<div className="flex items-center justify-between mb-8">
-					<div className="flex items-center gap-4">
+				<div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+					<div className="flex flex-wrap items-center gap-4">
 						{/* Back Button */}
 						<Link to="/admin/advika" className="flex items-center gap-2 text-dark">
 							<ChevronLeft size={24} />
@@ -128,7 +128,7 @@ export default function BuatAdvika() {
 					</div>
 
 					{/* Action Buttons */}
-					<div className="flex gap-2">
+					<div className="flex flex-wrap gap-2">
 						<button
 							onClick={handleSubmit(onSubmit)}
 							disabled={!isValid || isSubmitting || isLoading}
