@@ -8,7 +8,7 @@ import ProfilUser from './components/ProfilUser';
 import EditProfilAdmin from './components/EditProfilAdmin';
 import Laporan from './components/Laporan';
 import { useDetailAkunStore } from './stores/useDetailAkunStore';
-import { BandingUkt } from './components/BandingUkt';
+import BandingUkt from './components/BandingUkt';
 
 const DetailAkunPage = () => {
 	const { id, role } = useParams();
