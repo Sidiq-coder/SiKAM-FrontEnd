@@ -1,5 +1,11 @@
 import { Clock, CheckSquare, XSquare } from 'lucide-react';
 
+export const userRole = {
+	ADMIN: 'admin',
+	SUPERADMIN: 'superadmin',
+	STUDENT: 'student',
+};
+
 export const studentsStatus = {
 	WAITING: 'waiting',
 	VERIFIED: 'verified',

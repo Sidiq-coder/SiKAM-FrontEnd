@@ -51,7 +51,12 @@ const ArticleContent = () => {
 			<p className="text-dark opacity-80 mb-6">
 				<span className="text-main-primary">{newsItem.admin_name}</span> - {new Date(newsItem.published_at).toLocaleDateString()}
 			</p>
-			<img src="/images/img-placeholder.png" alt={newsItem.title} className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md" loading="lazy" />
+			<img
+				src={newsItem.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}` : '/images/img-placeholder.png'}
+				alt={newsItem.title}
+				className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md"
+				loading="lazy"
+			/>
 			<p className="text-dark whitespace-pre-line">{newsItem.description}</p>
 		</article>
 	);
@@ -79,7 +84,12 @@ const RelatedNews = () => {
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 				{news.map((item) => (
 					<a key={item.id} href={`/advika/${item.id}`} className="rounded-lg overflow-hidden cursor-pointer">
-						<img src="/images/img-placeholder.png" alt={item.title} className="w-full h-[100px] object-cover rounded-lg" loading="lazy" />
+						<img
+							src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'}
+							alt={item.title}
+							className="w-full h-[100px] object-cover rounded-lg"
+							loading="lazy"
+						/>
 						<div className="p-3">
 							<h3 className="text-sm text-dark font-semibold mb-1 leading-snug">{item.title}</h3>
 							<time className="text-xs text-gray-500">{new Date(item.published_at).toLocaleDateString()}</time>

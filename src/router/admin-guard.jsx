@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
+import { userRole } from '@/utils/users';
 
 const AdminGuard = () => {
 	const { user } = useAuth();
@@ -9,7 +10,7 @@ const AdminGuard = () => {
 		return <Navigate to="/login" replace />;
 	}
 
-	if (user.role !== 'superadmin') {
+	if (user.role !== userRole.SUPERADMIN && user.role !== userRole.ADMIN) {
 		return <Navigate to="/" replace />;
 	}
 

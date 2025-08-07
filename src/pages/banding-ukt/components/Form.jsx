@@ -6,10 +6,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import { createUktAppealSchema } from '../schema';
 import useUktAppealStore from '@/stores/useUktAppealStore';
+import useProfilStore from '@/stores/useProfilStore';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
+	const navigate = useNavigate();
 	const { createUktAppeal, clearError, error } = useUktAppealStore();
+	const { setProfilMenu } = useProfilStore();
 
 	const {
 		register,
@@ -45,7 +49,14 @@ export default function Form() {
 	return (
 		<div className="mx-auto bg-white text-dark rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
 			<div className="flex items-center justify-between mb-10">
-				<FontAwesomeIcon icon={faChevronLeft} className="hover:opacity-80 cursor-pointer p-2" />
+				<FontAwesomeIcon
+					icon={faChevronLeft}
+					className="hover:opacity-80 cursor-pointer p-2"
+					onClick={() => {
+						setProfilMenu('banding');
+						navigate('/profil');
+					}}
+				/>
 				<h1 className="uppercase text-2xl font-bold text-center text-dark">banding ukt</h1>
 				<FileQuestionMark className="text-red" />
 			</div>

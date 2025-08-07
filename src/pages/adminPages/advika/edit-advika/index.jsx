@@ -103,6 +103,7 @@ export default function BuatAdvika() {
 					shouldValidate: true,
 				}
 			);
+			setSelectedFilter(newsItem?.status ?? 'published');
 		}
 	}, [newsItem, reset]);
 
