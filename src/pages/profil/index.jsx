@@ -39,7 +39,7 @@ const ProfileSection = () => {
 					{/* Profile Picture */}
 					<div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
 						<div className="w-28 h-28 lg:w-32 lg:h-32 bg-main-primary p-2 rounded-full border-4 border-white mx-auto flex items-center justify-center">
-							<img src="/images/Artboard 3 copy 1.png" alt="User" className="object-cover rounded-full w-full h-full" />
+							<img src="/images/artboard-3-1.png" alt="User" className="object-cover rounded-full w-full h-full" />
 						</div>
 					</div>
 

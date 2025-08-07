@@ -99,7 +99,7 @@ export default function DetailBandingUKT() {
 
 				{/* Profile Info */}
 				<div className="flex flex-wrap items-center gap-4 mb-4">
-					<img src="/images/Artboard 3 copy 1.png" alt="avatar" className="w-16 h-16 rounded-full bg-main-primary" />
+					<img src="/images/artboard-3-1.png" alt="avatar" className="w-16 h-16 rounded-full bg-main-primary" />
 					<h2 className="text-dark font-medium">{uktAppeal?.students?.name}</h2>
 					<p className="text-dark sm:ml-8">NPM: {uktAppeal?.students?.npm}</p>
 				</div>
