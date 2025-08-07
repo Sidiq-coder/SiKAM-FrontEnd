@@ -51,7 +51,7 @@ const BandingUktItem = ({ data }) => {
 	);
 };
 
-export const BandingUkt = () => {
+const BandingUkt = () => {
 	const { student } = useUserStore();
 	const { uktAppeals, getAdminUktAppeals, pagination } = useUktAppealStore();
 
@@ -98,3 +98,5 @@ export const BandingUkt = () => {
 		</div>
 	);
 };
+
+export default BandingUkt;

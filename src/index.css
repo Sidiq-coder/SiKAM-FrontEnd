@@ -33,3 +33,14 @@ body {
 .slide-left {
 	animation: slide-left 0.3s ease-out forwards;
 }
+
+.ce-toolbar__content,
+.ce-block__content {
+	max-width: unset;
+	width: 92% !important;
+}
+
+.editorjs-codeFlask_Wrapper .editorjs-codeFlask_LangDisplay {
+	max-width: unset;
+	height: unset !important;
+}

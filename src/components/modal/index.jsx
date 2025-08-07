@@ -5,7 +5,7 @@ export const Modal = ({ isOpen, onClose, children, size = 'md', closeOnOverlayCl
 	useEffect(() => {
 		const handleEscape = (e) => {
 			if (e.key === 'Escape' && isOpen) {
-				onClose();
+				if (onClose) onClose();
 			}
 		};
 

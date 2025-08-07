@@ -22,8 +22,8 @@ const BaseLayout = () => {
 	const { initializeAuth } = useAuth();
 	const { isOpenModal, setOpenModal } = useNotificationStore();
 
-	const bgPatternPaths = ['/', '/aju-laporan'];
-	const dynamicPatterns = [/^\/laporan\/\d+\/ubah$/, /^\/admin\/banding-ukt\/(\d+)$/];
+	const bgPatternPaths = ['/', '/aju-laporan', '/banding-ukt'];
+	const dynamicPatterns = [/^\/laporan\/\d+\/ubah$/, /^\/banding-ukt\/(\d+)$/, /^\/admin\/banding-ukt\/(\d+)$/];
 
 	const isBgPattern = bgPatternPaths.includes(location.pathname) || dynamicPatterns.some((regex) => regex.test(location.pathname));
 

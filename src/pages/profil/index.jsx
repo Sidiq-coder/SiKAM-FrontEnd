@@ -12,6 +12,7 @@ import { setCustomPageTitle } from '@/utils/titleManager';
 import useProfilStore from '@/stores/useProfilStore';
 import { LogoutModal } from './components/Modal';
 import Laporan from './components/Laporan';
+import { userRole } from '../../utils/users';
 
 export default function ProfilePage() {
 	return (
@@ -38,7 +39,7 @@ const ProfileSection = () => {
 					{/* Profile Picture */}
 					<div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
 						<div className="w-28 h-28 lg:w-32 lg:h-32 bg-main-primary p-2 rounded-full border-4 border-white mx-auto flex items-center justify-center">
-							<img src="/images/Artboard 3 copy 1.png" alt="User" className="object-cover rounded-full w-full h-full" />
+							<img src="/images/artboard-3-1.png" alt="User" className="object-cover rounded-full w-full h-full" />
 						</div>
 					</div>
 
@@ -50,10 +51,10 @@ const ProfileSection = () => {
 						<nav className="space-y-2">
 							{[
 								{ key: 'profil', label: 'Profil', show: true },
-								{ key: 'password', label: 'Password', show: user?.role !== 'superadmin' },
-								{ key: 'notifikasi', label: 'Notifikasi', show: user?.role !== 'superadmin' },
-								{ key: 'laporan', label: 'Laporan', show: user?.role !== 'superadmin' },
-								{ key: 'banding', label: 'Banding UKT', show: user?.role !== 'superadmin' },
+								{ key: 'password', label: 'Password', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
+								{ key: 'notifikasi', label: 'Notifikasi', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
+								{ key: 'laporan', label: 'Laporan', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
+								{ key: 'banding', label: 'Banding UKT', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
 							]
 								.filter((item) => item.show)
 								.map(({ key, label }) => (
@@ -82,7 +83,7 @@ const ProfileSection = () => {
 				{/* Main Content */}
 				<main className="flex-1 px-10 py-6">
 					{profilMenu === 'profil' && <Profil />}
-					{profilMenu === 'edit-profil' && <>{user?.role !== 'superadmin' ? <EditProfil /> : <EditProfilAdmin />}</>}
+					{profilMenu === 'edit-profil' && <>{user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN ? <EditProfil /> : <EditProfilAdmin />}</>}
 					{profilMenu === 'password' && <PasswordContent />}
 					{profilMenu === 'notifikasi' && <Notifikasi />}
 					{profilMenu === 'laporan' && <Laporan />}
@@ -136,12 +137,12 @@ const Profil = () => {
 				<table>
 					<tbody>
 						{[
-							{ label: 'Username', value: user?.name ?? '-', show: user?.role === 'superadmin' },
+							{ label: 'Username', value: user?.name ?? '-', show: user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN },
 							{ label: 'Nama', value: user?.name ?? '-', show: true },
-							{ label: 'NPM', value: user?.npm ?? '-', show: user?.role !== 'superadmin' },
-							{ label: 'Email', value: (user?.role === 'superadmin' ? user?.email : user?.campus_email) ?? '-', show: true },
-							{ label: 'Prodi', value: user?.program_study ?? '-', show: user?.role !== 'superadmin' },
-							{ label: 'Angkatan', value: user?.batch ?? '-', show: user?.role !== 'superadmin' },
+							{ label: 'NPM', value: user?.npm ?? '-', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
+							{ label: 'Email', value: (user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN ? user?.email : user?.campus_email) ?? '-', show: true },
+							{ label: 'Prodi', value: user?.program_study ?? '-', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
+							{ label: 'Angkatan', value: user?.batch ?? '-', show: user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN },
 						]
 							.filter((item) => item.show)
 							.map(({ label, value }) => (

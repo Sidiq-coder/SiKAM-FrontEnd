@@ -7,6 +7,7 @@ import useAuth from '@/hooks/useAuth';
 import { create } from 'zustand';
 import useProfilStore from '@/stores/useProfilStore';
 import useNotificationStore from '@/stores/useNotificationStore';
+import { userRole } from '@/utils/users';
 
 const navLinks = {
 	student: [
@@ -82,7 +83,7 @@ const NavbarActions = () => {
 			<IconButton
 				bgColor="bg-main-primary lg:bg-white"
 				onClick={() => {
-					if (user?.role === 'superadmin') return;
+					if (user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN) return;
 					setMenuOpen(false);
 					setOpenModal(true);
 				}}
@@ -95,7 +96,7 @@ const NavbarActions = () => {
 				onClick={() => {
 					setMenuOpen(false);
 					setProfilMenu('profil');
-					if (user?.role !== 'superadmin') {
+					if (user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN) {
 						navigate('/profil');
 					} else {
 						navigate('/admin/profil');
@@ -113,7 +114,7 @@ const Navbar = () => {
 	const location = useLocation();
 	const { isMenuOpen, setMenuOpen } = useNavbarStore();
 	const isAdminPath = location.pathname.includes('/admin');
-	const userType = isAdminPath && user?.role === 'superadmin' ? 'superadmin' : 'student';
+	const userType = isAdminPath && (user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN) ? userRole.SUPERADMIN : userRole.STUDENT;
 	const links = navLinks[userType];
 
 	return (

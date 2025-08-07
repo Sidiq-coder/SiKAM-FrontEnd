@@ -9,10 +9,10 @@ import UbahLaporan from '@/pages/laporan/ubah-laporan';
 import AjuLaporan from '@/pages/laporan/aju-laporan';
 import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
-import DetailAdvika from '@/pages/advika/DetailAdvika';
+import DetailAdvika from '@/pages/advika/detail-advika';
 import AdminAdvika from '@/pages/adminPages/advika';
-import EditAdvika from '@/pages/adminPages/advika/EditAdvika';
-import { default as AdminDetailAdvika } from '@/pages/adminPages/advika/DetailAdvika';
+import AdminEditAdvika from '@/pages/adminPages/advika/edit-advika';
+import AdminDetailAdvika from '@/pages/adminPages/advika/detail-advika';
 import ProfilePage from '@/pages/profil';
 import AdminLaporanPage from '@/pages/adminPages/laporan';
 import AdminGuard from './admin-guard';
@@ -20,15 +20,17 @@ import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
 import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
 import DetailAkunPage from '@/pages/adminPages/kelola-akun/detail-akun';
 import AdminBandingUKTPage from '@/pages/adminPages/banding-ukt';
-import DetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
+import AdminDetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
-import BandingUkt from '@/pages/bandingUkt';
+import BandingUkt from '@/pages/banding-ukt';
 import AuthGuard from './auth-guard';
 import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
 import NotFoundPage from '@/pages/not-found';
+import DetailBandingUKT from '@/pages/banding-ukt/detail-banding-ukt';
+import BuatAdvika from '@/pages/adminPages/buat-advika';
 
 const routes = [
 	// Auth Routes
@@ -59,10 +61,10 @@ const routes = [
 			{ path: 'laporan', element: <LaporanPage /> },
 			{ path: 'laporan/:id', element: <DetailLaporan /> },
 
-			{ path: '/advika', element: <Advika /> },
-			{ path: '/advika/detailAdvika/:id', element: <DetailAdvika /> },
+			{ path: 'advika', element: <Advika /> },
+			{ path: 'advika/:id', element: <DetailAdvika /> },
 
-			{ path: '/tentang', element: <TentangSikam /> },
+			{ path: 'tentang', element: <TentangSikam /> },
 		],
 	},
 	{
@@ -83,6 +85,7 @@ const routes = [
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <BandingUkt /> },
+					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
 
 					// Profil
 					{ path: 'profil', element: <ProfilePage /> },
@@ -109,12 +112,13 @@ const routes = [
 
 					// Banding UKT
 					{ path: 'banding-ukt', element: <AdminBandingUKTPage /> },
-					{ path: 'banding-ukt/:id', element: <DetailBandingUKT /> },
+					{ path: 'banding-ukt/:id', element: <AdminDetailBandingUKT /> },
 
 					// Advika
 					{ path: 'advika', element: <AdminAdvika /> },
-					{ path: 'advika/detailAdvika/:id', element: <AdminDetailAdvika /> },
-					{ path: 'advika/editAdvika/:id', element: <EditAdvika /> },
+					{ path: 'buat-advika', element: <BuatAdvika /> },
+					{ path: 'advika/:id', element: <AdminDetailAdvika /> },
+					{ path: 'advika/:id/edit', element: <AdminEditAdvika /> },
 
 					// Profil
 					{ path: 'profil', element: <ProfilePage /> },

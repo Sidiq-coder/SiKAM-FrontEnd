@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { schema } from './schema';
 import { toast } from 'react-toastify';
 import { GraduationCap, KeyRound } from 'lucide-react';
@@ -13,8 +12,6 @@ import { useEffect } from 'react';
 
 const Login = () => {
 	const { login, isLoading, error, clearError } = useAuth();
-
-	const navigate = useNavigate();
 
 	const {
 		register,
@@ -32,11 +29,6 @@ const Login = () => {
 			if (result?.data?.success) {
 				toast.success(result?.data?.message);
 				clearError();
-				if (data.identifier === 'admin@gmail.com') {
-					navigate('/admin');
-				} else {
-					navigate('/');
-				}
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan saat masuk');

@@ -40,6 +40,7 @@ const useAdminStore = create((set, get) => ({
 		set({ isLoading: true, error: null });
 		try {
 			const response = await adminAPI.createAdmin(data);
+			set({ refresh: get().refresh + 1 });
 			return { success: true, data: response };
 		} catch (error) {
 			const errorMessage = error.response?.data?.message || 'Create admin failed';

@@ -123,6 +123,11 @@ const SelectField = ({
 		return option ? option.label : value;
 	};
 
+	const getSelectedIcon = (value) => {
+		const option = options.find((opt) => opt.value === value);
+		return option ? option.icon : Globe;
+	};
+
 	const getDisplayValue = () => {
 		if (multiple) {
 			return selectedValues.length > 0 ? `${selectedValues.length} item dipilih` : placeholder;
@@ -152,8 +157,11 @@ const SelectField = ({
 						{multiple && selectedValues.length > 0 ? (
 							selectedValues.map((value) => (
 								<span key={value} className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-dark font-medium">
-									{name === 'kategoriLaporan' && <span>#</span>}
-									{name === 'tingkatLaporan' && <Globe className="w-4 h-4 mr-1" />}
+									{name === 'category' && <span>#</span>}
+									{(() => {
+										const Icon = getSelectedIcon(value);
+										return name === 'report_level' && Icon && <Icon className="w-4 h-4 mr-1" />;
+									})()}
 									{getSelectedLabel(value)}
 									<button
 										type="button"
@@ -171,7 +179,10 @@ const SelectField = ({
 							<>
 								<span className="inline-flex items-center px-5 py-2 rounded-xl text-sm bg-[#C9CEFF] text-dark font-medium">
 									{name === 'category' && <span>#</span>}
-									{name === 'report_level' && <Globe className="w-4 h-4 mr-1" />}
+									{(() => {
+										const Icon = getSelectedIcon(selectedValues);
+										return name === 'report_level' && Icon && <Icon className="w-4 h-4 mr-1" />;
+									})()}
 									{getSelectedLabel(selectedValues)}
 								</span>
 								<button
@@ -208,7 +219,11 @@ const SelectField = ({
 							>
 								{multiple && <input type="checkbox" checked={selectedValues.includes(option.value)} onChange={() => {}} className="mr-3 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />}
 								<span className="flex items-center">
-									{option.icon && <span className="mr-2">{option.icon}</span>}
+									{option.icon && (
+										<span className="mr-2">
+											<option.icon className="w-4 h-4" />
+										</span>
+									)}
 									{option.label}
 								</span>
 							</div>

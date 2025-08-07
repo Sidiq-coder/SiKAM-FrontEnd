@@ -28,6 +28,12 @@ const useReportStore = create((set, get) => ({
 		ukt_appeal: 0,
 		financial: 0,
 	},
+	totalPerStatus: {
+		pending: 0,
+		under_review: 0,
+		responded: 0,
+		rejected: 0,
+	},
 
 	// Actions
 	setActiveTab: (activeTab) => {
@@ -47,7 +53,7 @@ const useReportStore = create((set, get) => ({
 	getAdminReports: async (filters = {}) => {
 		try {
 			const response = await reportsAPI.getAdminReports(filters);
-			set({ reports: response.data, pagination: response.pagination });
+			set({ reports: response.data, pagination: response.pagination, totalPerCategory: response.total_per_category, totalPerStatus: response.total_per_status });
 		} catch (error) {
 			set({ reports: [] });
 			console.error('Get reports error:', error);
@@ -67,7 +73,7 @@ const useReportStore = create((set, get) => ({
 	getMyReports: async (filters = {}) => {
 		try {
 			const response = await reportsAPI.getMyReports(filters);
-			set({ reports: response.data });
+			set({ reports: response.data, pagination: response.pagination, totalPerCategory: response.total_per_category });
 		} catch (error) {
 			set({ reports: [] });
 			console.error('Get my reports error:', error);

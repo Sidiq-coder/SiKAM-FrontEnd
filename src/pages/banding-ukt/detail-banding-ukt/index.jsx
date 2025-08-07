@@ -1,30 +1,30 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ChevronLeft, FileText, MessageSquareText, ChevronDown, Trash2 } from 'lucide-react';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { ChevronLeft, FileText, MessageSquareText, User, XCircle } from 'lucide-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Modal } from '@/components/modal';
-import SubmitButton from '@/components/submit-button';
 import Button from '@/components/button';
 import useUktAppealStore from '@/stores/useUktAppealStore';
 import dayjs from 'dayjs';
-import { getUktAppealsStatus, uktAppealsStatusOptions } from '@/utils/ukt-appeals';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { updateAppealStatusSchema } from './schema';
+import { getUktAppealsStatus } from '@/utils/ukt-appeals';
 import { toast } from 'react-toastify';
+import { formatDateToShortIndonesian } from '@/utils/date';
+import useProfilStore from '@/stores/useProfilStore';
 
 const DeleteBandingUktModal = ({ id, openModal, closeModal }) => {
 	const navigate = useNavigate();
-	const { deleteAdminUktAppeal, clearError } = useUktAppealStore();
+	const { deleteUktAppeal, clearError } = useUktAppealStore();
+	const { setProfilMenu } = useProfilStore();
 
 	const handleDeleteUktAppeal = async () => {
 		try {
-			const result = await deleteAdminUktAppeal(id);
+			const result = await deleteUktAppeal(id);
 
 			if (result?.data?.success) {
 				closeModal();
 				clearError();
 				toast.success(result?.data?.message);
-				navigate('/admin/banding-ukt');
+				setProfilMenu('banding');
+				navigate('/profil');
 			}
 		} catch (error) {
 			toast.error('Terjadi kesalahan!');
@@ -36,55 +36,26 @@ const DeleteBandingUktModal = ({ id, openModal, closeModal }) => {
 		<Modal isOpen={openModal} onClose={closeModal} size="md">
 			<div className="flex flex-col items-center text-center md:pt-10">
 				<img src="/images/trash.png" alt="trash.png" className="w-30" />
-				<h2 className="text-2xl text-dark font-semibold mt-10">Hapus data ini?</h2>
+				<h2 className="text-2xl text-dark font-semibold mt-10">Batalkan banding?</h2>
 				<p className="text-[#6C757D] mt-2">Tindakan ini akan menghapus data secara permanen dari sistem. Anda tidak dapat mengembalikannya.</p>
 			</div>
 			<div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-10 pb-4">
 				<Button variant="secondary" label="Batal" size="large" onClick={closeModal} />
-				<Button variant="danger" label="Hapus" size="large" onClick={handleDeleteUktAppeal} />
+				<Button variant="danger" label="Batalkan" size="large" onClick={handleDeleteUktAppeal} />
 			</div>
 		</Modal>
 	);
 };
 
 export default function DetailBandingUKT() {
+	const navigate = useNavigate();
 	const { id } = useParams();
-	const { uktAppeal, getAdminUktAppeal, updateAppealStatus, error, clearError, isLoading, refresh } = useUktAppealStore();
-
-	const {
-		register,
-		handleSubmit,
-		setValue,
-		reset,
-		formState: { isValid, isSubmitting },
-	} = useForm({
-		resolver: zodResolver(updateAppealStatusSchema),
-		mode: 'onChange',
-	});
-
-	const onSubmit = async (data) => {
-		try {
-			data.id = id;
-			const result = await updateAppealStatus(data);
-
-			if (result?.data?.success) {
-				toast.success(result?.data?.message);
-				clearError();
-			}
-		} catch (error) {
-			toast.error('Terjadi kesalahan');
-			console.error('error:', error);
-		}
-	};
+	const { uktAppeal, getUktAppeal, error, clearError, refresh } = useUktAppealStore();
+	const { setProfilMenu } = useProfilStore();
 
 	const [status, setStatus] = useState('');
 	const [isOpen, setIsOpen] = useState(false);
 	const [deleteModal, setDeleteModal] = useState(false);
-
-	const changeStatus = (newStatus) => {
-		setStatus(newStatus);
-		setIsOpen(false);
-	};
 
 	const uktAppealStatus = useMemo(() => {
 		return getUktAppealsStatus(status);
@@ -92,7 +63,7 @@ export default function DetailBandingUKT() {
 
 	useEffect(() => {
 		const fetch = async () => {
-			await getAdminUktAppeal(id);
+			await getUktAppeal(id);
 		};
 		fetch();
 	}, [id, refresh]);
@@ -108,29 +79,20 @@ export default function DetailBandingUKT() {
 		}
 	}, [error]);
 
-	useEffect(() => {
-		if (uktAppeal) {
-			reset(
-				{
-					status: uktAppeal.status,
-					admin_note: uktAppeal.admin_note ?? '',
-				},
-				{
-					keepDefaultValues: true,
-					shouldValidate: true,
-				}
-			);
-		}
-	}, [uktAppeal, reset, refresh]);
-
 	return (
 		<div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
 			<div className="mx-auto bg-white text-dark rounded-2xl px-12 pt-8 pb-12 w-full max-w-5xl">
 				{/* Header */}
 				<div className="flex justify-between items-center mb-10">
-					<Link to="/admin/banding-ukt">
+					<div
+						className="cursor-pointer"
+						onClick={() => {
+							setProfilMenu('banding');
+							navigate('/profil');
+						}}
+					>
 						<ChevronLeft className="w-8 h-8" />
-					</Link>
+					</div>
 					<h2 className="text-3xl text-center text-dark font-bold">DETAIL BANDING UKT</h2>
 					<div></div>
 				</div>
@@ -156,27 +118,9 @@ export default function DetailBandingUKT() {
 									<button onClick={() => setIsOpen(!isOpen)} className={`flex items-center space-x-1 bg-white ${uktAppealStatus?.textColor} px-2 py-1 rounded text-sm font-medium opacity-60`}>
 										{uktAppealStatus?.icon && <uktAppealStatus.icon className="w-4 h-4" />}
 										<span>{uktAppealStatus?.label}</span>
-										<ChevronDown className={`w-6 h-6 ${uktAppealStatus?.textColor}`} />
 									</button>
-									{isOpen && (
-										<div className="absolute mt-1 bg-white border border-gray-300 rounded-md shadow-lg z-10 w-32">
-											{uktAppealsStatusOptions.map((opt) => (
-												<button
-													key={opt.value}
-													onClick={() => {
-														changeStatus(opt.value);
-														setValue('status', opt.value);
-													}}
-													className={`block w-full text-left px-3 py-2 text-sm hover:bg-blue-50 ${status === opt.value ? `${uktAppealStatus?.textColor} font-medium` : 'text-dark'}`}
-												>
-													{getUktAppealsStatus(opt.value)?.label}
-												</button>
-											))}
-										</div>
-									)}
 								</div>
 							</td>
-							<td className="hidden sm:inline px-2 opacity-60">ubah status banding ukt</td>
 						</tr>
 						<tr>
 							<td>Tipe Bencana</td>
@@ -185,6 +129,8 @@ export default function DetailBandingUKT() {
 						</tr>
 					</tbody>
 				</table>
+
+				<Button variant="danger" icon={<XCircle className="w-4 h-4" />} label="Batalkan Banding" onClick={() => setDeleteModal(true)} className="mb-6" />
 
 				{/* Semester */}
 				<div className="mb-6">
@@ -243,27 +189,31 @@ export default function DetailBandingUKT() {
 					</div>
 				</div>
 
-				{/* Tanggapi */}
-				<div className="mb-6">
-					<label className="flex items-center space-x-2 mb-2 text-dark">
-						<MessageSquareText className="w-5 h-5" />
-						<span>Tanggapi</span>
-					</label>
-					<textarea
-						placeholder="Tulis tanggapan terhadap Banding ini"
-						className="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-						rows="3"
-						{...register('admin_note')}
-					></textarea>
-				</div>
+				{uktAppealStatus?.value !== 'pending' && (
+					<>
+						<div className="flex items-center space-x-2 mb-2 text-dark">
+							<MessageSquareText className="w-5 h-5" />
+							<span>Tanggapan</span>
+						</div>
 
-				<div className="flex flex-wrap items-center justify-end gap-4">
-					{/* Hapus Banding */}
-					<Button variant="danger" icon={<Trash2 className="w-4 h-4" />} label="Hapus Banding" onClick={() => setDeleteModal(true)} />
-
-					{/* Submit Button */}
-					<SubmitButton label="Ubah Status" loadingLabel="Ubah..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
-				</div>
+						<div className={`px-7 pt-4 pb-14 rounded-lg ${uktAppealStatus?.bgColor}`}>
+							{uktAppeal?.admin_note && (
+								<>
+									<div className="flex flex-wrap justify-between items-center gap-4">
+										<div className="flex flex-wrap items-center gap-4">
+											<div className="bg-main-primary inline-flex items-center justify-center p-2 rounded-full">
+												<User className="w-8 h-8 text-white" />
+											</div>
+											<h2 className={`text-xl text-main-primary font-semibold`}>{uktAppeal?.admins?.name ?? 'Admin'}</h2>
+										</div>
+										<p className="text-[#0B4D9B99]">{uktAppeal?.submitted_at && formatDateToShortIndonesian(uktAppeal?.submitted_at)}</p>
+									</div>
+									<p className="text-dark mt-5">{uktAppeal?.admin_note}</p>
+								</>
+							)}
+						</div>
+					</>
+				)}
 			</div>
 
 			<DeleteBandingUktModal id={uktAppeal?.id} openModal={deleteModal} closeModal={() => setDeleteModal(false)} />

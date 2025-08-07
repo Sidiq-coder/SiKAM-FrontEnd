@@ -25,7 +25,7 @@ export const TambahAdminModal = ({ isOpen, closeModal }) => {
 	const onSubmit = async (data) => {
 		try {
 			delete data.confirmPassword;
-			data.role = 'reviewer';
+			data.role = 'admin';
 			const result = await createAdmin(data);
 
 			if (result?.data?.success) {

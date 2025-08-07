@@ -14,7 +14,6 @@ import Pagination from '@/components/pagination';
 
 import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
-import useFilteredReports from '@/hooks/useFilteredReports';
 
 import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
@@ -97,12 +96,7 @@ const MobileControls = ({ onFilter, onAjuLaporan }) => (
 const LaporanPage = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	const { getReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination, totalPerCategory, error, clearError } = useReportStore();
-	const { filteredReports } = useFilteredReports({
-		reports,
-		user,
-		activeTab,
-	});
+	const { getReports, getMyReports, reports, activeTab, setActiveTab, tabOptions, refresh, pagination, totalPerCategory, error, clearError } = useReportStore();
 
 	// State
 	const [selectedFilter, setSelectedFilter] = useState(FILTER_OPTIONS.TERBARU);
@@ -152,10 +146,11 @@ const LaporanPage = () => {
 			if (category) query.category = category;
 			if (status) query.status = status;
 
-			getReports(query);
+			if (activeTab === 'semua') getReports(query);
+			if (activeTab === 'laporan-saya') getMyReports(query);
 			setCurrentPage(newPage);
 		},
-		[selectedFilter, category, status]
+		[selectedFilter, category, status, activeTab]
 	);
 
 	const handleCategoryClick = useCallback((categoryValue) => {
@@ -191,9 +186,10 @@ const LaporanPage = () => {
 		if (category) query.category = category;
 		if (status) query.status = status;
 
-		getReports(query);
+		if (activeTab === 'semua') getReports(query);
+		if (activeTab === 'laporan-saya') getMyReports(query);
 		setCurrentPage(1); // Reset to first page when filters change
-	}, [refresh, selectedFilter, category, status]);
+	}, [refresh, selectedFilter, category, status, activeTab]);
 
 	useEffect(() => {
 		if (error) {
@@ -220,10 +216,10 @@ const LaporanPage = () => {
 					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
 
 					{/* Reports List */}
-					<ReportList reports={filteredReports} />
+					<ReportList reports={reports} />
 
 					{/* Pagination */}
-					{filteredReports?.length > 0 && <Pagination className="mt-8" currentPage={currentPage} totalPages={pagination.total_pages} onPageChange={handlePageChange} />}
+					{reports?.length > 0 && <Pagination className="mt-8" currentPage={currentPage} totalPages={pagination.total_pages} onPageChange={handlePageChange} />}
 				</div>
 
 				{/* Sidebar */}

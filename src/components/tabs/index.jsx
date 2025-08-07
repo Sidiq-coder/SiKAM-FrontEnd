@@ -4,7 +4,9 @@ const Tabs = ({ tabs, activeTab, onTabChange, data = null, className = '', gap =
 			{tabs.map((tab) => {
 				const isActive = activeTab === tab.value;
 
-				const count = !data ? 0 : tab.value === 'semua' ? data.length : data.filter((item) => item.status.toLowerCase() === tab.value.toLowerCase()).length;
+				// const count = !data ? 0 : tab.value === 'semua' ? data.length : data.filter((item) => item.status.toLowerCase() === tab.value.toLowerCase()).length;
+
+				const count = !data ? 0 : tab.value === 'semua' ? Object.values(data).reduce((total, num) => total + num, 0) : data[tab.value] || 0;
 
 				return (
 					<div key={tab.value} className="flex gap-x-2">

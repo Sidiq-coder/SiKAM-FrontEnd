@@ -26,6 +26,7 @@ import Button from '@/components/button';
 
 // Hooks
 import useSearchHandler from '@/hooks/useSearchHandler';
+import useAuth from '@/hooks/useAuth';
 
 // Stores
 import useAdminStore from '@/stores/useAdminStore';
@@ -33,7 +34,7 @@ import useStudentStore from '@/stores/useStudentStore';
 import { useDetailAkunStore } from './detail-akun/stores/useDetailAkunStore';
 
 // Utils
-import { studentStatuses } from '@/utils/users';
+import { studentStatuses, userRole } from '@/utils/users';
 
 // Components
 import { DeleteAdminModal, TambahAdminModal } from './components/Modal';
@@ -41,11 +42,6 @@ import { create } from 'zustand';
 
 // Constants
 const ITEMS_PER_PAGE = 10;
-
-const TABS = [
-	{ label: 'Mahasiswa', value: 'mahasiswa' },
-	{ label: 'Admin', value: 'admin' },
-];
 
 // Stores
 const useKelolaAkunStore = create((set, get) => ({
@@ -144,7 +140,7 @@ const KelolaAkunPage = () => {
 	const navigate = useNavigate();
 
 	// Store hooks
-	const { admins, getAdmins, error: adminError, clearError: clearAdminError, pagination: paginationAdmin } = useAdminStore();
+	const { admins, getAdmins, error: adminError, clearError: clearAdminError, pagination: paginationAdmin, refresh: refreshAdmin } = useAdminStore();
 
 	const { students, getAllStudents, error: studentError, clearError: clearStudentError, pagination: paginationStudent } = useStudentStore();
 
@@ -152,7 +148,14 @@ const KelolaAkunPage = () => {
 
 	const { isOpenDeleteModal, setOpenDeleteModal, adminId, sort, toggleSort } = useKelolaAkunStore();
 
+	const { user } = useAuth();
+
 	// Table columns configuration
+	const TABS = [
+		{ label: 'Mahasiswa', value: 'mahasiswa', show: true },
+		{ label: 'Admin', value: 'admin', show: user?.role === userRole.SUPERADMIN },
+	];
+
 	const STUDENT_COLUMNS = [
 		{
 			field: 'created_at',
@@ -255,7 +258,7 @@ const KelolaAkunPage = () => {
 	const handleCloseTambahModal = useCallback(() => setOpenTambahModal(false), []);
 
 	// Computed values
-	const columns = useMemo(() => (activeTab === 'admin' ? ADMIN_COLUMNS : STUDENT_COLUMNS), [activeTab]);
+	const columns = useMemo(() => (activeTab === 'admin' && user?.role === userRole.SUPERADMIN ? ADMIN_COLUMNS : STUDENT_COLUMNS), [activeTab]);
 
 	const currentData = useMemo(() => {
 		if (activeTab === 'admin') return admins || [];
@@ -305,7 +308,7 @@ const KelolaAkunPage = () => {
 
 		getAdmins(query);
 		setCurrentPageAdmin(1);
-	}, [searchQueryAdmin]);
+	}, [searchQueryAdmin, refreshAdmin]);
 
 	// Error handling
 	useEffect(() => {
@@ -341,7 +344,7 @@ const KelolaAkunPage = () => {
 					<div className="flex-1">
 						{/* Controls */}
 						<div className="flex flex-wrap flex-col lg:flex-row lg:items-center lg:justify-between gap-x-10 gap-y-4 mb-6">
-							<Tabs tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} gap={12} textSize="xl" />
+							<Tabs tabs={TABS.filter((tab) => tab.show)} activeTab={activeTab} onTabChange={setActiveTab} gap={12} textSize="xl" />
 
 							<div className="flex-1">
 								<InputField
@@ -381,7 +384,7 @@ const KelolaAkunPage = () => {
 					{/* Right Sidebar */}
 					<aside className="w-full max-w-50 hidden lg:block">
 						{activeTab === 'mahasiswa' ? (
-							<StatusFilter statusList={studentStatuses} onStatusClick={(status) => setStatus(status)} />
+							<StatusFilter statusList={studentStatuses} onStatusClick={(status) => setStatus((prev) => (prev === status ? null : status))} activeStatus={status} />
 						) : (
 							<Button variant="primary" label="Tambah Admin" size="md" className="w-full" icon={<Plus className="w-4 h-4" />} iconPosition="right" onClick={handleOpenTambahModal} />
 						)}

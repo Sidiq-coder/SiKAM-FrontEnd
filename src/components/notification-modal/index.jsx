@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { formatDateToShortIndonesian, timeAgo } from '@/utils/date';
 import dayjs from 'dayjs';
+import { userRole } from '../../utils/users';
 
 const NotificationItem = ({ item }) => {
 	return (
@@ -117,7 +118,7 @@ const NotificationList = () => {
 					className="bg-main-primary text-white text-sm px-4 py-2 rounded-md cursor-pointer"
 					onClick={() => {
 						setOpenModal(false);
-						if (user?.role !== 'superadmin') {
+						if (user?.role !== userRole.SUPERADMIN && user?.role !== userRole.ADMIN) {
 							setProfilMenu('notifikasi');
 							navigate('/profil');
 						} else {
