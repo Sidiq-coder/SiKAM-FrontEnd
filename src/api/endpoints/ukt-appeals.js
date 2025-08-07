@@ -92,6 +92,11 @@ export const uktAppealsAPI = {
 		return response.data;
 	},
 
+	getStatusUktAppeal: async () => {
+		const response = await apiClient.get(`${baseURL}/status`);
+		return response.data;
+	},
+
 	toggleStatusUktAppeal: async () => {
 		const response = await apiClient.post(`${adminUktURL}/status`);
 		return response.data;
@@ -109,6 +114,11 @@ export const uktAppealsAPI = {
 
 	deleteAdminUktAppeal: async (id) => {
 		const response = await apiClient.delete(`${adminUktURL}/appeals/${id}`);
+		return response.data;
+	},
+
+	getAppealStatusList: async ({ take }) => {
+		const response = await apiClient.get(`${adminUktURL}/status-list`, { params: { take } });
 		return response.data;
 	},
 };

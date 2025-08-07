@@ -10,17 +10,17 @@ import AjuLaporan from '@/pages/laporan/aju-laporan';
 import RegistrasiUlang from '@/pages/registrasi-ulang';
 import Advika from '@/pages/advika';
 import DetailAdvika from '@/pages/advika/detail-advika';
-import AdminAdvika from '@/pages/adminPages/advika';
-import AdminEditAdvika from '@/pages/adminPages/advika/edit-advika';
-import AdminDetailAdvika from '@/pages/adminPages/advika/detail-advika';
+import AdminAdvika from '@/pages/admin/advika';
+import AdminEditAdvika from '@/pages/admin/advika/edit-advika';
+import AdminDetailAdvika from '@/pages/admin/advika/detail-advika';
 import ProfilePage from '@/pages/profil';
-import AdminLaporanPage from '@/pages/adminPages/laporan';
+import AdminLaporanPage from '@/pages/admin/laporan';
 import AdminGuard from './admin-guard';
-import AdminDetailLaporanPage from '@/pages/adminPages/laporan/detail-laporan';
-import KelolaAkunPage from '@/pages/adminPages/kelola-akun';
-import DetailAkunPage from '@/pages/adminPages/kelola-akun/detail-akun';
-import AdminBandingUKTPage from '@/pages/adminPages/banding-ukt';
-import AdminDetailBandingUKT from '@/pages/adminPages/banding-ukt/detail-banding-ukt';
+import AdminDetailLaporanPage from '@/pages/admin/laporan/detail-laporan';
+import KelolaAkunPage from '@/pages/admin/kelola-akun';
+import DetailAkunPage from '@/pages/admin/kelola-akun/detail-akun';
+import AdminBandingUKTPage from '@/pages/admin/banding-ukt';
+import AdminDetailBandingUKT from '@/pages/admin/banding-ukt/detail-banding-ukt';
 import TentangSikam from '@/pages/tentang-sikam';
 import ResetPassword from '@/pages/reset-password';
 import VerifikasiOTP from '@/pages/verifikasi-otp';
@@ -30,7 +30,7 @@ import GuestGuard from './guest-guard';
 import LupaPasswordPage from '@/pages/lupa-password';
 import NotFoundPage from '@/pages/not-found';
 import DetailBandingUKT from '@/pages/banding-ukt/detail-banding-ukt';
-import BuatAdvika from '@/pages/adminPages/buat-advika';
+import BuatAdvika from '@/pages/admin/buat-advika';
 
 const routes = [
 	// Auth Routes
