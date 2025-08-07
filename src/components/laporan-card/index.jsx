@@ -10,7 +10,7 @@ import FileImageComponent from '@/components/file-image';
 import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo, formatDateToShortIndonesian } from '@/utils/date';
 import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/reports';
-import UpdateStatusForm from '@/pages/adminPages/laporan/detail-laporan/update-status-form';
+import UpdateStatusForm from '@/pages/admin/laporan/detail-laporan/update-status-form';
 import useAuthStore from '@/stores/useAuthStore';
 import useReportStore from '@/stores/useReportStore';
 

@@ -4,17 +4,21 @@ import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
 import InputField from '@/components/input-field';
 import BandingUKTCard from '@/components/banding-ukt-card';
-// import { usePeriodStore } from '@/components/zustand/period-banding-ukt/usePeriodStore';
 import useUktAppealStore from '@/stores/useUktAppealStore';
 import { toast } from 'react-toastify';
 import useSearchHandler from '@/hooks/useSearchHandler';
 
-const logs = [
-	{ no: 1, date: '12 Jul 2025, 10:32', admin: 'admin1', action: 'Mengaktifkan fitur' },
-	{ no: 2, date: '30 Jun 2025, 17:04', admin: 'admin2', action: 'Menonaktifkan fitur' },
-	{ no: 3, date: '29 Aug 2025, 15:04', admin: 'admin7', action: 'Mengaktifkan fitur' },
-	{ no: 4, date: '31 Aug 2025, 12:04', admin: 'admin2', action: 'Menonaktifkan fitur' },
-];
+// Dayjs
+import dayjs from 'dayjs';
+import 'dayjs/locale/id'; // Bahasa Indonesia
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(localizedFormat);
+dayjs.locale('id'); // atur bahasa ke Indonesia
 
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
@@ -27,14 +31,12 @@ const tabOptions = [
 const ITEMS_PER_PAGE = 10;
 
 const AdminBandingUKTPage = () => {
-	const { uktAppeals, getAdminUktAppeals, error, clearError, pagination, toggleStatusUktAppeal, isPeriodOpen, totalPerStatus } = useUktAppealStore();
+	const { uktAppeals, getAdminUktAppeals, error, clearError, pagination, toggleStatusUktAppeal, isPeriodOpen, totalPerStatus, getStatusUktAppeal, getAppealStatusList, statusList } =
+		useUktAppealStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [searchQuery, setSearchQuery] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
-
-	// const isPeriodOpen = usePeriodStore((state) => state.isPeriodOpen);
-	// const togglePeriod = usePeriodStore((state) => state.togglePeriod);
 
 	// Filtering by name
 	const filteredUktAppeals = useMemo(() => {
@@ -61,7 +63,7 @@ const AdminBandingUKTPage = () => {
 	const handlToggleStatusUktAppeal = async () => {
 		try {
 			const result = await toggleStatusUktAppeal();
-			if (result?.data?.status) {
+			if (result?.data?.success) {
 				toast.success(result?.data?.message);
 				clearError();
 			}
@@ -80,6 +82,14 @@ const AdminBandingUKTPage = () => {
 		getAdminUktAppeals(query);
 		setCurrentPage(1);
 	}, [activeTab, searchQuery]);
+
+	useEffect(() => {
+		getAppealStatusList({ take: 10 });
+	}, [isPeriodOpen]);
+
+	useEffect(() => {
+		getStatusUktAppeal();
+	}, []);
 
 	useEffect(() => {
 		if (error) {
@@ -153,14 +163,22 @@ const AdminBandingUKTPage = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{logs.map((log) => (
-										<tr key={log.no} className="border-b border-gray-200 hover:bg-gray-50 transition">
-											<td className="py-2 px-2">{log.no}</td>
-											<td className="py-2 px-2">{log.date}</td>
-											<td className="py-2 px-2">{log.admin}</td>
-											<td className="py-2 px-2">{log.action}</td>
+									{statusList.length === 0 ? (
+										<tr>
+											<td colSpan="4" className="text-center py-4 text-gray-500">
+												Tidak ada data
+											</td>
 										</tr>
-									))}
+									) : (
+										statusList.map((log, idx) => (
+											<tr key={log.id} className="border-b border-gray-200 hover:bg-gray-50 transition">
+												<td className="py-2 px-2">{idx + 1}</td>
+												<td className="py-2 px-2">{dayjs.utc(log.updated_at).tz('Asia/Jakarta').format('DD MMM YYYY, HH:mm')}</td>
+												<td className="py-2 px-2">{log.admins.name}</td>
+												<td className="py-2 px-2">{log.is_active ? 'Mengaktifkan fitur' : 'Menonaktifkan fitur'}</td>
+											</tr>
+										))
+									)}
 								</tbody>
 							</table>
 						</div>
