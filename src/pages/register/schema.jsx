@@ -17,12 +17,12 @@ export const schema = z
 
 		ktm: z
 			.any()
-			.refine((files) => files?.length > 0, 'Foto KTM wajib diupload')
+			.refine((file) => file !== null, 'Foto KTM wajib diupload')
 			.refine(
-				(files) => files?.[0]?.size <= 5000000, // 5MB
+				(file) => file?.size <= 5000000, // 5MB
 				'Ukuran file maksimal 5MB'
 			)
-			.refine((files) => ['image/jpeg', 'image/jpg', 'image/png'].includes(files?.[0]?.type), 'Format file harus JPG, JPEG, atau PNG'),
+			.refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file?.type), 'Format file harus JPG, JPEG, atau PNG'),
 	})
 	.refine((data) => data.password === data.confirmPassword, {
 		message: 'Password dan konfirmasi password tidak sama',

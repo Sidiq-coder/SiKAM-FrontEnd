@@ -52,7 +52,7 @@ const FileUploadDropzone = ({
 			};
 
 			setUploadedFile(newFile);
-			if (setValue) setValue(name, [file]);
+			if (setValue) setValue(name, file);
 			if (trigger) trigger(name);
 			toast.success('File berhasil diupload');
 		},

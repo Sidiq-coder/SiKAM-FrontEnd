@@ -118,7 +118,7 @@ const UpdateStatusForm = () => {
 					label="Simpan"
 					loadingLabel="Simpan..."
 					isValid={isValid}
-					isSubmitting={isSubmitting | isLoading}
+					isSubmitting={isSubmitting || isLoading}
 					onSubmit={handleSubmit(onSubmit)}
 					icon={<Check className="w-4 h-4" />}
 					iconPosition="right"

@@ -9,8 +9,8 @@ export const reportsAPI = {
 		return response.data;
 	},
 
-	getAdminReports: async ({ search, page, itemPerPage, sort, status, category }) => {
-		const response = await apiClient.get(adminURL, { params: { search, page, itemPerPage, sort, status, category } });
+	getAdminReports: async ({ search, page, itemPerPage, sort, status, category, studentId }) => {
+		const response = await apiClient.get(adminURL, { params: { search, page, itemPerPage, sort, status, category, studentId } });
 		return response.data;
 	},
 
@@ -23,8 +23,8 @@ export const reportsAPI = {
 		formData.append('report_level', data.report_level);
 		formData.append('isAnonymous', data.isAnonymous);
 
-		if (data.file && data.file[0]) {
-			formData.append('file', data.file[0]);
+		if (data.file) {
+			formData.append('file', data.file);
 		}
 
 		const response = await apiClient.post(baseURL, formData, {
@@ -50,8 +50,8 @@ export const reportsAPI = {
 		formData.append('report_level', data.report_level);
 		formData.append('isAnonymous', data.isAnonymous);
 
-		if (data.file && data.file[0]) {
-			formData.append('file', data.file[0]);
+		if (data.file) {
+			formData.append('file', data.file);
 		}
 
 		const response = await apiClient.patch(`${baseURL}/${id}`, formData, {

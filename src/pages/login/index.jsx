@@ -61,7 +61,7 @@ const Login = () => {
 				<RedirectLink sourceLabel="Belum memiliki akun?" targetLabel="Daftar" href="/register" />
 
 				{/* Submit Button */}
-				<SubmitButton label="Masuk" loadingLabel="Masuk..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Masuk" loadingLabel="Masuk..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);

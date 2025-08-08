@@ -50,11 +50,11 @@ export default function BuatAdvika() {
 	};
 
 	const handleCoverChange = (file) => {
-		if (file && file.type.startsWith('image/')) {
+		if (file && ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
 			setValue('cover', file);
 			setImagePreview(URL.createObjectURL(file));
 		} else {
-			toast.error('Please upload a valid image file.');
+			toast.error('Silakan unggah file gambar yang berformat JPG, JPEG, atau PNG.');
 		}
 	};
 
@@ -63,7 +63,7 @@ export default function BuatAdvika() {
 			setValue('attachment', file);
 			setPdfFile(file);
 		} else {
-			toast.error('Please upload a valid PDF file.');
+			toast.error('Silakan unggah file lampiran yang valid.');
 		}
 	};
 
@@ -230,7 +230,7 @@ export default function BuatAdvika() {
 									<label className="bg-yellow text-white px-4 py-2 rounded-md cursor-pointer flex items-center gap-2">
 										<Image size={16} />
 										Ubah Gambar
-										<input type="file" accept="image/*" onChange={(e) => handleCoverChange(e.target.files[0])} className="hidden" />
+										<input type="file" accept=".jpg,.jpeg,.png" onChange={(e) => handleCoverChange(e.target.files[0])} className="hidden" />
 									</label>
 								</div>
 							</div>
@@ -243,7 +243,7 @@ export default function BuatAdvika() {
 									<label className="bg-yellow text-white px-4 py-2 rounded-md cursor-pointer flex items-center gap-2 mx-auto w-fit">
 										<Image size={16} />
 										Ubah Gambar
-										<input type="file" accept="image/*" onChange={(e) => handleCoverChange(e.target.files[0])} className="hidden" />
+										<input type="file" accept=".jpg,.jpeg,.png" onChange={(e) => handleCoverChange(e.target.files[0])} className="hidden" />
 									</label>
 								</div>
 							</div>

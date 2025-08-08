@@ -133,7 +133,7 @@ const FileInput = ({ label, name, error, setValue }) => {
 	const handleFileChange = (e) => {
 		if (e.target.files.length > 0) {
 			setFileName(e.target.files[0].name);
-			setValue(name, e.target.files);
+			setValue(name, e.target.files[0]);
 		}
 	};
 

@@ -28,8 +28,8 @@ export const usersAPI = {
 
 		formData.append('name', data.name);
 
-		if (data.ktm && data.ktm[0]) {
-			formData.append('ktm', data.ktm[0]);
+		if (data.ktm) {
+			formData.append('ktm', data.ktm);
 		}
 
 		const response = await apiClient.put(`${baseURL}/re-register`, formData, {

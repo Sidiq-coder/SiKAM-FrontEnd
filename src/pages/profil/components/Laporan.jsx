@@ -7,7 +7,9 @@ import useReportStore from '@/stores/useReportStore';
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
 	{ label: 'Pending', value: 'pending' },
-	{ label: 'Proses', value: 'responded' },
+	{ label: 'Ditinjau', value: 'under_review' },
+	{ label: 'Ditanggapi', value: 'responded' },
+	{ label: 'Ditolak', value: 'rejected' },
 	{ label: 'Selesai', value: 'done' },
 ];
 
@@ -15,7 +17,7 @@ const tabOptions = [
 const ITEMS_PER_PAGE = 10;
 
 const Laporan = () => {
-	const { getMyReports, reports, pagination } = useReportStore();
+	const { getMyReports, reports, pagination, totalPerStatus } = useReportStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +58,7 @@ const Laporan = () => {
 				<h1 className="text-2xl font-bold text-dark mb-6">Laporan Saya</h1>
 
 				{/* Tabs */}
-				<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={reports} className="mb-6" />
+				<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={totalPerStatus} className="mb-6" />
 
 				{/* Reports List */}
 				<div className="space-y-6">

@@ -88,6 +88,9 @@ const SortIcon = () => {
 // Delete Admin Section
 const DeleteAdminSection = ({ adminId }) => {
 	const { setOpenDeleteModal, setAdminId } = useKelolaAkunStore();
+	const { user } = useAuth();
+
+	if (user?.id === adminId) return null;
 
 	return (
 		<button
@@ -96,7 +99,7 @@ const DeleteAdminSection = ({ adminId }) => {
 				setAdminId(adminId);
 				setOpenDeleteModal(true);
 			}}
-			className="flex items-center px-2 py-1 hover:bg-red-50 rounded transition-colors"
+			className="flex items-center px-2 py-1 hover:bg-red-50 rounded transition-color cursor-pointer"
 			title="Hapus Admin"
 		>
 			<Trash className="w-5 h-5 text-red-500" />
@@ -105,15 +108,11 @@ const DeleteAdminSection = ({ adminId }) => {
 };
 
 // Stats calculation helper
-const calculateStats = (students, admins) => {
-	const waitingStudents = students?.filter((student) => student.status === 'waiting').length || 0;
-	const totalStudents = students?.length || 0;
-	const totalAdmins = admins?.length || 0;
-
+const calculateStats = (totalStudents, totalPerStatus, totalAdmins) => {
 	return [
 		{
 			title: 'Akun Menunggu',
-			value: `+${waitingStudents}`,
+			value: `+${totalPerStatus.waiting}`,
 			icon: <Clock className="w-11 h-11 text-[#FFDCAD]" />,
 			iconBg: 'bg-[#E79625]',
 			textColor: 'text-[#E79625]',
@@ -140,9 +139,9 @@ const KelolaAkunPage = () => {
 	const navigate = useNavigate();
 
 	// Store hooks
-	const { admins, getAdmins, error: adminError, clearError: clearAdminError, pagination: paginationAdmin, refresh: refreshAdmin } = useAdminStore();
+	const { admins, getAdmins, error: adminError, clearError: clearAdminError, pagination: paginationAdmin, refresh: refreshAdmin, totalAdmins } = useAdminStore();
 
-	const { students, getAllStudents, error: studentError, clearError: clearStudentError, pagination: paginationStudent } = useStudentStore();
+	const { students, getAllStudents, error: studentError, clearError: clearStudentError, pagination: paginationStudent, totalStudents, totalPerStatus } = useStudentStore();
 
 	const { setActiveMenu } = useDetailAkunStore();
 
@@ -283,7 +282,7 @@ const KelolaAkunPage = () => {
 		return students?.filter((student) => student.status === 'waiting').length || 0;
 	}, [students, activeTab]);
 
-	const stats = useMemo(() => calculateStats(students, admins), [students, admins]);
+	const stats = useMemo(() => calculateStats(totalStudents, totalPerStatus, totalAdmins), [totalStudents, totalPerStatus, totalAdmins]);
 
 	// Effects
 	useEffect(() => {

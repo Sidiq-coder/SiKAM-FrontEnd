@@ -18,7 +18,7 @@ const DataTable = ({ columns, data, onClick = null }) => {
 								<tr key={item.id || idx} className={`hover:bg-gray-50 transition-colors ${!onClick ? '' : 'cursor-pointer'}`} onClick={() => onClick?.(item.id)}>
 									{columns.map((col) => (
 										<td key={`${col.field}-${col.label}`} className="py-4 px-6 text-sm text-dark">
-											{col.render ? col.render(item) : item[col.field]}
+											{col.render ? col.render(item) : item[col.field] ?? '-'}
 										</td>
 									))}
 								</tr>

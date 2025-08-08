@@ -51,7 +51,7 @@ const BaseLayout = () => {
 				</div>
 
 				{/* Main Content */}
-				<section>
+				<section className="min-h-screen">
 					<Outlet />
 				</section>
 

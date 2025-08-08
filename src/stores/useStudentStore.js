@@ -14,12 +14,18 @@ const useStudentStore = create((set, get) => ({
 		current_page: 0,
 		items_per_page: 0,
 	},
+	totalStudents: 0,
+	totalPerStatus: {
+		waiting: 0,
+		verified: 0,
+		not_verified: 0,
+	},
 
 	// Actions
 	getAllStudents: async (filters = {}) => {
 		try {
 			const response = await studentAPI.getAllStudents(filters);
-			set({ students: response.data, pagination: response.pagination });
+			set({ students: response.data, pagination: response.pagination, totalStudents: response.total_students, totalPerStatus: response.total_per_status });
 		} catch (error) {
 			set({ students: [] });
 			console.error('Get students error:', error);

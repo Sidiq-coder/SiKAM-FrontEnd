@@ -45,7 +45,11 @@ const BandingUktItem = ({ data }) => {
 				</div>
 			</div>
 			<div className="text-center font-medium text-sm">
-				[ <span className="underline cursor-pointer hover:text-main-primary transition">Lihat Detail</span> ]
+				[{' '}
+				<a href={`/admin/banding-ukt/${data.id}`} className="underline cursor-pointer hover:text-main-primary transition">
+					Lihat Detail
+				</a>{' '}
+				]
 			</div>
 		</div>
 	);

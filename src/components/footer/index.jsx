@@ -4,8 +4,10 @@ const Footer = () => {
 	return (
 		<div className="flex flex-wrap gap-x-[100px] gap-y-20">
 			<Link to="/">
-				<div className="flex flex-wrap items-center space-x-2 mb-4">
+				<div className="flex items-center gap-2 mb-4">
 					<img className="w-8" src="/images/bem.png" alt="logo-bem" />
+					<img className="w-8" src="/images/logo-himakom.png" alt="logo-himakom" />
+					<img className="w-8" src="/images/logo-gradien.png" alt="logo-gradien" />
 					<span className="text-2xl font-bold">SIKAM</span>
 				</div>
 			</Link>

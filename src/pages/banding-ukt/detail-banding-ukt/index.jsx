@@ -130,7 +130,7 @@ export default function DetailBandingUKT() {
 					</tbody>
 				</table>
 
-				<Button variant="danger" icon={<XCircle className="w-4 h-4" />} label="Batalkan Banding" onClick={() => setDeleteModal(true)} className="mb-6" />
+				{uktAppealStatus?.value === 'pending' && <Button variant="danger" icon={<XCircle className="w-4 h-4" />} label="Batalkan Banding" onClick={() => setDeleteModal(true)} className="mb-6" />}
 
 				{/* Semester */}
 				<div className="mb-6">

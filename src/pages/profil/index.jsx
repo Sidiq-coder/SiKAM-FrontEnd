@@ -104,33 +104,29 @@ const Profil = () => {
 	const isVerified = userStatus?.value !== studentsStatus.NOT_VERIFIED;
 
 	return (
-		<div className="bg-white max-w-2xl">
+		<div className="bg-white w-full">
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex items-center gap-x-8">
 					<h1 className="text-2xl font-bold text-dark">Profil</h1>
 					{userStatus && (
-						<div
-							className={`flex items-center gap-x-1 ${isVerified ? '' : 'cursor-pointer'}`}
-							onClick={() => {
-								if (!isVerified) {
-									window.location.href = '/registrasi-ulang';
-								}
-							}}
-						>
+						<div className="flex items-center gap-x-1">
 							{<userStatus.icon className={`w-4 h-4 ${userStatus.textColor}`} />}
 							<span className={`${userStatus.textColor} text-sm font-medium`}>{userStatus.label}</span>
 						</div>
 					)}
 				</div>
-				<Button
-					variant="outline"
-					label="Edit"
-					icon={<Edit3 className="w-4 h-4" />}
-					onClick={() => {
-						setProfilMenu('edit-profil');
-						setCustomPageTitle('Edit Profil');
-					}}
-				/>
+				<div className="flex flex-wrap items-center gap-4">
+					{!isVerified && <Button variant="primary" label="Registrasi Ulang" href="/registrasi-ulang" anchor />}
+					<Button
+						variant="outline"
+						label="Edit"
+						icon={<Edit3 className="w-4 h-4" />}
+						onClick={() => {
+							setProfilMenu('edit-profil');
+							setCustomPageTitle('Edit Profil');
+						}}
+					/>
+				</div>
 			</div>
 
 			<div className="space-y-4 text-sm sm:text-base">

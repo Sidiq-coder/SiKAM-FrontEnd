@@ -10,8 +10,8 @@ export const authAPI = {
 		formData.append('campus_email', data.campus_email);
 		formData.append('password', data.password);
 
-		if (data.ktm && data.ktm[0]) {
-			formData.append('ktm', data.ktm[0]);
+		if (data.ktm) {
+			formData.append('ktm', data.ktm);
 		}
 
 		const response = await apiClient.post(`${baseURL}/register`, formData, {

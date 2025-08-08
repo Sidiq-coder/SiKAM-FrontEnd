@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import LaporanCard from '@/components/laporan-card';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
@@ -8,8 +8,9 @@ import useUserStore from '@/stores/useUserStore';
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
 	{ label: 'Pending', value: 'pending' },
-	{ label: 'Proses', value: 'responded' },
-	{ label: 'Selesai', value: 'done' },
+	{ label: 'Ditinjau', value: 'under_review' },
+	{ label: 'Ditanggapi', value: 'responded' },
+	{ label: 'Ditolak', value: 'rejected' },
 ];
 
 // Constants
@@ -17,14 +18,10 @@ const ITEMS_PER_PAGE = 10;
 
 const Laporan = () => {
 	const { student } = useUserStore();
-	const { getReports, reports, pagination } = useReportStore();
+	const { getAdminReports, reports, pagination, totalPerStatus } = useReportStore();
 
 	const [activeTab, setActiveTab] = useState('semua');
 	const [currentPage, setCurrentPage] = useState(1);
-
-	const filteredReports = useMemo(() => {
-		return reports.filter((report) => report?.students?.id === student?.id);
-	}, [reports, student?.id]);
 
 	const handlePageChange = useCallback(
 		(newPage) => {
@@ -34,8 +31,9 @@ const Laporan = () => {
 			};
 
 			if (activeTab !== 'semua') query.status = activeTab;
+			if (student?.id) query.studentId = student?.id;
 
-			getReports(query);
+			getAdminReports(query);
 			setCurrentPage(newPage);
 		},
 		[activeTab]
@@ -49,33 +47,31 @@ const Laporan = () => {
 
 		// Add filters
 		if (activeTab !== 'semua') query.status = activeTab;
+		if (student?.id) query.studentId = student?.id;
 
-		getReports(query);
+		getAdminReports(query);
 		setCurrentPage(1); // Reset to first page when filters change
-	}, [activeTab]);
+	}, [activeTab, student?.id]);
 
 	return (
-		<div className="bg-white flex flex-col lg:flex-row gap-8">
-			{/* Main Content */}
-			<div className="flex-1">
-				{/* Page Header */}
-				<h1 className="text-2xl font-bold text-dark mb-6">Laporan Saya</h1>
+		<div className="flex-1">
+			{/* Page Header */}
+			<h1 className="text-2xl font-bold text-dark mb-6">Laporan Saya</h1>
 
-				{/* Tabs */}
-				<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={filteredReports} className="mb-6" />
+			{/* Tabs */}
+			<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} data={totalPerStatus} className="mb-6" />
 
-				{/* Reports List */}
-				<div className="space-y-6">
-					{filteredReports.map((report) => (
-						<div key={report.id}>
-							<LaporanCard report={report} isVote={false} />
-						</div>
-					))}
-				</div>
-
-				{/* Pagination */}
-				{filteredReports.length === 0 ? null : <Pagination currentPage={currentPage} totalPages={pagination.total_pages} className="mt-8" onPageChange={handlePageChange} />}
+			{/* Reports List */}
+			<div className="space-y-6">
+				{reports.map((report) => (
+					<div key={report.id}>
+						<LaporanCard report={report} isVote={false} />
+					</div>
+				))}
 			</div>
+
+			{/* Pagination */}
+			{reports.length === 0 ? null : <Pagination currentPage={currentPage} totalPages={pagination.total_pages} className="mt-8" onPageChange={handlePageChange} />}
 		</div>
 	);
 };

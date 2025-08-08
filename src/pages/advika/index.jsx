@@ -42,7 +42,7 @@ export default function Advika() {
 			{/* Main News */}
 			<MainNews />
 
-			<div className="flex flex-col lg:flex-row gap-2">
+			<div className="flex flex-col lg:flex-row lg:justify-between gap-2">
 				{/* New News */}
 				<NewNews />
 
@@ -129,7 +129,7 @@ const MainNews = () => {
 								<img
 									src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'}
 									alt={item.title}
-									className="w-full h-auto object-cover row-start-1 col-start-1"
+									className="w-full h-auto max-h-120 object-cover row-start-1 col-start-1"
 								/>
 
 								<div className="row-start-1 col-start-1 self-end p-4 bg-gradient-to-t from-black/80 via-black/50 to-transparent text-white">
@@ -146,8 +146,8 @@ const MainNews = () => {
 				<div>
 					{news.slice(1, 4).map((item) => (
 						<div key={item.id} className="grid relative rounded-[.2rem] overflow-hidden w-full max-w-full hover:brightness-90 transition-all duration-500 ease-in-out mb-[1px] cursor-pointer">
-							<a href={`/advika/${item.id}`} className="w-full h-auto object-cover row-start-1 col-start-1 block">
-								<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} />
+							<a href={`/advika/${item.id}`} className="row-start-1 col-start-1 block">
+								<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} className="w-full h-auto max-h-40 object-cover" />
 							</a>
 							<div className="row-start-1 col-start-1 self-end p-1 pr-[1.8rem] bg-gradient-to-t from-black/80 via-black/50 to-transparent text-white">
 								<h3 className="text-xs font-bold mb-2">{item.title}</h3>

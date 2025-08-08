@@ -11,7 +11,7 @@ import { truncateText } from '@/utils/truncateText';
 import { formatDate, timeAgo, formatDateToShortIndonesian } from '@/utils/date';
 import { getReportStatuses, getCategoryLabel, getReportLevels } from '@/utils/reports';
 import UpdateStatusForm from '@/pages/admin/laporan/detail-laporan/update-status-form';
-import useAuthStore from '@/stores/useAuthStore';
+import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
 
 const DeleteLaporanModal = ({ id, openModal, closeModal }) => {
@@ -118,7 +118,9 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 };
 
 const LaporanHeader = ({ report, isVoteable }) => {
+	const { user } = useAuth();
 	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
+	const author = report?.student_id === user?.id ? 'Saya' : report?.students?.name ?? 'Anonim';
 
 	return (
 		<div className="flex flex-wrap items-start justify-between mb-6 gap-y-3">
@@ -132,7 +134,7 @@ const LaporanHeader = ({ report, isVoteable }) => {
 							<User className="w-8 h-8 text-dark-primary" />
 						</div>
 						<div>
-							<h3 className="text-sm font-medium text-dark-primary mb-1.5">{report?.students?.name ?? 'Anonim'}</h3>
+							<h3 className="text-sm font-medium text-dark-primary mb-1.5">{author}</h3>
 							<div className="flex flex-wrap items-center gap-x-6 text-sm text-gray-500 gap-y-1">
 								<div className="flex items-center space-x-1">
 									<Calendar className="w-4 h-4" />
@@ -208,9 +210,9 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 			</div>
 
 			{report?.file_url ? (
-				<div className="mb-8">
-					<FileImageComponent filePath={filePath} fileName="Lampiran" />
-				</div>
+				<a href={filePath} target="_blank" className="mb-8">
+					<FileImageComponent filePath={filePath} fileName={filePath.split('/').pop()} />
+				</a>
 			) : (
 				<p className="text-gray-500 mb-8">Tidak ada lampiran</p>
 			)}
@@ -245,7 +247,7 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 											</div>
 											<h2 className={`text-xl text-main-primary font-semibold`}>{report?.admins?.name}</h2>
 										</div>
-										<p className="text-[#0B4D9B99]">{report?.submitted_at && formatDateToShortIndonesian(report?.submitted_at)}</p>
+										<p className="text-[#0B4D9B99]">{report?.responded_at && formatDateToShortIndonesian(report?.responded_at)}</p>
 									</div>
 									<p className="text-dark mt-5">{report?.response}</p>
 								</>
@@ -264,7 +266,7 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 
 const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const location = useLocation();
-	const { user } = useAuthStore();
+	const { user } = useAuth();
 
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);

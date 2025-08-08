@@ -54,7 +54,7 @@ const ArticleContent = () => {
 			<img
 				src={newsItem.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}` : '/images/img-placeholder.png'}
 				alt={newsItem.title}
-				className="w-[70%] mx-auto h-auto mb-6 rounded-lg shadow-md"
+				className="w-[70%] mx-auto h-auto max-h-120 object-cover mb-6"
 				loading="lazy"
 			/>
 			<p className="text-dark whitespace-pre-line">{newsItem.description}</p>
@@ -65,9 +65,11 @@ const ArticleContent = () => {
 const PDFDownloadButton = () => {
 	const { newsItem } = useNewsStore();
 
+	if (newsItem.attachment_url === null) return null;
+
 	return (
 		<div className="p-2 bg-red rounded-lg w-fit hover:opacity-80 transition-all duration-300 ease-in-out mb-12">
-			<a href={newsItem.attachment_url} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" download title="Download PDF">
+			<a href={`${import.meta.env.VITE_API_BASE_URL}/${newsItem.attachment_url}`} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" title="Download PDF">
 				<FontAwesomeIcon icon={faFilePdf} />
 				Attachment
 			</a>
