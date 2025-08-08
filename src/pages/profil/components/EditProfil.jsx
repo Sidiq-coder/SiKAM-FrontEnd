@@ -71,8 +71,8 @@ export const EditProfil = () => {
 					<h1 className="text-2xl font-bold text-dark">Edit Profil</h1>
 					{userStatus && (
 						<div className="flex items-center gap-x-1">
-							{<userStatus.icon className="w-4 h-4" />}
-							<span className={`${userStatus.color} text-sm font-medium`}>{userStatus.label}</span>
+							{<userStatus.icon className={`w-4 h-4 ${userStatus.textColor}`} />}
+							<span className={`${userStatus.textColor} text-sm font-medium`}>{userStatus.label}</span>
 						</div>
 					)}
 				</div>
@@ -103,7 +103,7 @@ export const EditProfil = () => {
 				<Button variant="outline" label="Batal" onClick={() => setProfilMenu('profil')} />
 
 				{/* Submit Button */}
-				<SubmitButton label="Simpan" loadingLabel="Simpan..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Simpan" loadingLabel="Simpan..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);

@@ -18,6 +18,7 @@ import useReportStore from '@/stores/useReportStore';
 import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
 
+import WaitingModal from './components/waiting-modal';
 import NotVerifiedModal from './components/not-verified-modal';
 import FilterModal from './components/filter-modal';
 import AuthModal from '@/components/auth-modal';
@@ -103,7 +104,9 @@ const LaporanPage = () => {
 	const [category, setCategory] = useState(null);
 	const [status, setStatus] = useState(null);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [verifModal, setVerifModal] = useState(false);
+
+	const [waitingModal, setWaitingModal] = useState(false);
+	const [notVerifModal, setNotVerifModal] = useState(false);
 	const [authModal, setAuthModal] = useState(false);
 	const [filterModal, setFilterModal] = useState(false);
 
@@ -122,8 +125,13 @@ const LaporanPage = () => {
 			return;
 		}
 
-		if (user.status !== studentsStatus.VERIFIED) {
-			setVerifModal(true);
+		if (user.status === studentsStatus.WAITING) {
+			setWaitingModal(true);
+			return;
+		}
+
+		if (user.status === studentsStatus.NOT_VERIFIED) {
+			setNotVerifModal(true);
 			return;
 		}
 
@@ -165,8 +173,12 @@ const LaporanPage = () => {
 		setFilterModal(false);
 	}, []);
 
-	const handleVerifModalClose = useCallback(() => {
-		setVerifModal(false);
+	const handleWaitingModalClose = useCallback(() => {
+		setWaitingModal(false);
+	}, []);
+
+	const handleNotVerifModalClose = useCallback(() => {
+		setNotVerifModal(false);
 	}, []);
 
 	// Effects
@@ -235,7 +247,8 @@ const LaporanPage = () => {
 			</div>
 
 			{/* Modals */}
-			<NotVerifiedModal openModal={verifModal} closeModal={handleVerifModalClose} />
+			<NotVerifiedModal isOpen={notVerifModal} closeModal={handleNotVerifModalClose} />
+			<WaitingModal isOpen={waitingModal} closeModal={handleWaitingModalClose} />
 
 			<FilterModal
 				openModal={filterModal}

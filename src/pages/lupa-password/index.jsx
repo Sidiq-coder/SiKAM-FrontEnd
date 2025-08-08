@@ -65,7 +65,7 @@ const LupaPasswordPage = () => {
 				<RedirectLink sourceLabel="Ingat password Anda?" targetLabel="Masuk" href="/login" />
 
 				{/* Submit Button */}
-				<SubmitButton label="Kirim" loadingLabel="Kirim..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Kirim" loadingLabel="Kirim..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</div>
 	);

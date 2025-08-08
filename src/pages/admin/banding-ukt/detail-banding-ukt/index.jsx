@@ -262,7 +262,7 @@ export default function DetailBandingUKT() {
 					<Button variant="danger" icon={<Trash2 className="w-4 h-4" />} label="Hapus Banding" onClick={() => setDeleteModal(true)} />
 
 					{/* Submit Button */}
-					<SubmitButton label="Ubah Status" loadingLabel="Ubah..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
+					<SubmitButton label="Ubah Status" loadingLabel="Ubah..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 				</div>
 			</div>
 

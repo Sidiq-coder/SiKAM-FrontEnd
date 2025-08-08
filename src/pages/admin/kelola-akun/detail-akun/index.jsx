@@ -40,9 +40,9 @@ const DetailAkunPage = () => {
 				</div>
 
 				{(admin || student) && (
-					<div className="flex flex-col md:flex-row">
+					<div className="flex flex-col lg:flex-row">
 						{/* Sidebar */}
-						<div className="w-full md:w-64 bg-white shadow-sm pt-13 relative">
+						<div className="w-full lg:w-64 bg-white shadow-sm pt-13 relative">
 							<div className="p-6">
 								<div className="absolute left-1/2 -top-18 -translate-x-1/2">
 									<div className="w-34 h-34 bg-main-primary rounded-full flex items-center justify-center border-4 border-white">

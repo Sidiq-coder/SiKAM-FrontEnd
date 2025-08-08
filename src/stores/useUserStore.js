@@ -72,6 +72,21 @@ const useUserStore = create((set, get) => ({
 		}
 	},
 
+	inputNpm: async (data) => {
+		set({ isLoading: true, error: null });
+		try {
+			const response = await studentAPI.inputNpm(data);
+			set({ refresh: get().refresh + 1 });
+			return { success: true, data: response };
+		} catch (error) {
+			const errorMessage = error.response?.data?.message || 'Input NPM failed';
+			set({ error: errorMessage, isLoading: false });
+			return { success: false, error: errorMessage };
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+
 	clearError: () => set({ error: null }),
 }));
 

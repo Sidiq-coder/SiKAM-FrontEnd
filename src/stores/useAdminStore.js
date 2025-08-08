@@ -14,12 +14,13 @@ const useAdminStore = create((set, get) => ({
 		current_page: 0,
 		items_per_page: 0,
 	},
+	totalAdmins: 0,
 
 	// Actions
 	getAdmins: async (filters = {}) => {
 		try {
 			const response = await adminAPI.getAdmins(filters);
-			set({ admins: response.data, pagination: response.pagination });
+			set({ admins: response.data, pagination: response.pagination, totalAdmins: response.total_admins });
 		} catch (error) {
 			set({ admins: [] });
 			console.error('Get admins error:', error);

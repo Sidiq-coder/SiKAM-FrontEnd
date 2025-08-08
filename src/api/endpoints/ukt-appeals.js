@@ -10,26 +10,25 @@ export const uktAppealsAPI = {
 	},
 
 	createUktAppeal: async (data) => {
-		console.log(data);
 		const formData = new FormData();
 
 		formData.append('semester', data.semester);
 		formData.append('problem', data.problem);
 
-		if (data.ktm && data.ktm[0]) {
-			formData.append('ktm', data.ktm[0]);
+		if (data.ktm) {
+			formData.append('ktm', data.ktm);
 		}
 
-		if (data.ukt_proof && data.ukt_proof[0]) {
-			formData.append('ukt_proof', data.ukt_proof[0]);
+		if (data.ukt_proof) {
+			formData.append('ukt_proof', data.ukt_proof);
 		}
 
-		if (data.transcript && data.transcript[0]) {
-			formData.append('transcript', data.transcript[0]);
+		if (data.transcript) {
+			formData.append('transcript', data.transcript);
 		}
 
-		if (data.sk && data.sk[0]) {
-			formData.append('sk', data.sk[0]);
+		if (data.sk) {
+			formData.append('sk', data.sk);
 		}
 
 		const response = await apiClient.post(baseURL, formData, {
@@ -57,20 +56,20 @@ export const uktAppealsAPI = {
 		formData.append('semester', data.semester);
 		formData.append('problem', data.problem);
 
-		if (data.ktm && data.ktm[0]) {
-			formData.append('ktm', data.ktm[0]);
+		if (data.ktm) {
+			formData.append('ktm', data.ktm);
 		}
 
-		if (data.ukt_proof && data.ukt_proof[0]) {
-			formData.append('ukt_proof', data.ukt_proof[0]);
+		if (data.ukt_proof) {
+			formData.append('ukt_proof', data.ukt_proof);
 		}
 
-		if (data.transcript && data.transcript[0]) {
-			formData.append('transcript', data.transcript[0]);
+		if (data.transcript) {
+			formData.append('transcript', data.transcript);
 		}
 
-		if (data.sk && data.sk[0]) {
-			formData.append('sk', data.sk[0]);
+		if (data.sk) {
+			formData.append('sk', data.sk);
 		}
 
 		const response = await apiClient.patch(`${baseURL}/${id}`, formData, {

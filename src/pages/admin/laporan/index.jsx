@@ -15,8 +15,9 @@ import useSearchHandler from '@/hooks/useSearchHandler';
 const tabOptions = [
 	{ label: 'Semua', value: 'semua' },
 	{ label: 'Pending', value: 'pending' },
-	{ label: 'Proses', value: 'under_review' },
-	{ label: 'Selesai', value: 'responded' },
+	{ label: 'Ditinjau', value: 'under_review' },
+	{ label: 'Ditanggapi', value: 'responded' },
+	{ label: 'Ditolak', value: 'rejected' },
 ];
 
 // Constants

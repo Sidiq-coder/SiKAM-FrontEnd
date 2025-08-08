@@ -88,7 +88,7 @@ const ProfilAdmin = () => {
 				<Button variant="outline" label="Batal" onClick={() => setActiveMenu('profil')} />
 
 				{/* Submit Button */}
-				<SubmitButton label="Simpan" loadingLabel="Simpan..." isValid={isValid} isSubmitting={isSubmitting | isLoading} onSubmit={handleSubmit(onSubmit)} />
+				<SubmitButton label="Simpan" loadingLabel="Simpan..." isValid={isValid} isSubmitting={isSubmitting || isLoading} onSubmit={handleSubmit(onSubmit)} />
 			</div>
 		</>
 	);

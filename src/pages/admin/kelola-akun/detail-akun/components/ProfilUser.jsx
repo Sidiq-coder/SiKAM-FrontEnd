@@ -1,36 +1,81 @@
-import { useEffect, useMemo, useState } from 'react';
-import { studentStatuses } from '@/utils/users';
+import { useEffect, useMemo } from 'react';
+import { toast } from 'react-toastify';
 import { ArrowRight, Check } from 'lucide-react';
+import { studentStatuses } from '@/utils/users';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import Button from '@/components/button';
 import FileImageComponent from '@/components/file-image';
 import useUserStore from '@/stores/useUserStore';
-import { toast } from 'react-toastify';
+import { verifyStudentSchema } from '../schema';
+import SubmitButton from '@/components/submit-button';
+import InputField from '@/components/input-field';
 
 const ProfilUser = () => {
-	const { verifyStudent, student, clearError, error } = useUserStore();
+	const { verifyStudent, student, isLoading, clearError, error, inputNpm } = useUserStore();
 
 	const userStatus = useMemo(() => {
 		return studentStatuses.find((status) => status.value === (student?.status ?? 'waiting'));
 	}, [student?.status]);
 
-	const [newStatus, setNewStatus] = useState('');
+	const {
+		register,
+		handleSubmit,
+		reset,
+		watch,
+		formState: { errors, isValid, isSubmitting },
+	} = useForm({
+		resolver: zodResolver(verifyStudentSchema),
+		mode: 'onChange',
+		defaultValues: {
+			campus_email: student?.campus_email ?? '',
+			status: student?.status ?? 'waiting',
+			npm: student?.npm ?? '',
+		},
+	});
 
-	const handleVerifyStudent = async () => {
-		if (newStatus === '') return;
+	const onSubmit = async (data) => {
 		try {
-			const data = {
-				campus_email: student.campus_email,
-				status: newStatus,
-			};
-			const result = await verifyStudent(data);
+			let hasUpdate = false;
 
-			if (result?.data?.success) {
+			// Update NPM jika berubah
+			if (data.npm !== student?.npm) {
+				const inputNpmData = {
+					campus_email: data.campus_email,
+					npm: data.npm,
+				};
+
+				const result = await inputNpm(inputNpmData);
+
+				if (result?.success) {
+					hasUpdate = true;
+					toast.success(result.data.message);
+				}
+			}
+
+			// Update status jika berubah
+			if (data.status !== userStatus.value) {
+				const verifyStudentData = {
+					campus_email: data.campus_email,
+					status: data.status,
+				};
+
+				const result = await verifyStudent(verifyStudentData);
+
+				if (result?.data?.success) {
+					hasUpdate = true;
+					toast.success(result.data.message);
+				}
+			}
+
+			if (hasUpdate) {
 				clearError();
-				toast.success(result?.data?.message);
+			} else {
+				toast.info('Tidak ada perubahan yang disimpan.');
 			}
 		} catch (error) {
-			toast.error('Terjadi kesalahan!');
 			console.error('Error:', error);
+			toast.error('Terjadi kesalahan saat memproses data.');
 		}
 	};
 
@@ -40,6 +85,22 @@ const ProfilUser = () => {
 			clearError();
 		}
 	}, [error]);
+
+	useEffect(() => {
+		if (student) {
+			reset(
+				{
+					campus_email: student.campus_email ?? '',
+					status: student.status ?? 'waiting',
+					npm: student.npm ?? '',
+				},
+				{
+					keepDefaultValues: true,
+					shouldValidate: true,
+				}
+			);
+		}
+	}, [student, reset]);
 
 	return (
 		<>
@@ -56,8 +117,8 @@ const ProfilUser = () => {
 						)}
 					</div>
 					<ArrowRight className="w-7 h-7 text-main-primary" />
-					<select className="px-5 py-2 shadow-md rounded-md text-sm focus:outline-none pr-7 cursor-pointer" value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
-						<option value="">ubah status</option>
+					<select className="px-5 py-2 shadow-md rounded-md text-sm focus:outline-none pr-7 cursor-pointer" {...register('status')}>
+						<option value="waiting">ubah status</option>
 						{studentStatuses
 							.filter((opt) => opt.value !== 'waiting')
 							.map((opt) => (
@@ -69,32 +130,45 @@ const ProfilUser = () => {
 				</div>
 				<div className="flex justify-end gap-x-6">
 					<Button variant="secondary" label="Batal" />
-					<Button variant="primary" label="Simpan" icon={<Check className="w-4 h-4" />} iconPosition="right" onClick={handleVerifyStudent} />
+					<SubmitButton
+						label="Simpan"
+						loadingLabel="Simpan..."
+						isValid={isValid}
+						isSubmitting={isSubmitting || isLoading}
+						isDisabled={watch('status') === userStatus.value && watch('npm') === student?.npm}
+						onSubmit={handleSubmit(onSubmit)}
+						icon={<Check className="w-4 h-4" />}
+						iconPosition="right"
+					/>
 				</div>
 			</div>
+
+			{errors?.status?.message && <p className="text-red text-sm mt-2">{errors?.status?.message}</p>}
 
 			{/* Profile Form */}
 			<table className="mt-6">
 				<tbody>
 					{[
 						{ label: 'Nama', value: student?.name || '-' },
-						{ label: 'NPM', value: student?.npm || '-' },
+						{ label: 'NPM', value: <InputField name="npm" placeholder="NPM" type="text" register={register} error={errors.npm} required={false} isSmall /> },
 						{ label: 'Email', value: student?.campus_email || '-' },
 						{ label: 'Prodi', value: student?.program_study || '-' },
 						{ label: 'Angkatan', value: student?.batch || '-' },
 						{
 							label: 'Foto KTM',
 							value: student?.ktm_url ? (
-								<FileImageComponent filePath={`${import.meta.env.VITE_API_BASE_URL}/${student?.ktm_url}`} fileName={`${student?.ktm_url.split('/').pop()}`} size="w-40 sm:w-50" />
+								<a href={`${import.meta.env.VITE_API_BASE_URL}/${student?.ktm_url}`} target="_blank">
+									<FileImageComponent filePath={`${import.meta.env.VITE_API_BASE_URL}/${student?.ktm_url}`} fileName={`${student?.ktm_url.split('/').pop()}`} size="w-40 sm:w-50" />
+								</a>
 							) : (
 								'-'
 							),
 						},
 					].map(({ label, value }) => (
 						<tr key={label}>
-							<td className="text-main-primary font-semibold py-2 align-top">{label}</td>
-							<td className="px-4 sm:px-10 py-2 align-top">:</td>
-							<td className="py-2 align-top">{value}</td>
+							<td className={`text-main-primary font-semibold py-2 ${label === 'NPM' ? 'align-center' : 'align-top'}`}>{label}</td>
+							<td className={`px-4 sm:px-10 py-2 ${label === 'NPM' ? 'align-center' : 'align-top'}`}>:</td>
+							<td className={`py-2 ${label === 'NPM' ? 'align-center' : 'align-top'}`}>{value}</td>
 						</tr>
 					))}
 				</tbody>

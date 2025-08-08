@@ -80,16 +80,17 @@ const NavbarActions = () => {
 			>
 				<HelpCircle className={iconStyle} />
 			</IconButton>
-			<IconButton
-				bgColor="bg-main-primary lg:bg-white"
-				onClick={() => {
-					if (user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN) return;
-					setMenuOpen(false);
-					setOpenModal(true);
-				}}
-			>
-				<Bell className={iconStyle} />
-			</IconButton>
+			{user?.role === userRole.SUPERADMIN || user?.role === userRole.ADMIN ? null : (
+				<IconButton
+					bgColor="bg-main-primary lg:bg-white"
+					onClick={() => {
+						setMenuOpen(false);
+						setOpenModal(true);
+					}}
+				>
+					<Bell className={iconStyle} />
+				</IconButton>
+			)}
 			<IconButton
 				bgColor="bg-main-primary lg:bg-white"
 				rounded="rounded-full"
