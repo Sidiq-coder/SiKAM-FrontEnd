@@ -18,6 +18,7 @@ const tabOptions = [
 	{ label: 'Ditinjau', value: 'under_review' },
 	{ label: 'Ditanggapi', value: 'responded' },
 	{ label: 'Ditolak', value: 'rejected' },
+	{ label: 'Selesai', value: 'done' },
 ];
 
 // Constants

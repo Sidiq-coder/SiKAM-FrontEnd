@@ -277,7 +277,7 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	const isPending = report?.status === 'pending';
 
 	const showActions = isMy && !isAdmin && isPending;
-	const isVoteable = user && isVote && !isMy && !isAdmin && isPending;
+	const isVoteable = user && isVote && !isMy && !isAdmin;
 	const detailPath = isAdmin ? `/admin/laporan/${report?.id}` : `/laporan/${report?.id}`;
 
 	return (

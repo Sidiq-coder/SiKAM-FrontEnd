@@ -65,7 +65,7 @@ export const EditProfil = () => {
 	}, [user, reset]);
 
 	return (
-		<div className="bg-white">
+		<div className="bg-white w-full">
 			<div className="flex items-center justify-between mb-6">
 				<div className="flex items-center gap-x-8">
 					<h1 className="text-2xl font-bold text-dark">Edit Profil</h1>
@@ -79,7 +79,7 @@ export const EditProfil = () => {
 			</div>
 
 			<div className="space-y-4 text-sm sm:text-base">
-				<table>
+				<table className="w-full">
 					<tbody>
 						{[
 							{ label: 'Nama', value: user?.name ?? '-', editable: true, name: 'name' },
@@ -90,7 +90,7 @@ export const EditProfil = () => {
 						].map(({ label, value, editable, name }) => (
 							<tr key={label}>
 								<td className="text-main-primary font-semibold py-2">{label}</td>
-								<td className="px-4 sm:px-10 py-2">:</td>
+								<td className="w-1 px-4 sm:px-10 py-2">:</td>
 								<td className="py-2">{editable ? <InputField name={name} placeholder={label} type="text" register={register} error={errors[name]} required={false} isSmall /> : value}</td>
 							</tr>
 						))}

@@ -72,7 +72,7 @@ const MainSection = () => {
 
 			<div className="flex flex-col lg:flex-row justify-between mt-12 gap-x-10">
 				<div className="flex-1">
-					<div className="flex items-center justify-between mb-12">
+					<div className="flex flex-wrap items-center justify-between gap-4 mb-12">
 						<h1 className="text-4xl font-bold text-dark">Laporan Terkini</h1>
 						<FilterButton options={Object.values(FILTER_OPTIONS)} selectedFilter={selectedFilter} setSelectedFilter={setSelectedFilter} className="lg:hidden text-dark" />
 					</div>
@@ -100,7 +100,16 @@ const MainSection = () => {
 								const category = reportCategories.find((c) => c.value === key);
 								if (!category) return null; // kategori tidak dikenal
 
-								return <Hashtag key={key} label={`#${category.label}`} quantity={quantity} onClick={() => setActiveCategory(key)} active={activeCategory === key} className="cursor-pointer" />;
+								return (
+									<Hashtag
+										key={key}
+										label={`#${category.label}`}
+										quantity={quantity}
+										onClick={() => setActiveCategory((prev) => (prev === key ? null : key))}
+										active={activeCategory === key}
+										className="cursor-pointer"
+									/>
+								);
 							})
 						) : (
 							<p className="text-sm text-gray italic">Belum ada kategori yang tersedia.</p>

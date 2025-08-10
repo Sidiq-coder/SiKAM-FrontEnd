@@ -150,7 +150,7 @@ const useUktAppealStore = create((set, get) => ({
 	getAppealStatusList: async (filters = {}) => {
 		try {
 			const response = await uktAppealsAPI.getAppealStatusList(filters);
-			set({ statusList: response.data });
+			set({ statusList: response.data.dataMapped });
 		} catch (error) {
 			set({ statusList: null });
 			console.error('Get status list error:', error);
