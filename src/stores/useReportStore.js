@@ -73,7 +73,7 @@ const useReportStore = create((set, get) => ({
 	getMyReports: async (filters = {}) => {
 		try {
 			const response = await reportsAPI.getMyReports(filters);
-			set({ reports: response.data, pagination: response.pagination, totalPerCategory: response.total_per_category, totalPerStatus: response.total_per_stats });
+			set({ reports: response.data, pagination: response.pagination, totalPerCategory: response.total_per_category, totalPerStatus: response.total_per_status });
 		} catch (error) {
 			set({ reports: [] });
 			console.error('Get my reports error:', error);
