@@ -6,7 +6,7 @@ const NavLogo = ({ textColorAdmin = 'text-white', textColor = 'text-white' }) =>
 	if (location.pathname.includes('admin')) {
 		return (
 			<Link to="/admin/laporan" className="flex items-center space-x-2">
-				<img className="w-8" src="/images/bem.png" alt="logo-bem" />
+				<img className="w-12" src="/images/logo-bem.png" alt="logo-bem" />
 				<span className={`${textColorAdmin} italic text-3xl font-bold`}>ADMIN</span>
 			</Link>
 		);
@@ -14,7 +14,7 @@ const NavLogo = ({ textColorAdmin = 'text-white', textColor = 'text-white' }) =>
 
 	return (
 		<Link to="/" className="flex items-center space-x-2">
-			<img className="w-8" src="/images/bem.png" alt="logo-bem" />
+			<img className="w-12" src="/images/logo-bem.png" alt="logo-bem" />
 			<span className={`${textColor} text-2xl font-bold`}>SIKAM</span>
 		</Link>
 	);
