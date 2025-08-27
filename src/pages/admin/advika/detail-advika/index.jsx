@@ -61,7 +61,9 @@ const ArticleContent = () => {
 		<article className="mb-12">
 			<h2 className="text-3xl text-dark font-bold mb-4">{newsItem.title}</h2>
 			<p className="text-dark opacity-80 mb-6">
-				<span className="text-main-primary">{newsItem.admin_name}</span> - {new Date(newsItem.published_at).toLocaleDateString()}
+				<span className="text-main-primary">{newsItem.admins.name ?? '-'}</span> {
+					newsItem.published_at && ' - ' + new Date(newsItem.published_at).toLocaleDateString()
+				}
 			</p>
 			<img
 				src={newsItem.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}` : '/images/img-placeholder.png'}
