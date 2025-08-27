@@ -27,7 +27,31 @@ export const verifyStudentSchema = z.object({
 			required_error: 'NPM wajib diisi',
 			invalid_type_error: 'NPM tidak valid',
 		})
-		.regex(/^\d{10}$/, {
-			message: 'NPM harus terdiri dari 10 digit angka',
-		}),
+		.nullable(),
+}).superRefine((data, c) => {
+	if (data.status === 'not_verified') {
+		if (data.npm || data.npm.trim() !== '') {
+			c.addIssue({
+				code: 'custom',
+				message: 'NPM tidak boleh diisi jika status not_verified',
+				path: ['npm'],
+			})
+		}
+	}
+	if (data.status === 'verified') {
+		if (data.npm === null || data.npm.trim() === '') {
+			c.addIssue({
+				code: 'custom',
+				message: 'NPM wajib diisi',
+				path: ['npm'],
+			});
+		}
+		if (!(/^\d{10}$/.test(data.npm))) {
+			c.addIssue({
+				code: 'custom',
+				message: 'NPM harus terdiri dari 10 digit angka',
+				path: ['npm'],
+			})
+		}
+	}
 });

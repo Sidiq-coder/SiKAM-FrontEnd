@@ -38,18 +38,20 @@ const ProfilUser = () => {
 		try {
 			let hasUpdate = false;
 
-			// Update NPM jika berubah
-			if (data.npm !== student?.npm) {
-				const inputNpmData = {
-					campus_email: data.campus_email,
-					npm: data.npm,
-				};
+			if (data.status !== 'not_verified') {
+				// Update NPM jika berubah
+				if (data.npm !== student?.npm) {
+					const inputNpmData = {
+						campus_email: data.campus_email,
+						npm: data.npm,
+					};
 
-				const result = await inputNpm(inputNpmData);
+					const result = await inputNpm(inputNpmData);
 
-				if (result?.success) {
-					hasUpdate = true;
-					toast.success(result.data.message);
+					if (result?.success) {
+						hasUpdate = true;
+						toast.success(result.data.message);
+					}
 				}
 			}
 
@@ -135,7 +137,7 @@ const ProfilUser = () => {
 						loadingLabel="Simpan..."
 						isValid={isValid}
 						isSubmitting={isSubmitting || isLoading}
-						isDisabled={watch('status') === userStatus.value && watch('npm') === student?.npm}
+						isDisabled={watch('status') === userStatus.value && watch('npm') === (student?.npm ?? '')}
 						onSubmit={handleSubmit(onSubmit)}
 						icon={<Check className="w-4 h-4" />}
 						iconPosition="right"
