@@ -117,10 +117,10 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 	);
 };
 
-const LaporanHeader = ({ report, isVoteable }) => {
+const LaporanHeader = ({ report, isVoteable, isAdmin }) => {
 	const { user } = useAuth();
 	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
-	const author = report?.student_id === user?.id ? 'Saya' : report?.students?.name ?? 'Anonim';
+	const author = report?.student_id === user?.id && !isAdmin ? 'Saya' : report?.students?.name ?? 'Anonim';
 
 	return (
 		<div className="flex flex-wrap items-start justify-between mb-6 gap-y-3">
@@ -288,7 +288,7 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 
 			<div className="w-full">
 				<div className={isDetail ? 'border-b border-gray pb-6' : ''}>
-					<LaporanHeader report={report} isVoteable={isVoteable} />
+					<LaporanHeader report={report} isVoteable={isVoteable} isAdmin={isAdmin} />
 
 					<div className="flex">
 						<a href={isDetail ? null : detailPath} className={`flex-1 ${isDetail ? '' : 'cursor-pointer'}`}>
