@@ -44,3 +44,8 @@ body {
 	max-width: unset;
 	height: unset !important;
 }
+
+* {
+	scrollbar-width: thin;
+	scrollbar-color: #0e478e #f0f0f0;
+}
