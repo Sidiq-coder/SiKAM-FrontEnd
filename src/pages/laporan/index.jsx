@@ -14,6 +14,7 @@ import Pagination from '@/components/pagination';
 
 import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
+import useVotesStore from '@/stores/useVotesStore';
 
 import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
@@ -44,7 +45,14 @@ const AjukanLaporanButton = ({ onClick, className = 'w-full' }) => (
 	<Button variant="primary" label="Ajukan Laporan" icon={<FontAwesomeIcon icon={faBullhorn} size="md" />} onClick={onClick} className={className} />
 );
 
-const ReportList = ({ reports }) => {
+const ReportList = ({ reports, refresh }) => {
+	const { getMyReportVotes, myReportVotes } = useVotesStore();
+	useEffect(() => {
+		if (reports?.length) {
+			getMyReportVotes();
+		}
+	}, [refresh])
+
 	if (!reports?.length) {
 		return <p className="text-center text-gray my-8">Belum ada laporan yang tersedia.</p>;
 	}
@@ -52,7 +60,15 @@ const ReportList = ({ reports }) => {
 	return (
 		<div className="space-y-6">
 			{reports.map((report) => (
-				<LaporanCard key={report.id} report={report} />
+				<LaporanCard 
+					key={report.id} 
+					report={report}
+					vote={
+						myReportVotes
+							.find(e => e.report_id === report.id)
+							?.type ?? ''
+					} 
+				/>
 			))}
 		</div>
 	);
@@ -228,7 +244,7 @@ const LaporanPage = () => {
 					<Tabs tabs={tabOptions} activeTab={activeTab} onTabChange={setActiveTab} className="mb-6" />
 
 					{/* Reports List */}
-					<ReportList reports={reports} />
+					<ReportList reports={reports} refresh={refresh} />
 
 					{/* Pagination */}
 					{reports?.length > 0 && <Pagination className="mt-8" currentPage={currentPage} totalPages={pagination.total_pages} onPageChange={handlePageChange} />}

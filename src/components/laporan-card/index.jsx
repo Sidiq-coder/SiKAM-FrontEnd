@@ -69,7 +69,7 @@ const EditLaporanModal = ({ id, openModal, closeModal }) => {
 	);
 };
 
-const LaporanVoteSection = ({ report, isVoteable }) => {
+const LaporanVoteSection = ({ report, isVoteable, vote = '' }) => {
 	const { upvoteReport, downvoteReport, clearError } = useReportStore();
 
 	const handleVoteReport = async (type) => {
@@ -107,17 +107,17 @@ const LaporanVoteSection = ({ report, isVoteable }) => {
 	return (
 		<div className="flex flex-col items-center">
 			<div onClick={() => handleVoteReport('upvote')}>
-				<Triangle fill="#0B4D9B" />
+				<Triangle fill={vote === 'upvote' ? '#acacac' : '#0B4D9B'} />
 			</div>
 			<span className="text-2xl font-bold text-dark">{report?.vote_total}</span>
 			<div onClick={() => handleVoteReport('downvote')}>
-				<Triangle fill="#0B4D9B" isFlip />
+				<Triangle fill={vote === 'downvote' ? '#acacac' : "#0B4D9B"} isFlip />
 			</div>
 		</div>
 	);
 };
 
-const LaporanHeader = ({ report, isVoteable, isAdmin }) => {
+const LaporanHeader = ({ report, isVoteable, isAdmin, vote = '' }) => {
 	const { user } = useAuth();
 	const { icon: StatusIcon, textColor, label } = getReportStatuses(report?.status ?? '');
 	const author = report?.student_id === user?.id && !isAdmin ? 'Saya' : report?.students?.name ?? 'Anonim';
@@ -127,7 +127,7 @@ const LaporanHeader = ({ report, isVoteable, isAdmin }) => {
 			<div className="flex flex-wrap items-center space-x-3">
 				<div className="flex flex-wrap items-center gap-6">
 					<div className="lg:hidden">
-						<LaporanVoteSection report={report} isVoteable={isVoteable} />
+						<LaporanVoteSection report={report} isVoteable={isVoteable} vote={vote} />
 					</div>
 					<div className="flex flex-wrap gap-3">
 						<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
@@ -264,7 +264,7 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 	);
 };
 
-const LaporanCard = ({ report, isDetail = false, className = '' }) => {
+const LaporanCard = ({ report, isDetail = false, vote = '', className = '' }) => {
 	const location = useLocation();
 	const { user } = useAuth();
 
@@ -283,12 +283,12 @@ const LaporanCard = ({ report, isDetail = false, className = '' }) => {
 	return (
 		<div className={`flex flex-wrap sm:flex-nowrap gap-8 bg-white ${isDetail ? 'px-10 py-12 shadow-sm' : 'p-6 pb-12 border-b border-gray'} ${className}`}>
 			<div className="hidden lg:block">
-				<LaporanVoteSection report={report} isVoteable={isVoteable} />
+				<LaporanVoteSection report={report} isVoteable={isVoteable} vote={vote} />
 			</div>
 
 			<div className="w-full">
 				<div className={isDetail ? 'border-b border-gray pb-6' : ''}>
-					<LaporanHeader report={report} isVoteable={isVoteable} isAdmin={isAdmin} />
+					<LaporanHeader report={report} isVoteable={isVoteable} isAdmin={isAdmin} vote={vote} />
 
 					<div className="flex">
 						<a href={isDetail ? null : detailPath} className={`flex-1 ${isDetail ? '' : 'cursor-pointer'}`}>

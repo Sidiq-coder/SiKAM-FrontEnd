@@ -7,6 +7,7 @@ import Button from '@/components/button';
 import InfoCard from '../info-card';
 import useReportStore from '@/stores/useReportStore';
 import { reportCategories } from '@/utils/reports';
+import useVotesStore from '@/stores/useVotesStore';
 
 const ITEMS_PER_PAGE = 3;
 
@@ -24,6 +25,7 @@ const SORT_MAP = {
 
 const MainSection = () => {
 	const { getReports, reports, totalPerCategory, refresh } = useReportStore();
+	const { getMyReportVotes, myReportVotes } = useVotesStore();
 
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
 	const [activeCategory, setActiveCategory] = useState(null);
@@ -44,6 +46,7 @@ const MainSection = () => {
 		if (activeCategory) query.category = activeCategory;
 
 		getReports(query);
+		getMyReportVotes();
 	}, [selectedFilter, activeCategory, refresh]);
 
 	return (
@@ -81,7 +84,15 @@ const MainSection = () => {
 						{reports.length > 0 ? (
 							reports.map((report) => (
 								<div key={report.id}>
-									<LaporanCard report={report} className="border-none shadow-md rounded" />
+									<LaporanCard 
+										report={report}
+										vote={
+											myReportVotes
+												.find(e => e.report_id === report.id)
+												?.type ?? ''
+										} 
+										className="border-none shadow-md rounded" 
+									/>
 								</div>
 							))
 						) : (
