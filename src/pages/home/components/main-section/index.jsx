@@ -23,7 +23,7 @@ const SORT_MAP = {
 };
 
 const MainSection = () => {
-	const { getReports, reports, totalPerCategory } = useReportStore();
+	const { getReports, reports, totalPerCategory, refresh } = useReportStore();
 
 	const [selectedFilter, setSelectedFilter] = useState('Terbaru');
 	const [activeCategory, setActiveCategory] = useState(null);
@@ -44,7 +44,7 @@ const MainSection = () => {
 		if (activeCategory) query.category = activeCategory;
 
 		getReports(query);
-	}, [selectedFilter, activeCategory]);
+	}, [selectedFilter, activeCategory, refresh]);
 
 	return (
 		<div className={`bg-[url('/images/bg-pattern.png')] bg-cover bg-center bg-no-repeat px-10 md:px-20 lg:px-32 pb-1`}>
