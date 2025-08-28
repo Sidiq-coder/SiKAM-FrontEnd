@@ -10,7 +10,7 @@ const HeroSection = () => {
 
 	useEffect(() => {
 		getNews({ itemPerPage: 3 });
-	});
+	}, []);
 
 	return (
 		<div className="flex flex-col gap-12 items-center md:px-10 lg:px-20 px-4 pb-[120px]">
