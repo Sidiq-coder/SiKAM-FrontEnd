@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Instagram } from 'lucide-react';
 
 const Footer = () => {
 	return (
@@ -48,6 +49,12 @@ const Footer = () => {
 			</div>
 			<div>
 				<h4 className="font-semibold mb-6">Kontak</h4>
+				<div className='flex items-center gap-2 text-sm'>
+					<Instagram />
+					<a href={`https://www.instagram.com/bem_unila`} target="_blank" rel="noopener noreferrer">
+						bem_unila
+					</a>
+				</div>
 			</div>
 		</div>
 	);
