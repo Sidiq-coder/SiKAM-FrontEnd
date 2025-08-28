@@ -1,10 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
-import ImageSlider from '@/components/image-slider';
+import NewsSlider from '@/components/news-slider';
 import { Link } from 'react-router-dom';
+import useNewsStore from '@/stores/useNewsStore';
+import { useEffect } from 'react';
 
 const HeroSection = () => {
-	const sliderImages = ['/images/example-image.png', '/images/example-image.png', '/images/example-image.png'];
+	const { getNews, news } = useNewsStore();
+
+	useEffect(() => {
+		getNews({ itemPerPage: 3 });
+	});
 
 	return (
 		<div className="flex flex-col gap-12 items-center md:px-10 lg:px-20 px-4 pb-[120px]">
@@ -23,7 +29,21 @@ const HeroSection = () => {
 			</div>
 			<div className="relative">
 				<div className="bg-white/10 backdrop-blur rounded-xl">
-					<ImageSlider images={sliderImages} />
+					<NewsSlider 
+						contents={
+							news
+								.map(n => {
+									return {
+										newsId: n.id,
+										title: n.title,
+										desc: n.description,
+										image: n.cover_url 
+											? `${import.meta.env.VITE_API_BASE_URL}/${n.cover_url}` 
+											: '/images/example-image.png'
+									}
+								})
+						}
+					/>
 				</div>
 			</div>
 		</div>
