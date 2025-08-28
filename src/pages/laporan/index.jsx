@@ -51,7 +51,7 @@ const ReportList = ({ reports, refresh }) => {
 		if (reports?.length) {
 			getMyReportVotes();
 		}
-	}, [refresh])
+	}, [refresh, reports])
 
 	if (!reports?.length) {
 		return <p className="text-center text-gray my-8">Belum ada laporan yang tersedia.</p>;
