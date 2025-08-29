@@ -106,7 +106,7 @@ const MainSection = () => {
 					<h3 className="text-2xl font-bold text-dark mb-4 mt-12">Kategori Terkait</h3>
 
 					<div className="flex flex-col items-start space-y-4 w-60">
-						{Object.values(totalPerCategory).some((qty) => qty > 0) ? (
+						{totalPerCategory && Object.values(totalPerCategory).some((qty) => qty > 0) ? (
 							Object.entries(totalPerCategory).map(([key, quantity]) => {
 								const category = reportCategories.find((c) => c.value === key);
 								if (!category) return null; // kategori tidak dikenal
