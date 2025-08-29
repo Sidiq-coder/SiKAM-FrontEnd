@@ -1,15 +1,46 @@
 import useUktAppealStore from '@/stores/useUktAppealStore';
 import Form from './components/Form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import useAuth from '@/hooks/useAuth';
+import { studentsStatus } from '@/utils/users'
+import WaitingModal from '../../components/waiting-modal';
+import NotVerifiedModal from '../../components/not-verified-modal';
+import { useNavigate } from 'react-router-dom';
 
 const BandingUkt = () => {
 	const { isPeriodOpen, getStatusUktAppeal } = useUktAppealStore();
+	const { user } = useAuth();
+	const navigate = useNavigate();
+	const [waitingModal, setWaitingModal] = useState(false);
+	const [notVerifModal, setNotVerifModal] = useState(false);
+	const navBack = (cb) => {
+		cb();
+		navigate("/", { replace: true });
+	}
 
 	useEffect(() => {
-		getStatusUktAppeal();
+		if (user) {
+			if (user.status === studentsStatus.WAITING) {
+				setWaitingModal(true);
+				return;
+			}
+			if (user.status === studentsStatus.NOT_VERIFIED) {
+				setNotVerifModal(true);
+				return;
+			}
+			getStatusUktAppeal();
+		}
 	}, []);
 
-	return <div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">{isPeriodOpen ? <Form /> : <PeriodeClosed />}</div>;
+	return <div className="container mx-auto md:px-10 lg:px-20 px-4 py-8 pb-[120px]">
+		{isPeriodOpen ? <Form /> : <PeriodeClosed />}
+		<WaitingModal isOpen={waitingModal} closeModal={() => {
+			navBack(() => setWaitingModal(false));
+		}} />
+		<NotVerifiedModal isOpen={notVerifModal} closeModal={() => {
+			navBack(() => setNotVerifModal(false));
+		}} />
+	</div>;
 };
 
 export default BandingUkt;

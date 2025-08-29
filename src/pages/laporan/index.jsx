@@ -11,6 +11,8 @@ import LaporanCard from '@/components/laporan-card';
 import FilterButton from '@/components/filter-button';
 import Tabs from '@/components/tabs';
 import Pagination from '@/components/pagination';
+import WaitingModal from '@/components/waiting-modal';
+import NotVerifiedModal from '@/components/not-verified-modal';
 
 import useAuth from '@/hooks/useAuth';
 import useReportStore from '@/stores/useReportStore';
@@ -19,8 +21,6 @@ import useVotesStore from '@/stores/useVotesStore';
 import { reportStatuses, reportCategories } from '@/utils/reports';
 import { studentsStatus } from '@/utils/users';
 
-import WaitingModal from './components/waiting-modal';
-import NotVerifiedModal from './components/not-verified-modal';
 import FilterModal from './components/filter-modal';
 import AuthModal from '@/components/auth-modal';
 import { toast } from 'react-toastify';

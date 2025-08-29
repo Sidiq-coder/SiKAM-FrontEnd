@@ -63,7 +63,9 @@ export default function DetailBandingUKT() {
 
 	useEffect(() => {
 		const fetch = async () => {
-			await getUktAppeal(id);
+			if (!(await getUktAppeal(id))) {
+				navigate("/", { replace: true });
+			}
 		};
 		fetch();
 	}, [id, refresh]);
