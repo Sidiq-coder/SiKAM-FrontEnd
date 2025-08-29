@@ -31,7 +31,7 @@ const HeroSection = () => {
 				<div className="bg-white/10 backdrop-blur rounded-xl">
 					<NewsSlider 
 						contents={
-							news
+							news && news.length && news
 								.map(n => {
 									return {
 										newsId: n.id,
