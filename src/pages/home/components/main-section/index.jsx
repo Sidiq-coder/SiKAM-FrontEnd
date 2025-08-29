@@ -81,7 +81,7 @@ const MainSection = () => {
 					</div>
 
 					<div className="space-y-6">
-						{reports.length > 0 ? (
+						{reports && reports.length ? (
 							reports.map((report) => (
 								<div key={report.id}>
 									<LaporanCard 
