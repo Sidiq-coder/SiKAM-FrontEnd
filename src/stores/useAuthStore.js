@@ -162,7 +162,9 @@ const useAuthStore = create(
 			getProfile: async () => {
 				try {
 					const response = await usersAPI.getProfile();
+					console.log(response);
 					set({ user: response.data.user });
+
 				} catch (error) {
 					console.error('Get profile error:', error);
 					get().logout();
