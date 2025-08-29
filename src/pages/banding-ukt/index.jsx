@@ -13,22 +13,26 @@ const BandingUkt = () => {
 	const navigate = useNavigate();
 	const [waitingModal, setWaitingModal] = useState(false);
 	const [notVerifModal, setNotVerifModal] = useState(false);
-	const navBack = (cb) => {
+	const navBack = (cb = () => {}) => {
 		cb();
 		navigate("/", { replace: true });
 	}
 
 	useEffect(() => {
 		if (user) {
-			if (user.status === studentsStatus.WAITING) {
-				setWaitingModal(true);
-				return;
+			if (user.status) {
+				if (user.status === studentsStatus.WAITING) {
+					setWaitingModal(true);
+					return;
+				}
+				if (user.status === studentsStatus.NOT_VERIFIED) {
+					setNotVerifModal(true);
+					return;
+				}
+				getStatusUktAppeal();
+			} else {
+				navBack();
 			}
-			if (user.status === studentsStatus.NOT_VERIFIED) {
-				setNotVerifModal(true);
-				return;
-			}
-			getStatusUktAppeal();
 		}
 	}, []);
 
