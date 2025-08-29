@@ -84,7 +84,7 @@ const useUktAppealStore = create((set, get) => ({
 			const response = await uktAppealsAPI.getUktAppeal(id);
 			set({ uktAppeal: response.data });
 		} catch (error) {
-			set({ uktAppeal: null });
+			set({ uktAppeal: null, error: error.response?.data?.message || `No appeal with id ${id}` });
 			console.error('Get ukt appeal error:', error);
 		}
 	},

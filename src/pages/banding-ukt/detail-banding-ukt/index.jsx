@@ -63,9 +63,7 @@ export default function DetailBandingUKT() {
 
 	useEffect(() => {
 		const fetch = async () => {
-			if (!(await getUktAppeal(id))) {
-				navigate("/", { replace: true });
-			}
+			await getUktAppeal(id);
 		};
 		fetch();
 	}, [id, refresh]);
@@ -78,6 +76,7 @@ export default function DetailBandingUKT() {
 		if (error) {
 			toast.error(error);
 			clearError();
+			navigate("/", { replace: true })
 		}
 	}, [error]);
 
