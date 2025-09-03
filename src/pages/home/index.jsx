@@ -6,7 +6,7 @@ const faqData = [
 	{
 		question: 'Bagaimana cara membuat atau mengajukan laporan?',
 		answer:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elite, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+			"Pengguna harus login terlebih dahulu menggunakan akun yang telah diverifikasi oleh admin, lalu akses halaman 'Laporan' dan lakukan 'Ajukan Laporan'. Lalu isi form untuk memasukkan data yang diperlukan untuk membuat laporan.",
 	},
 	{
 		question: 'Bagaimana cara membuat atau mengajukan Banding UKT?',
