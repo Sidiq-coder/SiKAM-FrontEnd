@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Upload, Save, FileText, Image, XCircle } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +11,7 @@ import useAuth from '@/hooks/useAuth';
 export default function BuatAdvika() {
 	const { createNews, error, clearError, isLoading } = useNewsStore();
 	const { user } = useAuth();
+	const navigate = useNavigate();
 
 	const [selectedFilter, setSelectedFilter] = useState('published');
 	const [imagePreview, setImagePreview] = useState(null);
@@ -43,6 +44,8 @@ export default function BuatAdvika() {
 		} catch (error) {
 			toast.error('Terjadi kesalahan');
 			console.error('Error:', error);
+		} finally {
+			navigate("/admin/advika", { replace: true })
 		}
 	};
 
