@@ -67,7 +67,7 @@ const TrendingNews = () => {
 			<div className="flex flex-col gap-3">
 				{news.map((item) => (
 					<a href={`/advika/${item.id}`} key={item.id} className="flex items-center gap-3 rounded-lg p-2" style={{ minWidth: 0 }}>
-						<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} className="w-14 h-14 object-cover rounded" />
+						<img src={item.cover_url || '/images/img-placeholder.png'} alt={item.title} className="w-14 h-14 object-cover rounded" />
 						<div className="flex-1 min-w-0">
 							<h3 className="text-xs font-bold text-dark truncate">{item.title}</h3>
 							<p className="text-[.6rem] text-gray-500 truncate">{new Date(item.published_at).toLocaleDateString()}</p>
@@ -99,7 +99,7 @@ const Berita = () => {
 				<a href={`/advika/${item.id}`} key={`${item.id}-${index}`} className="flex flex-col lg:flex-row items-start gap-4 p-4 rounded-xl cursor-pointer mb-3">
 					{/* Image Section */}
 					<div className="w-full lg:w-[260px] h-[180px] rounded-lg overflow-hidden flex-shrink-0 block">
-						<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} className="w-full h-full object-cover" />
+						<img src={item.cover_url || '/images/img-placeholder.png'} alt={item.title} className="w-full h-full object-cover" />
 					</div>
 
 					{/* Text Content Section */}
@@ -147,7 +147,7 @@ const MainNews = () => {
 					{news.slice(1, 4).map((item) => (
 						<div key={item.id} className="grid relative rounded-[.2rem] overflow-hidden w-full max-w-full hover:brightness-90 transition-all duration-500 ease-in-out mb-[1px] cursor-pointer">
 							<a href={`/advika/${item.id}`} className="row-start-1 col-start-1 block">
-								<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} className="w-full h-auto max-h-40 object-cover" />
+								<img src={item.cover_url || '/images/img-placeholder.png'} alt={item.title} className="w-full h-auto max-h-40 object-cover" />
 							</a>
 							<div className="row-start-1 col-start-1 self-end p-1 pr-[1.8rem] bg-gradient-to-t from-black/80 via-black/50 to-transparent text-white">
 								<h3 className="text-xs font-bold mb-2">{item.title}</h3>
