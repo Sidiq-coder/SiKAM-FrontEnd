@@ -66,8 +66,6 @@ export const PasswordContent = () => {
 				<InputField name="confirm_new_password" label="Konfirmasi Password" placeholder="Konfirmasi Password" register={register} error={errors.confirm_new_password} icon={KeyRound} isPassword />
 			</div>
 
-			<p className="text-gray text-sm mt-2">Password Anda harus memiliki minimal 8 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus.</p>
-
 			<Button variant="primary" label="Reset Password" size="medium" className="mt-10" onClick={() => setIsOpenModal(true)} disabled={!isValid} />
 
 			<Modal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} size="md">
