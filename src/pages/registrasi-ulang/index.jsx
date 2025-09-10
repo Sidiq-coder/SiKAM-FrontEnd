@@ -66,8 +66,8 @@ const RegistrasiUlang = () => {
 			if (!user?.ktm_url) return;
 
 			try {
-				const filename = user.ktm_url.split('/').pop() || 'file';
-				const file = await urlToFile(`${import.meta.env.VITE_API_BASE_URL}/${user.ktm_url}`, filename);
+				const filename = 'file';
+				const file = await urlToFile(user.ktm_url, filename);
 				if (file) setValue('ktm', file);
 			} catch (error) {
 				console.error('Failed to fetch file:', error);
