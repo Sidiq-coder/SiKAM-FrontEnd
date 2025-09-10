@@ -54,7 +54,7 @@ const ArticleContent = () => {
 				}
 			</p>
 			<img
-				src={newsItem.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}` : '/images/img-placeholder.png'}
+				src={newsItem.cover_url || '/images/img-placeholder.png'}
 				alt={newsItem.title}
 				className="w-[70%] mx-auto h-auto max-h-120 object-cover mb-6"
 				loading="lazy"
@@ -71,7 +71,7 @@ const PDFDownloadButton = () => {
 
 	return (
 		<div className="p-2 bg-red rounded-lg w-fit hover:opacity-80 transition-all duration-300 ease-in-out mb-12">
-			<a href={`${import.meta.env.VITE_API_BASE_URL}/${newsItem.attachment_url}`} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" title="Download PDF">
+			<a href={newsItem.attachment_url} target="_blank" rel="noopener noreferrer" className="text-white flex items-center gap-2" title="Download PDF">
 				<FontAwesomeIcon icon={faFilePdf} />
 				Attachment
 			</a>
@@ -89,7 +89,7 @@ const RelatedNews = () => {
 				{news.map((item) => (
 					<a key={item.id} href={`/advika/${item.id}`} className="rounded-lg overflow-hidden cursor-pointer">
 						<img
-							src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'}
+							src={item.cover_url || '/images/img-placeholder.png'}
 							alt={item.title}
 							className="w-full h-[100px] object-cover rounded-lg"
 							loading="lazy"

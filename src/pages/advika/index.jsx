@@ -127,7 +127,7 @@ const MainNews = () => {
 						<a href={`/advika/${item.id}`} key={item.id} className="block">
 							<div className="grid relative rounded-[.2rem] overflow-hidden w-full max-w-full hover:brightness-90 transition-all duration-500 ease-in-out mb-[4px] cursor-pointer">
 								<img
-									src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'}
+									src={item.cover_url || '/images/img-placeholder.png'}
 									alt={item.title}
 									className="w-full h-auto max-h-120 object-cover row-start-1 col-start-1"
 								/>
