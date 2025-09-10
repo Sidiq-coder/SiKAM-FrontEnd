@@ -113,7 +113,7 @@ export default function BuatAdvika() {
 
 			try {
 				const filename = newsItem.cover_url.split('/').pop() || 'file';
-				const file = await urlToFile(`${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}`, filename);
+				const file = await urlToFile(newsItem.cover_url, filename);
 				if (file) setValue('cover', file);
 			} catch (error) {
 				console.error('Failed to fetch file:', error);
@@ -125,7 +125,7 @@ export default function BuatAdvika() {
 
 			try {
 				const filename = newsItem.attachment_url.split('/').pop() || 'file';
-				const file = await urlToFile(`${import.meta.env.VITE_API_BASE_URL}/${newsItem.attachment_url}`, filename);
+				const file = await urlToFile(newsItem.attachment_url, filename);
 				if (file) setValue('attachment', file);
 			} catch (error) {
 				console.error('Failed to fetch file:', error);
