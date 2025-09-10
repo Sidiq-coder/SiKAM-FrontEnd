@@ -206,7 +206,7 @@ export default function DetailBandingUKT() {
 							{item.label} <span className="text-red-500">*</span>
 						</label>
 						<p className="text-sm text-gray mb-2">Upload file dalam bentuk pdf</p>
-						<a href={`${import.meta.env.VITE_API_BASE_URL}/${item.url}`} target="_blank" rel="noopener noreferrer">
+						<a href={item.url} target="_blank" rel="noopener noreferrer">
 							<button className="flex items-center text-dark bg-white border border-black/50 px-3 py-2 rounded-md cursor-pointer hover:bg-main-primary hover:text-white transition-colors">
 								<FileText className="mr-2 w-4 h-4" /> Lihat File
 							</button>
