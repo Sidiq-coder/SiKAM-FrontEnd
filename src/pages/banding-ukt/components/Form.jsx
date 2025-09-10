@@ -12,8 +12,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
 	const navigate = useNavigate();
-	const { createUktAppeal, clearError, error } = useUktAppealStore();
+	const { createUktAppeal, clearError, error, isUploading } = useUktAppealStore();
 	const { setProfilMenu } = useProfilStore();
+	const [uploadingToastId, setUploadingToastId] = useState(null);
 
 	const {
 		register,
@@ -38,6 +39,18 @@ export default function Form() {
 			console.error('error:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (!isUploading) {
+			if (uploadingToastId) {
+				toast.dismiss(uploadingToastId);
+				setProfilMenu('banding');
+				navigate("/profil");
+			}
+		} else {
+			setUploadingToastId(toast.loading('Mengupload Banding UKT'))
+		}
+	}, [isUploading])
 
 	useEffect(() => {
 		if (error) {
@@ -112,7 +125,14 @@ export default function Form() {
 					{errors.problem && <p className="text-red text-sm mt-1">{errors.problem.message}</p>}
 				</div>
 
-				<button type="submit" className="text-white bg-main-primary hover:opacity-80 cursor-pointer transition-all duration-500 w-full py-2 rounded-lg">
+				<button 
+					type="submit" 
+					className={`
+						text-white transition-all duration-500 w-full py-2 rounded-lg
+						${isUploading ? "bg-gray" : "bg-main-primary cursor-pointer hover:opacity-80"}	
+					`}
+					disabled={isUploading}
+				>
 					Submit Banding
 				</button>
 			</form>

@@ -7,6 +7,7 @@ const useUktAppealStore = create((set, get) => ({
 	uktAppeal: null,
 	statusList: [],
 	isLoading: false,
+	isUploading: false,
 	error: null,
 	refresh: 0,
 	pagination: {
@@ -90,17 +91,18 @@ const useUktAppealStore = create((set, get) => ({
 	},
 
 	createUktAppeal: async (data) => {
-		set({ isLoading: true, error: null });
+		set({ isUploading: true, error: null });
 		try {
 			const response = await uktAppealsAPI.createUktAppeal(data);
 			set({ refresh: get().refresh + 1 });
 			return { success: true, data: response };
 		} catch (error) {
+			console.error(error);
 			const errorMessage = error.response?.data?.message || 'Create ukt appeal failed';
 			set({ error: errorMessage, isLoading: false });
 			return { success: false, error: errorMessage };
 		} finally {
-			set({ isLoading: false });
+			set({ isUploading: false });
 		}
 	},
 
