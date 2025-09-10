@@ -143,6 +143,7 @@ export default function Form() {
 const FileInput = ({ label, name, error, setValue }) => {
 	const inputRef = useRef(null);
 	const [fileName, setFileName] = useState('');
+	const [fileUrl, setFileUrl] = useState('');
 
 	const handleFileClick = () => {
 		if (inputRef.current) {
@@ -152,8 +153,10 @@ const FileInput = ({ label, name, error, setValue }) => {
 
 	const handleFileChange = (e) => {
 		if (e.target.files.length > 0) {
-			setFileName(e.target.files[0].name);
-			setValue(name, e.target.files[0]);
+			const file = e.target.files[0]
+			setFileName(file.name);
+			setValue(name, file);
+			setFileUrl(URL.createObjectURL(file));
 		}
 	};
 
@@ -182,7 +185,19 @@ const FileInput = ({ label, name, error, setValue }) => {
 				className="hidden"
 			/>
 
-			{fileName && <p className="text-sm mt-2 text-gray-600 italic">File dipilih: {fileName}</p>}
+			{
+				fileName && 
+					<p className="text-sm mt-2 italic">
+						File dipilih: <span
+							className={`select-none ${fileUrl ? "text-main-primary cursor-pointer" : "text-gray-600"}`}
+							onClick={() => {
+								window.open(fileUrl, "_blank")
+							}}
+						>
+							{fileName}
+						</span>
+					</p>
+			}
 
 			{error && <p className="text-red text-sm mt-1">{error.message}</p>}
 		</div>
