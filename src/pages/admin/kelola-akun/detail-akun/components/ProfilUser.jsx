@@ -159,8 +159,8 @@ const ProfilUser = () => {
 						{
 							label: 'Foto KTM',
 							value: student?.ktm_url ? (
-								<a href={`${import.meta.env.VITE_API_BASE_URL}/${student?.ktm_url}`} target="_blank">
-									<FileImageComponent filePath={`${import.meta.env.VITE_API_BASE_URL}/${student?.ktm_url}`} fileName={`${student?.ktm_url.split('/').pop()}`} size="w-40 sm:w-50" />
+								<a href={student.ktm_url} target="_blank">
+									<FileImageComponent filePath={student.ktm_url} fileName="KTM" size="w-40 sm:w-50" />
 								</a>
 							) : (
 								'-'

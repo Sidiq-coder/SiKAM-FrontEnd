@@ -157,7 +157,7 @@ const News = () => {
 				<a key={`${item.id}-${index}`} href={`/admin/advika/${item.id}`} className="flex flex-col lg:flex-row items-start gap-4 p-4 rounded-xl cursor-pointer mb-3">
 					{/* Image Section */}
 					<div className="w-full lg:w-[260px] h-[180px] rounded-lg overflow-hidden flex-shrink-0 block">
-						<img src={item.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${item.cover_url}` : '/images/img-placeholder.png'} alt={item.title} className="w-full h-full object-cover" />
+						<img src={item.cover_url ? item.cover_url : '/images/img-placeholder.png'} alt={item.title} className="w-full h-full object-cover" />
 					</div>
 
 					{/* Text Content Section */}

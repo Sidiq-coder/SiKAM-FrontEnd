@@ -12,8 +12,9 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Form() {
 	const navigate = useNavigate();
-	const { createUktAppeal, clearError, error } = useUktAppealStore();
+	const { createUktAppeal, clearError, error, isUploading } = useUktAppealStore();
 	const { setProfilMenu } = useProfilStore();
+	const [uploadingToastId, setUploadingToastId] = useState(null);
 
 	const {
 		register,
@@ -38,6 +39,18 @@ export default function Form() {
 			console.error('error:', error);
 		}
 	};
+
+	useEffect(() => {
+		if (!isUploading) {
+			if (uploadingToastId) {
+				toast.dismiss(uploadingToastId);
+				setProfilMenu('banding');
+				navigate("/profil");
+			}
+		} else {
+			setUploadingToastId(toast.loading('Mengupload Banding UKT'))
+		}
+	}, [isUploading])
 
 	useEffect(() => {
 		if (error) {
@@ -112,7 +125,14 @@ export default function Form() {
 					{errors.problem && <p className="text-red text-sm mt-1">{errors.problem.message}</p>}
 				</div>
 
-				<button type="submit" className="text-white bg-main-primary hover:opacity-80 cursor-pointer transition-all duration-500 w-full py-2 rounded-lg">
+				<button 
+					type="submit" 
+					className={`
+						text-white transition-all duration-500 w-full py-2 rounded-lg
+						${isUploading ? "bg-gray" : "bg-main-primary cursor-pointer hover:opacity-80"}	
+					`}
+					disabled={isUploading}
+				>
 					Submit Banding
 				</button>
 			</form>
@@ -123,6 +143,7 @@ export default function Form() {
 const FileInput = ({ label, name, error, setValue }) => {
 	const inputRef = useRef(null);
 	const [fileName, setFileName] = useState('');
+	const [fileUrl, setFileUrl] = useState('');
 
 	const handleFileClick = () => {
 		if (inputRef.current) {
@@ -132,8 +153,10 @@ const FileInput = ({ label, name, error, setValue }) => {
 
 	const handleFileChange = (e) => {
 		if (e.target.files.length > 0) {
-			setFileName(e.target.files[0].name);
-			setValue(name, e.target.files[0]);
+			const file = e.target.files[0]
+			setFileName(file.name);
+			setValue(name, file);
+			setFileUrl(URL.createObjectURL(file));
 		}
 	};
 
@@ -162,7 +185,19 @@ const FileInput = ({ label, name, error, setValue }) => {
 				className="hidden"
 			/>
 
-			{fileName && <p className="text-sm mt-2 text-gray-600 italic">File dipilih: {fileName}</p>}
+			{
+				fileName && 
+					<p className="text-sm mt-2 italic">
+						File dipilih: <span
+							className={`select-none ${fileUrl ? "text-main-primary cursor-pointer" : "text-gray-600"}`}
+							onClick={() => {
+								window.open(fileUrl, "_blank")
+							}}
+						>
+							{fileName}
+						</span>
+					</p>
+			}
 
 			{error && <p className="text-red text-sm mt-1">{error.message}</p>}
 		</div>

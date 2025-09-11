@@ -66,7 +66,7 @@ const ArticleContent = () => {
 				}
 			</p>
 			<img
-				src={newsItem.cover_url ? `${import.meta.env.VITE_API_BASE_URL}/${newsItem.cover_url}` : '/images/img-placeholder.png'}
+				src={newsItem.cover_url ? `${newsItem.cover_url}` : '/images/img-placeholder.png'}
 				alt={newsItem.title}
 				className="w-[70%] mx-auto h-auto max-h-120 mb-6 object-cover"
 				loading="lazy"

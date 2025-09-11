@@ -112,7 +112,7 @@ const ResetPassword = () => {
 								error={errors.confirm_password}
 								icon={KeyRound}
 								isPassword
-								description="Password Anda harus memiliki minimal 8 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus."
+								description="Password Anda harus memiliki minimal 6 karakter dan menyertakan huruf besar, huruf kecil, angka, serta karakter khusus."
 							/>
 						</div>
 

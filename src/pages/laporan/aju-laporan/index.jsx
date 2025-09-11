@@ -30,6 +30,7 @@ const AjuLaporan = () => {
 	});
 
 	const onSubmit = async (data) => {
+		const id = toast.loading("Mengupload Laporan");
 		try {
 			const result = await createReport(data);
 
@@ -41,6 +42,8 @@ const AjuLaporan = () => {
 		} catch (error) {
 			toast.error('Terjadi kesalahan!');
 			console.error('Error:', error);
+		} finally {
+			toast.dismiss(id);
 		}
 	};
 

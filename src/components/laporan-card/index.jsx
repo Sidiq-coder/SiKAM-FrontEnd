@@ -211,7 +211,7 @@ const LaporanDetailSection = ({ report, isAdmin }) => {
 
 			{report?.file_url ? (
 				<a href={filePath} target="_blank" className="mb-8">
-					<FileImageComponent filePath={filePath} fileName={filePath.split('/').pop()} />
+					<FileImageComponent filePath={filePath} fileName="Lampiran" />
 				</a>
 			) : (
 				<p className="text-gray-500 mb-8">Tidak ada lampiran</p>

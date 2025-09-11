@@ -37,9 +37,7 @@ const HeroSection = () => {
 										newsId: n.id,
 										title: n.title,
 										desc: n.description,
-										image: n.cover_url 
-											? `${import.meta.env.VITE_API_BASE_URL}/${n.cover_url}` 
-											: '/images/example-image.png'
+										image: n.cover_url || '/images/example-image.png'
 									}
 								})
 						}
